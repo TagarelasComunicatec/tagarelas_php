@@ -78,6 +78,6 @@ Enjoy!
 [14]: https://github.com/FriendsOfSymfony/FOSUserBundle
 [15]: http://intelligentbee.com/blog/2015/11/13/symfony2-facebook-google-login.
 
-# tagarelas_php
+# The ComunicaTec Team
 
 
