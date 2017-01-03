@@ -55,12 +55,11 @@ It comes pre-configured with the following bundles:
   * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
     integration
 
-  * **FriendsOfSymfony/FOSUserBundle**  - Adds (Facebook / Google) Login component
-    integration. Manuel in : https://github.com/FriendsOfSymfony/FOSUserBundle.
+  * [**FriendsOfSymfony/FOSUserBundle**] [14]  - Adds (Facebook / Google) Login component
+    integration. 
   
-  * **HWIOauthBundle**  - Use with FOSUserBundle from IntelligentBee. 
-     Manuel in : http://intelligentbee.com/blog/2015/11/13/symfony2-facebook-google-login.
- \ 
+  * [**HWIOauthBundle**] [15] - Use with FOSUserBundle from IntelligentBee. 
+
 
 All libraries and bundles included in the Symfony Standard Edition are
 released under the MIT or BSD license.
@@ -76,6 +75,8 @@ Enjoy!
 [11]: https://symfony.com/doc/3.1/logging.html
 [12]: https://symfony.com/doc/3.1/assetic/asset_management.html
 [13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
+[14]: https://github.com/FriendsOfSymfony/FOSUserBundle
+[15]: http://intelligentbee.com/blog/2015/11/13/symfony2-facebook-google-login.
 
 # tagarelas_php
 
