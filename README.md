@@ -1,18 +1,20 @@
-Symfony Standard Edition
+Social Network Tagarelas (SNT)
 ========================
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony
-application that you can use as the skeleton for your new applications.
+Welcome to Social Network Tagarelas - a fully-functional Symfony
+application that you can use as Social Network for Educcational issues.
 
 For details on how to download and get started with Symfony, see the
 [Installation][1] chapter of the Symfony Documentation.
 
+For details on how work to SNT read the manual in WIKI.
+
 What's inside?
 --------------
 
-The Symfony Standard Edition is configured with the following defaults:
+The Social Network Tagarelas is configured with the following defaults:
 
-  * An AppBundle you can use to start coding;
+  * An AppBundle you can use to include your coding;
 
   * Twig as the only configured template engine;
 
@@ -53,6 +55,13 @@ It comes pre-configured with the following bundles:
   * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
     integration
 
+  * **FriendsOfSymfony/FOSUserBundle**  - Adds (Facebook / Google) Login component
+    integration. Manuel in : https://github.com/FriendsOfSymfony/FOSUserBundle.
+  
+  * **HWIOauthBundle**  - Use with FOSUserBundle from IntelligentBee. 
+     Manuel in : http://intelligentbee.com/blog/2015/11/13/symfony2-facebook-google-login.
+ \ 
+
 All libraries and bundles included in the Symfony Standard Edition are
 released under the MIT or BSD license.
 
@@ -67,4 +76,7 @@ Enjoy!
 [11]: https://symfony.com/doc/3.1/logging.html
 [12]: https://symfony.com/doc/3.1/assetic/asset_management.html
 [13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
+
 # tagarelas_php
+
+
