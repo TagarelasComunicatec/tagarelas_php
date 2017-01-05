@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sessões do Grupo - Tagarelas</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" href="css/tagarelas.css">
+		<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/collapse.js"></script>
+		<script type="text/javascript" src="js/typeahead.bundle.js"></script>
+		
+		<script>
+			// esconder menu principal se clicar fora da área do menu
+			$(document).mouseup(function (e){
+				var area_selecionada = $("#menu");
+
+				if (!area_selecionada.is(e.target) && area_selecionada.has(e.target).length === 0) 
+				{
+					$("#menu").find(".collapse").each(function(index) {
+						
+						if($(this).hasClass("in")) {
+						
+							$(this).removeClass("in");
+							$(this).attr("aria-expanded", "false");
+							$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").children("a").attr("aria-expanded", "false");
+						}		
+						
+					});
+				}
+			});
+			
+			// esconder menu aberto se clicar em outro item do menu
+			$(document).ready(function(){
+				$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").click(function () {
+							
+					var item_selecionado = $(this).children("a");			
+							
+					if(item_selecionado.attr("aria-expanded") == "false") {
+						$("#menu").find(".collapse").each(function(index) {
+						
+							if($(this).hasClass("in")) {
+							
+								$(this).removeClass("in");
+								$(this).attr("aria-expanded", "false");
+								$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").children("a").attr("aria-expanded", "false");
+							}		
+							
+						});
+						item_selecionado.attr("aria-expanded", "true");
+					}
+					else {
+						item_selecionado.attr("aria-expanded", "false");
+					}
+				
+				});
+				
+				// footer no final da página quando o conteúdo é pouco
+				var docHeight = $(window).height();
+				var footerHeight = $('footer').height();
+				var footerTop = $('footer').position().top + footerHeight;
+			   
+				if (footerTop < docHeight) {
+					$('footer').css('margin-top', (docHeight - footerTop) + 'px');
+				}
+				
+				$('#submenu-pesquisa').on('shown.bs.collapse', function () {
+					$("#pesquisa-principal").focus();
+				});
+			
+				var jsonDataContatos = [
+				{
+					"id": "1",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 1"
+				},
+				{
+					"id": "2",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 2"
+				},
+				{
+					"id": "3",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 3"
+				}
+				];
+				
+				var contatos = new Bloodhound({
+					datumTokenizer: Bloodhound.tokenizers.obj.whitespace('id', 'avatar', 'nomeUsuario'),
+					queryTokenizer: Bloodhound.tokenizers.whitespace,
+					local: jsonDataContatos
+
+				});
+
+				contatos.initialize();
+				
+				$('#pesquisar-contatos').typeahead(
+					{
+						offset: true,	// os resultados são de acordo com as letras iniciais
+						accent: true, // ignora os acentos na busca do resultado
+						minLength: 1, // quantidade mínima de caracteres para apresentar o resultado da pesquisa
+						order: "asc",
+						backdrop: { "background-color": "#fff" },
+					}, 
+					{
+						name: 'contatos',
+						display: 'nomeUsuario',
+						source: contatos.ttAdapter(),
+						templates: {
+							empty: [
+								'<span class="sem-sugestao">Nenhum resultado encontrado</span>'
+							].join('\n'),
+							suggestion: function(data) {
+								return '<a href="#" id="' + data.id + '" onclick="adicionarMembro(this); return false;">' +
+								'<img src="' + data.avatar + '" class="avatar-img avatar-pequeno">' +
+								'<span class="texto">' + data.nomeUsuario + '</span>' +
+								'<span class="id" style="display: none">' + data.id + '</span>' + '</a>'
+							}
+						}
+					}
+				);
+				
+				$('#pesquisa-principal').typeahead(
+					{
+						offset: true,	// os resultados são de acordo com as letras iniciais
+						accent: false, // ignora os acentos na busca do resultado
+						minLength: 1, // quantidade mínima de caracteres para apresentar o resultado da pesquisa
+						order: "asc",
+						backdrop: { "background-color": "#fff" },
+					}, 
+					{
+						name: 'contatos',
+						display: 'nomeUsuario',
+						source: contatos.ttAdapter(),
+						templates: {
+							empty: [
+								'<span class="sem-sugestao">Nenhum resultado encontrado</span>'
+							].join('\n'),
+							suggestion: function(data) {
+								return '<a href="#" id="' + data.id + '"> <img src="' + data.avatar + '" class="avatar-img avatar-pequeno">' +
+								'<span class="texto">' + data.nomeUsuario + '</span>' +
+								'<span class="id" style="display: none">' + data.id + '</span>' + '</a>'
+							}
+						}
+					}
+				);
+				
+			});
+		</script>
+	</head>
+	<body> 
+		<header class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="index.html">
+						<span class="logo">Tagarelas</span>
+					</a>
+				</div>
+				<nav id="menu" class="clearfix">
+					<div id="menu-lg" class="clearfix">
+						<div id="menu-sm" class="clearfix">
+							<ul id="nav-visivel-xs" class="nav text-center">
+								<li id="mais-menu-usuario" class="col-xs-4">
+									<a href="#" data-toggle="collapse" data-target="#submenu-usuario" aria-expanded="false">
+										<img src="img/default-avatar.gif" class="avatar-img">
+										<span class="descricao-icone">Lucianna</span>
+									</a>
+								</li>
+								<li class="col-xs-4" id="mais-menu-pesquisa">
+									<a href="#" data-toggle="collapse" data-target="#submenu-pesquisa" aria-expanded="false">
+										<i class="material-icons">&#xE8B6;</i><span class="descricao-icone">Pesquisar</span>
+									</a>
+								</li>
+								<li class="col-xs-4" id="mais-menu-xs">
+									<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false">
+										<i class="material-icons">&#xE5D2;</i>
+									</a>
+								</li>
+							</ul>
+							<div id="menu-collapse-xs" class="menu-collapse text-left collapse">
+								<ul class="nav">
+									<li>
+										<a href="#">
+											<i class="material-icons">&#xE0B7;</i>Minhas Sessões
+										</a>
+									</li>
+									<li id="mais-menu-sm">
+										<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false" id="toogle">
+											<i class="material-icons">&#xE5D2;</i>Mais
+										</a>
+									</li>
+								</ul>
+							</div> <!-- navbar-collapse !--> 
+						</div> <!-- menu-sm !-->
+						<div id="menu-collapse-sm" class="menu-collapse text-left collapse">
+							<ul class="nav">
+								<li>
+									<a href="#">
+										<i class="material-icons">&#xE192;</i>Agenda
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="material-icons">&#xE2C7;</i>Arquivos
+									</a>
+								</li>
+								<li id="mais-menu-lg">
+									<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false" id="toogle">
+										<i class="material-icons">&#xE5D2;</i>Mais
+									</a>
+								</li>
+							</ul>
+						</div> <!-- navbar-collapse-sm !--> 
+					</div> <!-- menu-lg !-->
+					<div id="menu-collapse-lg" class="menu-collapse clearfix text-left collapse">
+						<ul class="nav">
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE24D;</i>Publicações
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE88E;</i>Sobre
+								</a>
+							</li>
+						</ul>
+					</div> <!-- navbar-collapse-sm !-->
+					<div id="submenu-usuario" class="submenu clearfix text-left collapse">
+						<ul class="nav">
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE7FD;</i>Perfil
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE7FB;</i>Amigos e Grupos
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE8B8;</i>Conta
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE879;</i>Sair
+								</a>
+							</li>
+						</ul>
+					</div> <!-- submenu-usuario !--> 
+					<div id="submenu-pesquisa" class="submenu text-left collapse">
+						<div class="input-group input-group-typeahead">
+							<input type="text" id="pesquisa-principal" class="form-control">
+							<span class="input-group-btn">
+								<button class="btn btn-link" type="button">
+									<i class="material-icons">&#xE8B6;</i>
+								</button>
+							</span>
+						</div><!-- input-group !-->
+					</div> <!-- submenu-pesquisa !-->
+				</nav> 
+			</div> <!-- container !--> 
+		</header>
+		
+		<section id="area-destaque">
+			<div class="container">
+			
+				<div class="row">
+				
+					<div class="col-xs-12">
+						
+						<button type="button" class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#editar-grupo"><i class="material-icons md-18">&#xE3C9;</i> Editar</button>
+						
+						<div class="col-xs-12 col-md-6" id="img-texto-apresentacao">
+							
+							<div class="col-xs-12 col-sm-6 text-center" id="img-apresentacao">
+								<a href="#">
+									<img src="img/ic_group_white_48dp.png" style="background-color: #c9c7c7;">
+								</a>
+							</div>
+							
+							<div class="col-xs-12 col-sm-6" id="texto-apresentacao">
+								<a href="">
+									<h1>
+										<small>
+											Grupo: Nome do grupo
+										</small>
+									</h1>
+								</a>
+							</div>
+							
+						</div>
+						
+						<div class="col-xs-12 col-md-6 text-center">
+							<br>
+							<p>
+								<button type="button" class="btn btn-success btn-sm-medio" data-toggle="modal" data-target="#adicionar-membros">
+									<i class="material-icons">&#xE7FE;</i> Adicionar Membro
+								</button>
+							</p>
+							<p>
+								<button type="button" class="btn btn-success btn-sm-medio" data-toggle="modal" data-target="#criar-sessao">
+									<i class="material-icons">&#xE0B7;</i> Criar Sessões
+								</button>
+							</p>
+						</div>
+						
+					</div> <!-- col-xs-12 -->
+					
+				</div> <!-- row -->
+				
+				<div class="row" -->
+					
+					<nav id="area-destaque-menu" class="col-xs-12 text-center">
+						<ul class="nav nav-sublinhado">
+							<li>
+								<a href="#">
+									Membros
+								</a>
+							</li>
+							<li class="ativo">
+								<a href="#">
+									Sessões
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									Sobre
+								</a>
+							</li> 
+							<li>
+								<div class="dropdown">
+									<button class="dropdown-toggle btn btn-link" type="button">
+										Mais Opções <i class="material-icons">&#xE5C5;</i>
+									</button>
+									<ul class="dropdown-menu dropdown-menu-right">
+										<li><a href="#">Excluir</a></li>
+										<li><a href="#">Denunciar</a></li>
+										<li><a href="#">Sair</a></li>
+									</ul>
+								</div>
+							</li> 
+						</ul>
+					</nav>
+					
+				</div> <!-- row !-->
+				
+			</div> <!-- container !-->
+		</section> <!-- area-destaque !-->
+		
+		<section id="conteudo-principal">
+			<div class="container">
+				<div class="row">
+				
+					<aside class="col-xs-12 col-md-3 divisao-de-area">
+					
+						<div class="aside-titulo">
+							<a href="#">
+								<span class="pull-right aside-btn">
+									<i class="material-icons">&#xE409;</i>
+								</span>
+								<span>
+									<span class="legenda-de-cor titulo-sessao-ja-realizada"></span>
+									<span class="aside-titulo-texto">Sessões já realizadas</span>
+								</span>
+							</a>							
+						</div>
+						
+						<div class="aside-titulo">
+							<a href="#">
+								<span class="pull-right aside-btn">
+									<i class="material-icons">&#xE409;</i>
+								</span>
+								<span class="legenda-de-cor titulo-sessao-agendada"></span>
+								<span class="aside-titulo-texto">Sessões agendadas</span>
+							</a>							
+						</div>
+						
+					</aside> <!-- col -->
+				
+					<div class="col-xs-12 col-md-9">
+						<div class="row">
+							<div class="col-xs-12">
+							
+								<br>
+							
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Pesquisar uma sessão">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button">
+											<i class="material-icons md-18">&#xE8B6;</i>
+										</button>
+									</span>
+								</div><!-- input-group !-->
+								
+								<br>
+							
+								<div class="col-xs-12 col-sm-4">
+									<div class="thumbnail clearfix">
+										<a href="#" class="titulo-da-sessao titulo-sessao-ja-realizada">
+											Título da Sessão
+										</a>
+										<div class="caption">
+											<div class="data-e-hora-da-sessao">
+												<i class="material-icons">&#xE192;</i> 10 de Setembro de 2016 às 15:00
+											</div>
+											
+											<div class="link-de-acoes-da-sessao clearfix">
+												<div class="text-uppercase pull-left">
+													<a href="#">Ler Mais</a>
+												</div>
+											</div>
+										</div> <!-- caption !-->
+									</div> <!-- thumbnail !-->
+								</div> <!-- col !-->
+								
+								<div class="col-xs-12 col-sm-4">
+									<div class="thumbnail clearfix">
+										<a href="#" class="titulo-da-sessao titulo-sessao-agendada">
+											Título da Sessão
+										</a>
+										<div class="caption">
+											<div class="data-e-hora-da-sessao">
+												<i class="material-icons">&#xE192;</i> 10 de Setembro de 2016 às 15:00
+											</div>
+											
+											<div class="link-de-acoes-da-sessao clearfix">
+												<div class="text-uppercase pull-left">
+													<a href="#">Ler Mais</a>
+												</div>
+												<div class="text-uppercase pull-right">
+													<a href="#">Participar</a>
+												</div>
+											</div>
+										</div> <!-- caption !-->
+									</div> <!-- thumbnail !-->
+								</div> <!-- col !-->
+								
+								<div class="col-xs-12 col-sm-4">
+									<div class="thumbnail clearfix">
+										<a href="#" class="titulo-da-sessao titulo-sessao-agendada">
+											Título da Sessão
+										</a>
+										<div class="caption">
+											<div class="data-e-hora-da-sessao">
+												<i class="material-icons">&#xE192;</i> 10 de Setembro de 2016 às 15:00
+											</div>
+											
+											<div class="link-de-acoes-da-sessao clearfix">
+												<div class="text-uppercase pull-left">
+													<a href="#">Ler Mais</a>
+												</div>
+												<div class="text-uppercase pull-right">
+													<a href="#">Participar</a>
+												</div>
+											</div>
+										</div> <!-- caption !-->
+									</div> <!-- thumbnail !-->
+								</div> <!-- col !-->
+								
+								<div class="col-xs-12 col-sm-4">
+									<div class="thumbnail clearfix">
+										<a href="#" class="titulo-da-sessao titulo-sessao-agendada">
+											Título da Sessão
+										</a>
+										<div class="caption">
+											<div class="data-e-hora-da-sessao">
+												<i class="material-icons">&#xE192;</i> 10 de Setembro de 2016 às 15:00
+											</div>
+											
+											<div class="link-de-acoes-da-sessao clearfix">
+												<div class="text-uppercase pull-left">
+													<a href="#">Ler Mais</a>
+												</div>
+												<div class="text-uppercase pull-right">
+													<a href="#">Participar</a>
+												</div>
+											</div>
+										</div> <!-- caption !-->
+									</div> <!-- thumbnail !-->
+								</div> <!-- col !-->
+								
+							</div> <!-- col -->
+							
+						</div> <!-- row -->
+						
+					</div> <!-- col -->
+					
+				</div> <!-- row -->
+
+			</div> <!-- container -->			
+		</section>
+		
+		<div class="modal fade" id="editar-grupo" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Editar Grupo</h4>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label>Nome do Grupo</label>
+								<input type="text" class="form-control">
+							</div>
+							<div class="form-group">
+								<label>Foto</label>
+								<br>
+								<div class="text-center">
+									<img src="" style="background-color:#ccc" width="200px" height="200px">
+									<br>
+									<br>
+									<div class="btn btn-default btn-file">
+										<span><i class="material-icons">&#xE410;</i> Enviar Foto</span>
+										<input type="file" accept="image/*">
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer modal-footer-form">
+								<button class="btn btn-success" type="submit">Salvar</button>
+								<button class="btn btn-default" type="button" data-dismiss="modal" id="cancelar-editar-grupo">Cancelar</button>
+							</div>
+						</form>
+					</div> <!-- modal-body !-->
+				</div> <!-- modal-content !-->
+			</div> <!-- modal-dialog !-->
+		</div> <!-- modal editar-grupo !-->
+		
+		<div class="modal fade" id="adicionar-membros" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Adicionar Membro</h4>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="pesquisarContatos">Adicionar Membros</label>
+								<input type="text" class="form-control" placeholder="Nome da pessoa" id="pesquisar-contatos" name="pesquisar-contatos">
+							</div>
+							<div class="clearfix">
+								<div class="pull-right">
+									<span id="total-de-membros">0</span> <span id="mensagem-total-de-membros"> Membro adicionado</span>
+								</div>
+							</div>
+							<div class="previa-membros-adicionados col-xs-12">
+								<ul>
+								</ul>
+							</div>
+							<div class="form-group text-justify">
+								<label for="pesquisarContatos">Enviar Convite</label>
+								<p>
+									Envie um convite para uma pessoa que você não tem adicionado aos contatos ou para uma pessoa que não possui uma conta no Tagarelas.
+								</p>
+								<a href="#" class="btn btn-tagarelas btn-block">Enviar convite para o facebook</a>
+								<a href="#" class="btn btn-tagarelas btn-block">Enviar convite para o email</a>
+							</div>
+							<div class="modal-footer modal-footer-form">
+								<button class="btn btn-success" type="submit">Salvar</button>
+								<button class="btn btn-default" type="button" data-dismiss="modal" id="cancelar-editar-grupo">Cancelar</button>
+							</div>
+						</form>
+					</div> <!-- modal-body !-->
+				</div> <!-- modal-content !-->
+			</div> <!-- modal-dialog !-->
+		</div> <!-- modal adicionar-membros !-->
+		
+		<div class="modal fade" id="criar-sessao" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Criar Sessão</h4>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label>Título</label>
+								<input type="text" class="form-control">
+							</div>
+							<div class="form-group">
+								<label>Descrição</label>
+								<textarea class="form-control textarea-block-resize"></textarea>
+							</div>
+							<div class="form-group">
+								<label>Data e Hora</label>
+								<input type="datetime-local" class="form-control">
+							</div>
+							<div class="form-group">
+								<label>Visibilidade</label>
+								<br>
+								<label class="radio-inline">
+									<input type="radio" name="visibilidade" value="publico"> Público
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="visibilidade" value="privado"> Privado
+								</label>
+							</div>
+							<div class="modal-footer modal-footer-form">
+								<button class="btn btn-success" type="submit">Salvar</button>
+								<button class="btn btn-default" type="button" data-dismiss="modal" id="cancelar-editar-grupo">Cancelar</button>
+							</div>
+						</form>
+					</div> <!-- modal-body !-->
+				</div> <!-- modal-content !-->
+			</div> <!-- modal-dialog !-->
+		</div> <!-- modal criar-sessao !-->
+		
+		<script type="text/javascript" src="js/modal.js"></script>
+		
+		<script>
+			function retirarMembro(botao, event) {
+				// remoção do membro
+				botao.parentElement.remove();
+				
+				// atualização da mensagem de quantidade de membros adicionados
+				var total_de_membros_atual = parseInt($("#total-de-membros").text()) - 1;
+				$("#total-de-membros").text(total_de_membros_atual);
+				mensagemDeTotalDeMembros(total_de_membros_atual);		
+			}
+			
+			function adicionarMembro(link) {
+				// bloqueio da inclusão de um contato já adicionado
+				var bloqueio = false;
+				
+				$(".previa-membros-adicionados").find("li").each(function(index) {
+					if($(this).children('.id').text() == link.id)
+						bloqueio = true;
+				});
+				
+				if(bloqueio == true)
+					return false;
+				
+				// inclusão do membro
+				var contato_selecionado = $("#" + link.id).html();
+				$(".previa-membros-adicionados ul").first().prepend("<li>" + contato_selecionado + " <button class='btn btn-link' onclick='retirarMembro(this)'> <i class='material-icons'>&#xE5CD;</i></button> </li>");
+				
+				// atualização da mensagem de quantidade de membros adicionados
+				var total_de_membros_atual = parseInt($("#total-de-membros").text()) + 1;
+				$("#total-de-membros").text(total_de_membros_atual);
+				mensagemDeTotalDeMembros(total_de_membros_atual);
+			}
+			
+			function mensagemDeTotalDeMembros(total_de_membros_atual) {
+				if(total_de_membros_atual <= 1 ) {
+					$("#mensagem-total-de-membros").text("Membro adicionado");
+				}
+				else {
+					$("#mensagem-total-de-membros").text("Membros adicionados");
+				}
+			}
+		</script>
+		
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 text-justify">
+						<p>Rodapé</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sessão - Tagarelas</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" href="css/tagarelas.css">
+		<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/collapse.js"></script>
+		<script type="text/javascript" src="js/typeahead.bundle.js"></script>
+		
+		<script>
+			// esconder menu principal se clicar fora da área do menu
+			$(document).mouseup(function (e){
+				var area_selecionada = $("#menu");
+
+				if (!area_selecionada.is(e.target) && area_selecionada.has(e.target).length === 0) 
+				{
+					$("#menu").find(".collapse").each(function(index) {
+						
+						if($(this).hasClass("in")) {
+						
+							$(this).removeClass("in");
+							$(this).attr("aria-expanded", "false");
+							$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").children("a").attr("aria-expanded", "false");
+						}		
+						
+					});
+				}
+			});
+			
+			// esconder menu aberto se clicar em outro item do menu
+			$(document).ready(function(){
+				$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").click(function () {
+							
+					var item_selecionado = $(this).children("a");			
+							
+					if(item_selecionado.attr("aria-expanded") == "false") {
+						$("#menu").find(".collapse").each(function(index) {
+						
+							if($(this).hasClass("in")) {
+							
+								$(this).removeClass("in");
+								$(this).attr("aria-expanded", "false");
+								$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").children("a").attr("aria-expanded", "false");
+							}		
+							
+						});
+						item_selecionado.attr("aria-expanded", "true");
+					}
+					else {
+						item_selecionado.attr("aria-expanded", "false");
+					}
+				
+				});
+				
+				// footer no final da página quando o conteúdo é pouco
+				var docHeight = $(window).height();
+				var footerHeight = $('footer').height();
+				var footerTop = $('footer').position().top + footerHeight;
+			   
+				if (footerTop < docHeight) {
+					$('footer').css('margin-top', (docHeight - footerTop) + 'px');
+				}
+				
+				$('#submenu-pesquisa').on('shown.bs.collapse', function () {
+					$("#pesquisa-principal").focus();
+				});
+			
+				var jsonDataContatos = [
+				{
+					"id": "1",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 1"
+				},
+				{
+					"id": "2",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 2"
+				},
+				{
+					"id": "3",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 3"
+				}
+				];
+				
+				var contatos = new Bloodhound({
+					datumTokenizer: Bloodhound.tokenizers.obj.whitespace('id', 'avatar', 'nomeUsuario'),
+					queryTokenizer: Bloodhound.tokenizers.whitespace,
+					local: jsonDataContatos
+
+				});
+
+				contatos.initialize();
+				
+				$('#pesquisar-contatos').typeahead(
+					{
+						offset: true,	// os resultados são de acordo com as letras iniciais
+						accent: true, // ignora os acentos na busca do resultado
+						minLength: 1, // quantidade mínima de caracteres para apresentar o resultado da pesquisa
+						order: "asc",
+						backdrop: { "background-color": "#fff" },
+					}, 
+					{
+						name: 'contatos',
+						display: 'nomeUsuario',
+						source: contatos.ttAdapter(),
+						templates: {
+							empty: [
+								'<span class="sem-sugestao">Nenhum resultado encontrado</span>'
+							].join('\n'),
+							suggestion: function(data) {
+								return '<a href="#" id="' + data.id + '" onclick="adicionarMembro(this); return false;">' +
+								'<img src="' + data.avatar + '" class="avatar-img avatar-pequeno">' +
+								'<span class="texto">' + data.nomeUsuario + '</span>' +
+								'<span class="id" style="display: none">' + data.id + '</span>' + '</a>'
+							}
+						}
+					}
+				);
+				
+				$('#pesquisa-principal').typeahead(
+					{
+						offset: true,	// os resultados são de acordo com as letras iniciais
+						accent: false, // ignora os acentos na busca do resultado
+						minLength: 1, // quantidade mínima de caracteres para apresentar o resultado da pesquisa
+						order: "asc",
+						backdrop: { "background-color": "#fff" },
+					}, 
+					{
+						name: 'contatos',
+						display: 'nomeUsuario',
+						source: contatos.ttAdapter(),
+						templates: {
+							empty: [
+								'<span class="sem-sugestao">Nenhum resultado encontrado</span>'
+							].join('\n'),
+							suggestion: function(data) {
+								return '<a href="#" id="' + data.id + '"> <img src="' + data.avatar + '" class="avatar-img avatar-pequeno">' +
+								'<span class="texto">' + data.nomeUsuario + '</span>' +
+								'<span class="id" style="display: none">' + data.id + '</span>' + '</a>'
+							}
+						}
+					}
+				);
+							
+			});
+		</script>
+	</head>
+	<body> 
+		<header class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="index.html">
+						<span class="logo">Tagarelas</span>
+					</a>
+				</div>
+				<nav id="menu" class="clearfix">
+					<div id="menu-lg" class="clearfix">
+						<div id="menu-sm" class="clearfix">
+							<ul id="nav-visivel-xs" class="nav text-center">
+								<li id="mais-menu-usuario" class="col-xs-4">
+									<a href="#" data-toggle="collapse" data-target="#submenu-usuario" aria-expanded="false">
+										<img src="img/default-avatar.gif" class="avatar-img">
+										<span class="descricao-icone">Lucianna</span>
+									</a>
+								</li>
+								<li class="col-xs-4" id="mais-menu-pesquisa">
+									<a href="#" data-toggle="collapse" data-target="#submenu-pesquisa" aria-expanded="false">
+										<i class="material-icons">&#xE8B6;</i><span class="descricao-icone">Pesquisar</span>
+									</a>
+								</li>
+								<li class="col-xs-4" id="mais-menu-xs">
+									<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false">
+										<i class="material-icons">&#xE5D2;</i>
+									</a>
+								</li>
+							</ul>
+							<div id="menu-collapse-xs" class="menu-collapse text-left collapse">
+								<ul class="nav">
+									<li>
+										<a href="#">
+											<i class="material-icons">&#xE0B7;</i>Minhas Sessões
+										</a>
+									</li>
+									<li id="mais-menu-sm">
+										<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false" id="toogle">
+											<i class="material-icons">&#xE5D2;</i>Mais
+										</a>
+									</li>
+								</ul>
+							</div> <!-- navbar-collapse !--> 
+						</div> <!-- menu-sm !-->
+						<div id="menu-collapse-sm" class="menu-collapse text-left collapse">
+							<ul class="nav">
+								<li>
+									<a href="#">
+										<i class="material-icons">&#xE192;</i>Agenda
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="material-icons">&#xE2C7;</i>Arquivos
+									</a>
+								</li>
+								<li id="mais-menu-lg">
+									<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false" id="toogle">
+										<i class="material-icons">&#xE5D2;</i>Mais
+									</a>
+								</li>
+							</ul>
+						</div> <!-- navbar-collapse-sm !--> 
+					</div> <!-- menu-lg !-->
+					<div id="menu-collapse-lg" class="menu-collapse clearfix text-left collapse">
+						<ul class="nav">
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE24D;</i>Publicações
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE88E;</i>Sobre
+								</a>
+							</li>
+						</ul>
+					</div> <!-- navbar-collapse-sm !-->
+					<div id="submenu-usuario" class="submenu clearfix text-left collapse">
+						<ul class="nav">
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE7FD;</i>Perfil
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE7FB;</i>Amigos e Grupos
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE8B8;</i>Conta
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE879;</i>Sair
+								</a>
+							</li>
+						</ul>
+					</div> <!-- submenu-usuario !--> 
+					<div id="submenu-pesquisa" class="submenu text-left collapse">
+						<div class="input-group input-group-typeahead">
+							<input type="text" id="pesquisa-principal" class="form-control">
+							<span class="input-group-btn">
+								<button class="btn btn-link" type="button">
+									<i class="material-icons">&#xE8B6;</i>
+								</button>
+							</span>
+						</div><!-- input-group !-->
+					</div> <!-- submenu-pesquisa !-->
+				</nav> 
+			</div> <!-- container !--> 
+		</header>
+		
+		<section id="area-destaque">
+			<div class="container">
+			
+				<div class="row">
+				
+					<div class="col-xs-12">
+						
+						<div class="col-xs-12 col-md-6">
+							
+							<a href="#">
+								<h1>
+									<i class="material-icons md-48">&#xE0B7;</i> Título da Sessão
+								</h1>
+							</a>
+								
+							<h2><small>
+								<i class="material-icons">&#xE192;</i> 10 de Setembro de 2016 às 15:00
+							</small></h2>
+							
+							<span class="info-adicional"><i class="material-icons md-18">&#xE898;</i> Público</span>
+							
+						</div>
+						
+						<div class="col-xs-12 col-md-6 text-center">
+							<br>
+							<p>
+								<button type="button" class="btn btn-success btn-sm-medio">
+									<i class="material-icons">&#xE876;</i> Participar
+								</button>
+							</p>
+						</div>
+						
+					</div> <!-- col-xs-12 -->
+					
+				</div> <!-- row -->
+				
+				<div class="row" -->
+					
+					<nav id="area-destaque-menu" class="col-xs-12 text-center">
+						<ul class="nav nav-sublinhado">
+							<li>
+								<a href="#">
+									Bate-papo
+								</a>
+							</li>
+							<li>
+								<div class="dropdown">
+									<button class="dropdown-toggle btn btn-link" type="button">
+										Mais Opções <i class="material-icons">&#xE5C5;</i>
+									</button>
+									<ul class="dropdown-menu dropdown-menu-right">
+										<li><a href="#">Denunciar</a></li>
+									</ul>
+								</div>
+							</li> 
+						</ul>
+					</nav>
+					
+				</div> <!-- row !-->
+				
+			</div> <!-- container !-->
+		</section> <!-- area-destaque !-->
+		
+		<section id="conteudo-principal">
+			<div class="container">
+				<div class="row divisao-de-area">
+				
+					<div class="col-xs-12">
+						
+						<h3><small>Descrição</small></h3>
+						
+						<p>
+							Praesent fringilla leo at viverra congue. Fusce tortor mi, hendrerit sed tincidunt nec, luctus at diam. Donec a nisl mauris. Donec cursus ut ligula sit amet accumsan. Mauris placerat purus scelerisque erat tristique dictum. Donec urna neque, dignissim non gravida in, vestibulum a velit. Donec sit amet eleifend erat.
+						</p>
+						
+					</div> <!-- col-fundo-branco -->
+					
+				</div> <!-- row -->
+				
+				<div class="row divisao-de-area">
+				
+					<div class="col-xs-12">
+						
+						<h3><small>Sessão criada em 09/10/2016 pelo grupo</small></h3>
+						
+						<div class="col-xs-12 col-sm-6 col-md-3">
+							<div class="grupos-apresentacao">
+								<a href="#">
+									<img src="" style="background-color: #ddd">
+									Nome do Grupo 1
+								</a>
+								<div class="info-adicional">
+									10 Membros
+								</div>
+							</div>
+						</div>
+						
+					</div> <!-- col -->
+					
+				</div> <!-- row -->
+				
+				<div class="row">
+				
+					<div class="col-xs-12">
+						
+						<h3><small>9 participantes confirmaram presença</small></h3>
+						<h3><small>1 participante não confirmou presença</small></h3>		
+						
+					</div> <!-- col-->
+					
+				</div> <!-- row -->
+
+			</div> <!-- container -->			
+		</section>
+		
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 text-justify">
+						<p>Rodapé</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>

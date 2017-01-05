@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Grupo - Tagarelas</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" href="css/tagarelas.css">
+		<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/collapse.js"></script>
+		<script type="text/javascript" src="js/typeahead.bundle.js"></script>
+		
+		<script>
+			// esconder menu principal se clicar fora da área do menu
+			$(document).mouseup(function (e){
+				var area_selecionada = $("#menu");
+
+				if (!area_selecionada.is(e.target) && area_selecionada.has(e.target).length === 0) 
+				{
+					$("#menu").find(".collapse").each(function(index) {
+						
+						if($(this).hasClass("in")) {
+						
+							$(this).removeClass("in");
+							$(this).attr("aria-expanded", "false");
+							$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").children("a").attr("aria-expanded", "false");
+						}		
+						
+					});
+				}
+			});
+			
+			// esconder menu aberto se clicar em outro item do menu
+			$(document).ready(function(){
+				$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").click(function () {
+							
+					var item_selecionado = $(this).children("a");			
+							
+					if(item_selecionado.attr("aria-expanded") == "false") {
+						$("#menu").find(".collapse").each(function(index) {
+						
+							if($(this).hasClass("in")) {
+							
+								$(this).removeClass("in");
+								$(this).attr("aria-expanded", "false");
+								$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").children("a").attr("aria-expanded", "false");
+							}		
+							
+						});
+						item_selecionado.attr("aria-expanded", "true");
+					}
+					else {
+						item_selecionado.attr("aria-expanded", "false");
+					}
+				
+				});
+				
+				// footer no final da página quando o conteúdo é pouco
+				var docHeight = $(window).height();
+				var footerHeight = $('footer').height();
+				var footerTop = $('footer').position().top + footerHeight;
+			   
+				if (footerTop < docHeight) {
+					$('footer').css('margin-top', (docHeight - footerTop) + 'px');
+				}
+				
+				$('#submenu-pesquisa').on('shown.bs.collapse', function () {
+					$("#pesquisa-principal").focus();
+				});
+			
+				var jsonDataContatos = [
+				{
+					"id": "1",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 1"
+				},
+				{
+					"id": "2",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 2"
+				},
+				{
+					"id": "3",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 3"
+				}
+				];
+				
+				var contatos = new Bloodhound({
+					datumTokenizer: Bloodhound.tokenizers.obj.whitespace('id', 'avatar', 'nomeUsuario'),
+					queryTokenizer: Bloodhound.tokenizers.whitespace,
+					local: jsonDataContatos
+
+				});
+
+				contatos.initialize();
+				
+				$('#pesquisar-contatos').typeahead(
+					{
+						offset: true,	// os resultados são de acordo com as letras iniciais
+						accent: true, // ignora os acentos na busca do resultado
+						minLength: 1, // quantidade mínima de caracteres para apresentar o resultado da pesquisa
+						order: "asc",
+						backdrop: { "background-color": "#fff" },
+					}, 
+					{
+						name: 'contatos',
+						display: 'nomeUsuario',
+						source: contatos.ttAdapter(),
+						templates: {
+							empty: [
+								'<span class="sem-sugestao">Nenhum resultado encontrado</span>'
+							].join('\n'),
+							suggestion: function(data) {
+								return '<a href="#" id="' + data.id + '" onclick="adicionarMembro(this); return false;">' +
+								'<img src="' + data.avatar + '" class="avatar-img avatar-pequeno">' +
+								'<span class="texto">' + data.nomeUsuario + '</span>' +
+								'<span class="id" style="display: none">' + data.id + '</span>' + '</a>'
+							}
+						}
+					}
+				);
+				
+				$('#pesquisa-principal').typeahead(
+					{
+						offset: true,	// os resultados são de acordo com as letras iniciais
+						accent: false, // ignora os acentos na busca do resultado
+						minLength: 1, // quantidade mínima de caracteres para apresentar o resultado da pesquisa
+						order: "asc",
+						backdrop: { "background-color": "#fff" },
+					}, 
+					{
+						name: 'contatos',
+						display: 'nomeUsuario',
+						source: contatos.ttAdapter(),
+						templates: {
+							empty: [
+								'<span class="sem-sugestao">Nenhum resultado encontrado</span>'
+							].join('\n'),
+							suggestion: function(data) {
+								return '<a href="#" id="' + data.id + '"> <img src="' + data.avatar + '" class="avatar-img avatar-pequeno">' +
+								'<span class="texto">' + data.nomeUsuario + '</span>' +
+								'<span class="id" style="display: none">' + data.id + '</span>' + '</a>'
+							}
+						}
+					}
+				);
+			
+			});
+		</script>
+	</head>
+	<body> 
+		<header class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="index.html">
+						<span class="logo">Tagarelas</span>
+					</a>
+				</div>
+				<nav id="menu" class="clearfix">
+					<div id="menu-lg" class="clearfix">
+						<div id="menu-sm" class="clearfix">
+							<ul id="nav-visivel-xs" class="nav text-center">
+								<li id="mais-menu-usuario" class="col-xs-4">
+									<a href="#" data-toggle="collapse" data-target="#submenu-usuario" aria-expanded="false">
+										<img src="img/default-avatar.gif" class="avatar-img">
+										<span class="descricao-icone">Lucianna</span>
+									</a>
+								</li>
+								<li class="col-xs-4" id="mais-menu-pesquisa">
+									<a href="#" data-toggle="collapse" data-target="#submenu-pesquisa" aria-expanded="false">
+										<i class="material-icons">&#xE8B6;</i><span class="descricao-icone">Pesquisar</span>
+									</a>
+								</li>
+								<li class="col-xs-4" id="mais-menu-xs">
+									<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false">
+										<i class="material-icons">&#xE5D2;</i>
+									</a>
+								</li>
+							</ul>
+							<div id="menu-collapse-xs" class="menu-collapse text-left collapse">
+								<ul class="nav">
+									<li>
+										<a href="#">
+											<i class="material-icons">&#xE0B7;</i>Minhas Sessões
+										</a>
+									</li>
+									<li id="mais-menu-sm">
+										<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false" id="toogle">
+											<i class="material-icons">&#xE5D2;</i>Mais
+										</a>
+									</li>
+								</ul>
+							</div> <!-- navbar-collapse !--> 
+						</div> <!-- menu-sm !-->
+						<div id="menu-collapse-sm" class="menu-collapse text-left collapse">
+							<ul class="nav">
+								<li>
+									<a href="#">
+										<i class="material-icons">&#xE192;</i>Agenda
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="material-icons">&#xE2C7;</i>Arquivos
+									</a>
+								</li>
+								<li id="mais-menu-lg">
+									<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false" id="toogle">
+										<i class="material-icons">&#xE5D2;</i>Mais
+									</a>
+								</li>
+							</ul>
+						</div> <!-- navbar-collapse-sm !--> 
+					</div> <!-- menu-lg !-->
+					<div id="menu-collapse-lg" class="menu-collapse clearfix text-left collapse">
+						<ul class="nav">
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE24D;</i>Publicações
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE88E;</i>Sobre
+								</a>
+							</li>
+						</ul>
+					</div> <!-- navbar-collapse-sm !-->
+					<div id="submenu-usuario" class="submenu clearfix text-left collapse">
+						<ul class="nav">
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE7FD;</i>Perfil
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE7FB;</i>Amigos e Grupos
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE8B8;</i>Conta
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE879;</i>Sair
+								</a>
+							</li>
+						</ul>
+					</div> <!-- submenu-usuario !--> 
+					<div id="submenu-pesquisa" class="submenu text-left collapse">
+						<div class="input-group input-group-typeahead">
+							<input type="text" id="pesquisa-principal" class="form-control">
+							<span class="input-group-btn">
+								<button class="btn btn-link" type="button">
+									<i class="material-icons">&#xE8B6;</i>
+								</button>
+							</span>
+						</div><!-- input-group !-->
+					</div> <!-- submenu-pesquisa !-->
+				</nav> 
+			</div> <!-- container !--> 
+		</header>
+		
+		<section id="area-destaque">
+			<div class="container">
+			
+				<div class="row">
+				
+					<div class="col-xs-12">
+						
+						<div class="col-xs-12 col-md-6" id="img-texto-apresentacao">
+							
+							<div class="col-xs-12 col-sm-6 text-center" id="img-apresentacao">
+								<img src="img/ic_group_white_48dp.png" style="background-color: #c9c7c7;">
+							</div>
+							
+							<div class="col-xs-12 col-sm-6" id="texto-apresentacao">
+								<h1>
+									<small>
+										Grupo: Nome do grupo
+									</small>
+								</h1>
+							</div>
+							
+						</div>
+						
+						<div class="col-xs-12 col-md-6 text-center">
+							<br>
+							<p>
+								<a href="#" class="btn btn-success btn-sm-medio" data-toggle="modal" data-target="#adicionar-membros">
+									<i class="material-icons">&#xE7F0;</i>Participar
+								</a>
+							</p>
+						</div>
+						
+					</div> <!-- col-xs-12 -->
+					
+				</div> <!-- row -->
+				
+				<div class="row" -->
+					
+					<nav id="area-destaque-menu" class="col-xs-12 text-center">
+						<ul class="nav nav-sublinhado">
+							<li>
+								<a href="#">
+									Membros
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									Sessões
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									Sobre
+								</a>
+							</li> 
+							<li>
+								<div class="dropdown">
+									<button class="dropdown-toggle btn btn-link" type="button">
+										Mais Opções <i class="material-icons">&#xE5C5;</i>
+									</button>
+									<ul class="dropdown-menu dropdown-menu-right">
+										<li><a href="#">Excluir</a></li>
+										<li><a href="#">Denunciar</a></li>
+										<li><a href="#">Sair</a></li>
+									</ul>
+								</div>
+							</li> 
+						</ul>
+					</nav>
+					
+				</div> <!-- row !-->
+				
+			</div> <!-- container !-->
+		</section> <!-- area-destaque !-->
+		
+		<section id="conteudo-principal">
+			<div class="container">
+				<div class="row">
+				
+					<aside class="col-xs-12 col-md-3 divisao-de-area">
+					
+						<div class="pull-right aside-btn-exibir">
+						
+							<button type="button" class="btn btn-xs btn-link" data-toggle="collapse" data-target="#aside-area-para-exibicao">
+								<i class="material-icons">&#xE313;</i>
+							</button>
+							
+						</div>
+					
+						<div class="aside-titulo clearfix">
+							<span class="aside-titulo-texto">Agenda</span>
+						</div>
+						
+						<div id="aside-area-para-exibicao" class="collapse">
+							<div id="calendario">
+								<div class="text-center">
+									Agosto
+								</div>
+								<table class="table table-condensed">
+									<thead>
+										<tr>
+											<th>
+												D
+											</th>
+											<th>
+												S
+											</th>
+											<th>
+												T
+											</th>
+											<th>
+												Q
+											</th>
+											<th>
+												Q
+											</th>
+											<th>
+												S
+											</th>
+											<th>
+												S
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div> <!-- calendário -->
+						</div> <!-- aside-area-para-exibicao --> 
+					</aside> 
+				
+					<div class="col-xs-12 col-md-9">
+						<div class="row divisao-de-area">
+							<div class="col-xs-12">
+							
+								<div id="publicar-mensagem">
+								
+									<h2><small>Deixe uma mensagem</small></h2>
+									
+									<div class="publicar-mensagem-corpo clearfix">
+										<form>
+											<div class="form-group">
+												<textarea class="form-control textarea-block-resize"></textarea>
+											</div>
+											
+											<div class="pull-right">
+											
+												<button type="button" class="btn btn-link">
+													<i class="material-icons">&#xE24E;</i>
+												</button>
+												
+												<div class="btn btn-link btn-file">
+													<span><i class="material-icons">&#xE410;</i>
+													<input type="file" accept="image/*">
+												</div>
+												
+												<div class="btn btn-link btn-file">
+													<i class="material-icons">&#xE157;</i>
+													<input type="file" accept="/*">
+												</div>
+												
+												<button type="submit" class="btn btn-default">
+													Postar
+												</button>
+											</div>
+										</form>
+									</div> <!-- publicar-mensagem-corpo -->
+									
+								</div> <!-- publicar-mensagem -->
+								
+							</div> <!-- col -->
+							
+						</div> <!-- row -->
+						
+						<div class="row divisao-de-area">
+						
+							<div class="col-xs-12">
+							
+								<div class="mensagem-publicada">
+								
+									<div class="mensagem-publicada-conteudo">
+									
+										<div class="mensagem-publicada-info">
+											<a href="#">
+												<img src="img/default-avatar.gif" class="avatar-img pull-left">
+												Nome do Usuário<br>
+											</a>
+											<span class="info-adicional">31 de Agosto de 2016 às 10:00</span>
+										</div>
+										
+										<div class="text-justify">
+											<p>
+												Praesent fringilla leo at viverra congue. Fusce tortor mi, hendrerit sed tincidunt nec, luctus at diam. Donec a nisl mauris. Donec cursus ut ligula sit amet accumsan. Mauris placerat purus scelerisque erat tristique dictum. Donec urna neque, dignissim non gravida in, vestibulum a velit. Donec sit amet eleifend erat.
+											</p>
+										</div>
+										
+										<div class="clearfix">
+											<button type="button" class="btn btn-sm btn-link btn-responder pull-right responder-mensagem">
+												RESPONDER
+											</button>
+										</div>
+										
+									</div> <!-- mensagem-publicada-conteudo -->
+									
+									<div class="resposta-publicada">
+									
+										<div class="resposta-publicada-conteudo">
+										
+											<div class="mensagem-publicada-info">
+												<a href="#">
+													<img src="img/default-avatar.gif" class="avatar-img pull-left">
+													Nome do Usuário<br>
+												</a>
+												<span class="info-adicional">31 de Agosto de 2016 às 10:00</span>
+											</div>
+										
+											<div class="text-justify">
+												<p>
+													Praesent fringilla leo at viverra congue. Fusce tortor mi, hendrerit sed tincidunt nec.
+												</p>
+											</div>
+											
+											<div class="clearfix">
+												<button type="button" class="btn btn-sm btn-link btn-responder pull-right">
+													RESPONDER
+												</button>
+											</div>
+											
+										</div> <!-- resposta-publicada-conteudo -->
+										
+										<div class="resposta-publicada">
+											<div class="resposta-publicada-conteudo">
+											
+												<div class="mensagem-publicada-info">
+													<a href="#">
+														<img src="img/default-avatar.gif" class="avatar-img pull-left">
+														Nome do Usuário<br>
+													</a>
+													<span class="info-adicional">31 de Agosto de 2016 às 10:00</span>
+												</div>
+											
+												<div class="text-justify">
+													<p>
+														Praesent fringilla leo at viverra congue. Fusce tortor mi, hendrerit sed tincidunt nec.
+													</p>
+												</div>
+												
+												<div class="clearfix">
+													<button type="button" class="btn btn-sm btn-link btn-responder pull-right">
+														RESPONDER
+													</button>
+												</div>
+												
+											</div> <!-- resposta-publicada-conteudo -->	
+										</div> <!-- resposta-publicada -->
+										
+										<div class="resposta-publicada">
+											<div class="resposta-publicada-conteudo">
+											
+												<div class="mensagem-publicada-info">
+													<a href="#">
+														<img src="img/default-avatar.gif" class="avatar-img pull-left">
+														Nome do Usuário<br>
+													</a>
+													<span class="info-adicional">31 de Agosto de 2016 às 10:00</span>
+												</div>
+											
+												<div class="text-justify">
+													<p>
+														Praesent fringilla leo at viverra congue. Fusce tortor mi, hendrerit sed tincidunt nec.
+													</p>
+												</div>
+												
+												<div class="clearfix">
+													<button type="button" class="btn btn-sm btn-link btn-responder pull-right">
+														RESPONDER
+													</button>
+												</div>
+												
+											</div> <!-- resposta-publicada-conteudo -->
+										</div> <!-- resposta-publicada -->			
+											
+									</div> <!-- resposta-publicada -->
+									
+									<div class="resposta-publicada">
+										<div class="resposta-publicada-conteudo">
+										
+											<div class="mensagem-publicada-info">
+												<a href="#">
+													<img src="img/default-avatar.gif" class="avatar-img pull-left">
+													Nome do Usuário<br>
+												</a>
+												<span class="info-adicional">31 de Agosto de 2016 às 10:00</span>
+											</div>
+										
+											<div class="text-justify">
+												<p>
+													Praesent fringilla leo at viverra congue. Fusce tortor mi, hendrerit sed tincidunt nec.
+												</p>
+											</div>
+											
+											<div class="clearfix">
+												<button type="button" class="btn btn-sm btn-link btn-responder pull-right">
+													RESPONDER
+												</button>
+											</div>
+											
+										</div> <!-- resposta-publicada-conteudo -->
+									</div> <!-- resposta-publicada -->	
+									
+								</div> <!-- mensagem-publicada -->					
+							</div> <!-- col -->
+						</div> <!-- row -->
+						
+						<div class="row">						
+							<div class="col-xs-12">
+							
+								<div class="mensagem-publicada">
+								
+									<div class="mensagem-publicada-conteudo">
+									
+										<div class="mensagem-publicada-info">
+											<a href="#">
+												<img src="img/default-avatar.gif" class="avatar-img pull-left">
+												Nome do Usuário<br>
+											</a>
+											<span class="info-adicional">31 de Agosto de 2016 às 10:00</span>
+										</div>
+										
+										<div class="text-justify">
+											<p>
+												Praesent fringilla leo at viverra congue. Fusce tortor mi, hendrerit sed tincidunt nec, luctus at diam. Donec a nisl mauris. Donec cursus ut ligula sit amet accumsan. Mauris placerat purus scelerisque erat tristique dictum. Donec urna neque, dignissim non gravida in, vestibulum a velit. Donec sit amet eleifend erat.
+											</p>
+										</div>
+										
+										<div class="clearfix">
+											<button type="button" class="btn btn-sm btn-link btn-responder pull-right responder-mensagem">
+												RESPONDER
+											</button>
+										</div>
+										
+									</div> <!-- mensagem-publicada-conteudo -->
+									
+									<div class="resposta-publicada">
+									
+										<div class="resposta-publicada-conteudo">
+										
+											<div class="mensagem-publicada-info">
+												<a href="#">
+													<img src="img/default-avatar.gif" class="avatar-img pull-left">
+													Nome do Usuário<br>
+												</a>
+												<span class="info-adicional">31 de Agosto de 2016 às 10:00</span>
+											</div>
+										
+											<div class="text-justify">
+												<p>
+													Praesent fringilla leo at viverra congue. Fusce tortor mi, hendrerit sed tincidunt nec.
+												</p>
+											</div>
+											
+											<div class="clearfix">
+												<button type="button" class="btn btn-sm btn-link btn-responder pull-right">
+													RESPONDER
+												</button>
+											</div>
+											
+										</div> <!-- resposta-publicada-conteudo -->
+										
+									</div> <!-- resposta-publicada -->	
+									
+								</div> <!-- mensagem-publicada -->	
+							
+							</div> <!-- col -->
+						
+						</div> <!-- row -->
+						
+					</div> <!-- col -->
+					
+				</div> <!-- row -->
+
+			</div> <!-- container -->			
+		</section>
+		
+		<div id="publicar-resposta" class="col-xs-12 collapse">
+			<button class='btn btn-link btn-fechar'> <i class='material-icons'>&#xE5CD;</i></button>
+			<div class="publicar-resposta publicar-mensagem-corpo">
+				<form>
+					<div class="form-group">
+						<textarea class="form-control textarea-block-resize"></textarea>
+					</div>
+					<div class="pull-right">
+						<button type="button" class="btn btn-link">
+							<i class="material-icons">&#xE24E;</i>
+						</button>
+						<div class="btn btn-link btn-file">
+							<span><i class="material-icons">&#xE410;</i>
+							<input type="file" accept="image/*">
+						</div>
+						<button type="button" class="btn btn-link">
+							<i class="material-icons">&#xE157;</i>
+						</button>
+						<button type="submit" class="btn btn-default">
+							Responder
+						</button>
+					</div>
+				</form>
+			</div> <!-- publicar-resposta -->
+		</div>
+		
+		<script>
+			$(".btn-responder").click(function() {
+			
+				// fecha caixa de resposta e desmarca a resposta ou mensagem ativa
+				if($(this).parents(".resposta-publicada-conteudo").hasClass("active") 
+					|| $(this).parents(".mensagem-publicada-conteudo").hasClass("active")) {
+					
+					$("#publicar-resposta .btn-fechar").click();
+					return false;
+					
+				}
+				
+				// desmarca a resposta ou mensagem ativa anterior para ativar a atual
+				if($("#publicar-resposta").css("display") == "block") {
+					$(".mensagem-publicada-conteudo, .resposta-publicada-conteudo").removeClass("active");
+				}
+				else
+					$("#publicar-resposta").show();
+					
+				if($(this).hasClass("responder-mensagem"))
+					$(this).parents(".mensagem-publicada-conteudo").addClass("active")
+				else
+					$(this).parents(".resposta-publicada-conteudo").addClass("active")
+				
+			});
+			
+			$("#publicar-resposta .btn-fechar").click(function() {
+				$(".mensagem-publicada-conteudo").removeClass("active");
+				$(".resposta-publicada-conteudo").removeClass("active");
+				$("#publicar-resposta").hide();
+			});
+		
+			carregarCalendario();
+			
+			function carregarCalendario() {
+				var data = new Date();
+				var primeiro_dia = new Date(data.getUTCFullYear(), data.getUTCMonth());
+				var ultimo_dia = new Date(data.getUTCFullYear(), data.getUTCMonth() + 1);
+				var total_de_dias = (ultimo_dia - primeiro_dia) / (1000 * 60 * 60 * 24);
+			
+				var dias = 1;
+			
+				var tabela = $("#calendario table tbody")[0];
+				
+				var linha = tabela.insertRow(0);
+			
+					
+				for(var j = 0; j < 7; j++) {
+					
+					if(primeiro_dia.getDay() <= j) {
+						linha.insertCell(j).innerHTML = dias;
+						dias = dias + 1;
+					}
+					else {
+						linha.insertCell(j);
+					}
+					
+				}
+
+				var semanas = 1;
+				for(var i = dias; i < total_de_dias; i++) {
+			
+					linha = tabela.insertRow(semanas);
+					
+					for(var l = 0; l < 7; l++) {
+					
+						if(dias <= total_de_dias) {
+						
+							linha.insertCell(l).innerHTML = dias;
+							dias = dias + 1;
+							i = dias;
+										
+						}
+					}
+					
+					semanas = semanas + 1;
+					
+				}
+				
+				// marcar um dia como exemplo
+				var td = $("#calendario table tbody tr td").last()
+				var valor = td.text();
+				td.addClass("marcado");
+				td.html("<a href='#'>" + valor + "</a>");
+			}
+		</script>
+		
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 text-justify">
+						<p>Rodapé</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>

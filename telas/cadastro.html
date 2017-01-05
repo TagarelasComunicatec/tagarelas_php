@@ -1,0 +1,257 @@
+<html>
+	<head>
+		<title>Cadastro - Tagarelas</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" media="screen" href="css/tagarelas.css">
+		<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/collapse.js"></script>
+		<script type="text/javascript" src="js/typeahead.bundle.js"></script>
+		
+		<script>
+			// esconder menu principal se clicar fora da área do menu
+			$(document).mouseup(function (e){
+				var area_selecionada = $("#menu");
+
+				if (!area_selecionada.is(e.target) && area_selecionada.has(e.target).length === 0) 
+				{
+					$("#menu").find(".collapse").each(function(index) {
+						
+						if($(this).hasClass("in")) {
+						
+							$(this).removeClass("in");
+							$(this).attr("aria-expanded", "false");
+							$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").children("a").attr("aria-expanded", "false");
+						}		
+						
+					});
+				}
+			});
+			
+			// esconder menu aberto se clicar em outro item do menu
+			$(document).ready(function(){
+				$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").click(function () {
+							
+					var item_selecionado = $(this).children("a");			
+							
+					if(item_selecionado.attr("aria-expanded") == "false") {
+						$("#menu").find(".collapse").each(function(index) {
+						
+							if($(this).hasClass("in")) {
+							
+								$(this).removeClass("in");
+								$(this).attr("aria-expanded", "false");
+								$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").children("a").attr("aria-expanded", "false");
+							}		
+							
+						});
+						item_selecionado.attr("aria-expanded", "true");
+					}
+					else {
+						item_selecionado.attr("aria-expanded", "false");
+					}
+				
+				});
+				
+				// footer no final da página quando o conteúdo é pouco
+				var docHeight = $(window).height();
+				var footerHeight = $('footer').height();
+				var footerTop = $('footer').position().top + footerHeight;
+			   
+				if (footerTop < docHeight) {
+					$('footer').css('margin-top', (docHeight - footerTop) + 'px');
+				}
+				
+				$('#submenu-pesquisa').on('shown.bs.collapse', function () {
+					$("#pesquisa-principal").focus();
+				});
+			
+				var jsonDataContatos = [
+				{
+					"id": "1",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 1"
+				},
+				{
+					"id": "2",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 2"
+				},
+				{
+					"id": "3",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 3"
+				}
+				];
+				
+				var contatos = new Bloodhound({
+					datumTokenizer: Bloodhound.tokenizers.obj.whitespace('id', 'avatar', 'nomeUsuario'),
+					queryTokenizer: Bloodhound.tokenizers.whitespace,
+					local: jsonDataContatos
+
+				});
+
+				contatos.initialize();
+				
+				$('#pesquisa-principal').typeahead(
+					{
+						offset: true,	// os resultados são de acordo com as letras iniciais
+						accent: false, // ignora os acentos na busca do resultado
+						minLength: 1, // quantidade mínima de caracteres para apresentar o resultado da pesquisa
+						order: "asc",
+						backdrop: { "background-color": "#fff" },
+					}, 
+					{
+						name: 'contatos',
+						display: 'nomeUsuario',
+						source: contatos.ttAdapter(),
+						templates: {
+							empty: [
+								'<span class="sem-sugestao">Nenhum resultado encontrado</span>'
+							].join('\n'),
+							suggestion: function(data) {
+								return '<a href="#" id="' + data.id + '" onclick="adicionarMembro(this); return false;">' +
+								'<img src="' + data.avatar + '" class="avatar-img avatar-pequeno">' +
+								'<span class="texto">' + data.nomeUsuario + '</span>' +
+								'<span class="id" style="display: none">' + data.id + '</span>' +
+								'</a>'
+							}
+						}
+					}
+				);
+			}); 
+		</script>
+	</head>
+	<body> 
+		<header class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="index.html">
+						<span class="logo">Tagarelas</span>
+					</a>
+				</div>
+				<nav id="menu" class="clearfix">
+					<div id="menu-lg" class="clearfix">
+						<div id="menu-sm" class="clearfix">
+							<ul id="nav-visivel-xs" class="nav text-center">
+								<li class="col-xs-4">
+									<a href="#login">
+										<i class="material-icons">&#xE7FD;</i><span class="descricao-icone">Entrar</span>
+									</a>
+								</li>
+								<li id="mais-menu-search" class="col-xs-4">
+									<a href="#" data-toggle="collapse" data-target="#submenu-pesquisa" aria-expanded="false">
+										<i class="material-icons">&#xE8B6;</i><span class="descricao-icone">Pesquisar</span>
+									</a>
+								</li>
+								<li id="mais-menu-xs" class="col-xs-4">
+									<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false" id="toogle">
+										<i class="material-icons">&#xE5D2;</i>
+									</a>
+								</li>
+							</ul>
+							<div id="menu-collapse-xs" class="menu-collapse text-left collapse">
+								<ul class="nav">
+									<li>
+										<a href="#">
+											<i class="material-icons">&#xE192;</i>Agenda
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<i class="material-icons">&#xE2C7;</i>Arquivos
+										</a>
+									</li>
+									<li id="mais-menu-sm">
+										<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false" id="toogle">
+											<i class="material-icons">&#xE5D2;</i>Mais
+										</a>
+									</li>
+								</ul>
+							</div> <!-- collapse-xs !--> 
+						</div> <!-- menu-sm !-->
+						<div id="menu-collapse-sm" class="menu-collapse text-left collapse">
+							<ul class="nav">
+								<li>
+									<a href="#">
+										<i class="material-icons">&#xE24D;</i>Publicações
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="material-icons">&#xE88E;</i>Sobre
+									</a>
+								</li>
+							</ul>
+						</div> <!-- collapse-sm !--> 
+					</div> <!-- menu-lg !-->
+					<div id="submenu-pesquisa" class="submenu clearfix text-left collapse">
+						<div class="input-group input-group-typeahead">
+							<input type="text" id="pesquisa-principal" class="form-control">
+							<span class="input-group-btn">
+								<button class="btn btn-link" type="button">
+									<i class="material-icons">&#xE8B6;</i>
+								</button>
+							</span>
+						</div><!-- input-group !-->
+					</div> <!-- submenu-pesquisa !-->
+				</nav>
+			</div>
+		</header>
+		<section id="area-destaque">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 col-sm-6 text-center">
+						<img src="img/img2_med.png" class="img-responsive center-block img-ilustrativa">
+						<h1>Batepapo Sério</h1>
+					</div>
+					<div class="col-xs-12 col-sm-6 text-center" id="cadastro" >
+						<hr>
+						<h3>Cadastrar</h3>
+						<button type="button" class="btn btn-facebook">
+							<span class="icone-social"><img src="img/facebook.icon.png"></span>Cadastre-se com o Facebook
+						</button>
+						<br><br>
+						<p>ou preencha os seus dados</p>
+						<form>
+							<div class="col-xs-12 col-lg-6 form-group">
+								<input type="text" class="form-control" placeholder="Nome completo">
+							</div>
+							<div class="col-xs-12 col-lg-6 form-group">
+								<input type="text" class="form-control" placeholder="Nome curto">
+							</div>
+							<div class="col-xs-12 form-group">
+								<input type="email" class="form-control" placeholder="Email">
+							</div>
+							<div class="col-xs-12 col-lg-6 form-group">
+								<input type="password" class="form-control" placeholder="Senha">
+							</div>
+							<div class="col-xs-12 col-lg-6 form-group">
+								<input type="password" class="form-control" placeholder="Confirmar Senha">
+							</div>
+							<div class="col-xs-12 form-group checkbox">
+								<label>
+								  <input type="checkbox">
+								  Li e concordo com os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a>.
+								</label>
+							</div>
+							<button type="submit" class="btn btn-default">Cadastrar</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 text-justify">
+						<p>Rodapé</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Pesquisa - Tagarelas</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" href="css/tagarelas.css">
+		<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/collapse.js"></script>
+		<script type="text/javascript" src="js/typeahead.bundle.js"></script>
+		
+		<script>
+			// esconder menu principal se clicar fora da área do menu
+			$(document).mouseup(function (e){
+				var area_selecionada = $("#menu");
+
+				if (!area_selecionada.is(e.target) && area_selecionada.has(e.target).length === 0) 
+				{
+					$("#menu").find(".collapse").each(function(index) {
+						
+						if($(this).hasClass("in")) {
+						
+							$(this).removeClass("in");
+							$(this).attr("aria-expanded", "false");
+							$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").children("a").attr("aria-expanded", "false");
+						}		
+						
+					});
+				}
+			});
+			
+			// esconder menu aberto se clicar em outro item do menu
+			$(document).ready(function(){
+				$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").click(function () {
+							
+					var item_selecionado = $(this).children("a");			
+							
+					if(item_selecionado.attr("aria-expanded") == "false") {
+						$("#menu").find(".collapse").each(function(index) {
+						
+							if($(this).hasClass("in")) {
+							
+								$(this).removeClass("in");
+								$(this).attr("aria-expanded", "false");
+								$("#mais-menu-usuario, #mais-menu-pesquisa, #mais-menu-xs, #mais-menu-sm, #mais-menu-lg").children("a").attr("aria-expanded", "false");
+							}		
+							
+						});
+						item_selecionado.attr("aria-expanded", "true");
+					}
+					else {
+						item_selecionado.attr("aria-expanded", "false");
+					}
+				
+				});
+				
+				// footer no final da página quando o conteúdo é pouco
+				var docHeight = $(window).height();
+				var footerHeight = $('footer').height();
+				var footerTop = $('footer').position().top + footerHeight;
+			   
+				if (footerTop < docHeight) {
+					$('footer').css('margin-top', (docHeight - footerTop) + 'px');
+				}
+				
+				$('#submenu-pesquisa').on('shown.bs.collapse', function () {
+					$("#pesquisa-principal").focus();
+				});
+				
+				var jsonDataContatos = [
+				{
+					"id": "1",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 1"
+				},
+				{
+					"id": "2",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 2"
+				},
+				{
+					"id": "3",
+					"avatar": "img/default-avatar.gif",
+					"nomeUsuario": "Usuário 3"
+				}
+				];
+				
+				var contatos = new Bloodhound({
+					datumTokenizer: Bloodhound.tokenizers.obj.whitespace('id', 'avatar', 'nomeUsuario'),
+					queryTokenizer: Bloodhound.tokenizers.whitespace,
+					local: jsonDataContatos
+
+				});
+
+				contatos.initialize();
+				
+				$('#pesquisa-principal').typeahead(
+					{
+						offset: true,	// os resultados são de acordo com as letras iniciais
+						accent: false, // ignora os acentos na busca do resultado
+						minLength: 1, // quantidade mínima de caracteres para apresentar o resultado da pesquisa
+						order: "asc",
+						backdrop: { "background-color": "#fff" },
+					}, 
+					{
+						name: 'contatos',
+						display: 'nomeUsuario',
+						source: contatos.ttAdapter(),
+						templates: {
+							empty: [
+								'<span class="sem-sugestao">Nenhum resultado encontrado</span>'
+							].join('\n'),
+							suggestion: function(data) {
+								return '<a href="#" id="' + data.id + '"> <img src="' + data.avatar + '" class="avatar-img avatar-pequeno">' +
+								'<span class="texto">' + data.nomeUsuario + '</span>' +
+								'<span class="id" style="display: none">' + data.id + '</span>' + '</a>'
+							}
+						}
+					}
+				);
+						
+			});
+		</script>
+	</head>
+	<body> 
+		<header class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="index.html">
+						<span class="logo">Tagarelas</span>
+					</a>
+				</div>
+				<nav id="menu" class="clearfix">
+					<div id="menu-lg" class="clearfix">
+						<div id="menu-sm" class="clearfix">
+							<ul id="nav-visivel-xs" class="nav text-center">
+								<li id="mais-menu-usuario" class="col-xs-4">
+									<a href="#" data-toggle="collapse" data-target="#submenu-usuario" aria-expanded="false">
+										<img src="img/default-avatar.gif" class="avatar-img">
+										<span class="descricao-icone">Lucianna</span>
+									</a>
+								</li>
+								<li class="col-xs-4" id="mais-menu-pesquisa">
+									<a href="#" data-toggle="collapse" data-target="#submenu-pesquisa" aria-expanded="false">
+										<i class="material-icons">&#xE8B6;</i><span class="descricao-icone">Pesquisar</span>
+									</a>
+								</li>
+								<li class="col-xs-4" id="mais-menu-xs">
+									<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false">
+										<i class="material-icons">&#xE5D2;</i>
+									</a>
+								</li>
+							</ul>
+							<div id="menu-collapse-xs" class="menu-collapse text-left collapse">
+								<ul class="nav">
+									<li>
+										<a href="#">
+											<i class="material-icons">&#xE0B7;</i>Minhas Sessões
+										</a>
+									</li>
+									<li id="mais-menu-sm">
+										<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false" id="toogle">
+											<i class="material-icons">&#xE5D2;</i>Mais
+										</a>
+									</li>
+								</ul>
+							</div> <!-- navbar-collapse --> 
+						</div> <!-- menu-sm -->
+						<div id="menu-collapse-sm" class="menu-collapse text-left collapse">
+							<ul class="nav">
+								<li>
+									<a href="#">
+										<i class="material-icons">&#xE192;</i>Agenda
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="material-icons">&#xE2C7;</i>Arquivos
+									</a>
+								</li>
+								<li id="mais-menu-lg">
+									<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false" id="toogle">
+										<i class="material-icons">&#xE5D2;</i>Mais
+									</a>
+								</li>
+							</ul>
+						</div> <!-- navbar-collapse-sm --> 
+					</div> <!-- menu-lg -->
+					<div id="menu-collapse-lg" class="menu-collapse clearfix text-left collapse">
+						<ul class="nav">
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE24D;</i>Publicações
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE88E;</i>Sobre
+								</a>
+							</li>
+						</ul>
+					</div> <!-- navbar-collapse-sm -->
+					<div id="submenu-usuario" class="submenu clearfix text-left collapse">
+						<ul class="nav">
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE7FD;</i>Perfil
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE7FB;</i>Amigos e Grupos
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE8B8;</i>Conta
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="material-icons">&#xE879;</i>Sair
+								</a>
+							</li>
+						</ul>
+					</div> <!-- submenu-usuario --> 
+					<div id="submenu-pesquisa" class="submenu text-left collapse">
+						<div class="input-group input-group-typeahead">
+							<input type="text" id="pesquisa-principal" class="form-control">
+							<span class="input-group-btn">
+								<button class="btn btn-link" type="button">
+									<i class="material-icons">&#xE8B6;</i>
+								</button>
+							</span>
+						</div><!-- input-group -->
+					</div> <!-- submenu-pesquisa -->
+				</nav> 
+			</div> <!-- container --> 
+		</header>
+		
+		<section id="conteudo-principal">
+			<div class="container">
+			
+            	<div id="conteudo-cabecalho">
+				
+                	<div id="conteudo-titulo">
+                        <h1>
+                            <small>
+                                Resultado da Pesquisa
+                            </small>
+                        </h1>
+                    </div> <!-- conteudo-titulo -->
+					
+                </div> <!-- conteudo-cabecalho --> 
+				
+				<h2><small>Pessoas</small></h2>
+				
+				<div class="row">
+				
+					<div class="col-xs-12 col-sm-6 col-md-3">
+						<div class="caixa-de-apresentacao">
+						
+							<a href="#">
+								<img src="img/default-avatar.gif" class="avatar-usuarios">
+								Nome do Usuário
+							</a>
+							
+							<div class="caixa-de-apresentacao-opcoes pull-right">
+								 <button class="btn btn-default btn-xs" type="button" title="Adicionar como amigo"><i class="material-icons md-18">&#xE7FE;</i>
+								  </button>
+							</div>
+							
+						</div>
+					</div>
+					
+				</div> <!-- row -->
+				
+				<h2><small>Grupos</small></h2>
+				
+				<div class="row">
+				
+					<div class="col-xs-12 col-sm-6 col-md-3">
+					
+						<div class="caixa-de-apresentacao">
+							<a href="#">
+								<img src="img/ic_group_white_48dp.png" class="pull-left">
+								Nome do Grupo 1
+							</a>
+							<div class="info-adicional">
+								10 Membros
+							</div>
+						
+							<div class="caixa-de-apresentacao-opcoes pull-right">
+								 <button class="btn btn-default btn-xs" type="button" title="Entrar no grupo"><i class="material-icons md-18">&#xE7FE;</i>
+								  </button>
+							</div>
+							
+						</div>
+						
+					</div>
+
+				</div> <!-- row -->
+				
+				<h2><small>Sessões</small></h2>
+				
+				<div class="row">
+					
+					<div class="col-xs-12 col-sm-3">
+						<div class="thumbnail clearfix">
+							<a href="#" class="titulo-da-sessao titulo-sessao-agendada">
+								Título da Sessão
+							</a>
+							<div class="caption">
+								<div class="data-e-hora-da-sessao">
+									<i class="material-icons">&#xE192;</i> 10 de Setembro de 2016 às 15:00
+								</div>
+								
+								<div class="link-de-acoes-da-sessao">
+									<p class="text-uppercase pull-left">
+										<a href="#">Ler Mais</a>
+									</p>
+									<p class="text-uppercase pull-right">
+										<a href="#">Participar</a>
+									</p>
+								</div>
+							</div> <!-- caption -->
+						</div> <!-- thumbnail -->
+					</div> <!-- col -->
+					
+				</div> <!-- row -->
+				
+			</div> <!-- container -->
+		</section>
+		
+		<script>
+			function deslizarParaDireita(areaDoConteudo) {
+				// deslizar para a direita utilizando o botão
+			
+				var rolagem_horizontal_corpo = $("#" + areaDoConteudo).parent();
+				
+				var deslizamento = rolagem_horizontal_corpo.scrollLeft();
+				
+				deslizamento = deslizamento + 100;
+				
+				rolagem_horizontal_corpo.stop().animate({
+					scrollLeft: deslizamento
+				});
+				
+				var rolagem_horizontal = rolagem_horizontal_corpo.parent();
+				
+				// exibir o botão de deslizar para a esquerda
+				rolagem_horizontal.children(".btn-scroll-left").css("display", "block");
+					
+				// esconder botão de deslizar para a direita quando chega no final da área do conteudo
+				if((rolagem_horizontal_corpo.scrollLeft() + rolagem_horizontal_corpo.width()) == $("#" + areaDoConteudo).width() ) {
+					rolagem_horizontal.children(".btn-scroll-right").css("display", "none");
+				}
+			}
+
+			function deslizarParaEsquerda(areaDoConteudo) {
+				// deslizar para a esquerda utilizando o botão
+			
+				var rolagem_horizontal_corpo = $("#" + areaDoConteudo).parent();
+				
+				var deslizamento = rolagem_horizontal_corpo.scrollLeft();
+
+				deslizamento = deslizamento - 100;	
+
+				rolagem_horizontal_corpo.stop().animate({
+					scrollLeft: deslizamento
+				});
+				
+				var rolagem_horizontal = rolagem_horizontal_corpo.parent();
+
+				// exibir o botão de deslizar para a direita
+				rolagem_horizontal.children(".btn-scroll-right").css("display", "block");
+				
+				// esconder o botão de deslizar para a esquerda quando está no início da área do conteudo
+				if(deslizamento <= 0) {				
+					rolagem_horizontal.children(".btn-scroll-left").css("display", "none");
+				}
+			}
+		
+			function deslizarTelaTouch(areaDoConteudo) {
+				// deslizamento para touch scream
+			
+				var rolagem_horizontal_corpo = $("#" + areaDoConteudo).parent();
+				var rolagem_horizontal = rolagem_horizontal_corpo.parent();
+			
+				// esconder botão de deslizar para a direita quando chega no final da área do conteudo
+				if((rolagem_horizontal_corpo.scrollLeft() + rolagem_horizontal_corpo.innerWidth()) >= $("#" + areaDoConteudo).width()) {
+					rolagem_horizontal.children(".btn-scroll-right").css("display", "none");
+					rolagem_horizontal.children(".btn-scroll-left").css("display", "block");
+				}
+				
+				// esconder botão de deslizar para a esquerda quando está no início da área do conteudo
+				else if(rolagem_horizontal_corpo.scrollLeft() == 0) {
+					rolagem_horizontal.children(".btn-scroll-left").css("display", "none");
+					rolagem_horizontal.children(".btn-scroll-right").css("display", "block");
+				}
+				
+				// exibir os dois botões se não estiver no início ou no fim da área do conteudo
+				else {
+					rolagem_horizontal.children(".btn-scroll-right").css("display", "block");
+					rolagem_horizontal.children(".btn-scroll-left").css("display", "block");
+				}
+			}
+		
+			removerBotaoDeDeslizar();
+			
+			$(window).on("orientationchange",function(){
+				removerBotaoDeDeslizar();
+			});
+			
+			function removerBotaoDeDeslizar() {
+				$(".rolagem-horizontal-corpo").each(function(index) {
+						
+					if($(this).innerWidth() >= $(this).children().width()) {
+						$(this).parent().children(".btn-scroll-right").css("display", "none");
+						$(this).parent().children(".btn-scroll-left").css("display", "none");
+					}
+					else {
+						$(this).parent().children(".btn-scroll-right").css("display", "block");
+					}
+						
+				});
+			}			
+		</script>
+		
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 text-justify">
+						<p>Rodapé</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
