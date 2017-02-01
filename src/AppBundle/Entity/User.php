@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="usuario")
  */
-class Usuario extends BaseUser
+class User extends BaseUser
 {
 	/**
 	 * @ORM\Id
@@ -19,6 +19,20 @@ class Usuario extends BaseUser
 	 */
 	protected $id;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="facebook_id", type="string", nullable=true)
+	 */
+	private $facebookID;
+	
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="google_id", type="string", nullable=true)
+	 */
+	private $googleID;
+	
 	public function __construct()
 	{
 		parent::__construct();
