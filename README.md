@@ -73,7 +73,6 @@ Enjoy!
 [9]:  https://symfony.com/doc/3.1/security.html
 [10]: https://symfony.com/doc/3.1/email.html
 [11]: https://symfony.com/doc/3.1/logging.html
-[12]: https://symfony.com/doc/3.1/assetic/asset_management.html
 [13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
 [14]: https://github.com/FriendsOfSymfony/FOSUserBundle
 [15]: http://intelligentbee.com/blog/2015/11/13/symfony2-facebook-google-login.
