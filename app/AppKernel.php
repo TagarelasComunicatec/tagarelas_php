@@ -2,6 +2,7 @@
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use CodeMe\TheBundle\TheBundle;
 
 class AppKernel extends Kernel
 {
@@ -17,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+        	new CodeMe\TheBundle\TheBundle(),
         	new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
         ];
 

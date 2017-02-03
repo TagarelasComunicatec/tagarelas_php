@@ -11,3 +11,21 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: ThisTokenIsNotSoSecretChangeIt
+
+# parametros para o acesso ao Facebook e Google    
+    site: "http://localhost/"
+  
+    #Oauth2
+    facebook_client_id:     id
+    facebook_client_secret: secret
+    google_client_id: id
+    google_client_secret: secret
+
+    admins:
+        facebook:
+            - "myfacebook.id"
+
+twig:
+    globals:
+        facebook_client_id: "%facebook_client_id%"
+        site: "%site%"
