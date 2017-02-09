@@ -75,6 +75,19 @@ class User extends BaseUser
 	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\SessionUser", mappedBy="userSessions")
 	 */
 	protected $userSessions;
+
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Relationship", mappedBy="userFriends")
+	 */
+	protected $userFriends;
+
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Relationship", mappedBy="friendUsers")
+	 */
+	protected $friendUsers;
+	
 	
 	/**
 	 * @ORM\PrePersist
@@ -278,6 +291,61 @@ class User extends BaseUser
 	 */
 	public function setUserGroups($userGroups){
 		$this->userGroups = $userGroups;
+		return $this;
+	}
+
+
+	/**
+	 * userSessions
+	 * @return string
+	 */
+	public function getUserSessions(){
+		return $this->userSessions;
+	}
+
+	/**
+	 * userSessions
+	 * @param string $userSessions
+	 * @return User
+	 */
+	public function setUserSessions($userSessions){
+		$this->userSessions = $userSessions;
+		return $this;
+	}
+
+	/**
+	 * userFriends
+	 * @return string
+	 */
+	public function getUserFriends(){
+		return $this->userFriends;
+	}
+
+	/**
+	 * userFriends
+	 * @param string $userFriends
+	 * @return User
+	 */
+	public function setUserFriends($userFriends){
+		$this->userFriends = $userFriends;
+		return $this;
+	}
+
+	/**
+	 * friendUsers
+	 * @return string
+	 */
+	public function getFriendUsers(){
+		return $this->friendUsers;
+	}
+
+	/**
+	 * friendUsers
+	 * @param string $friendUsers
+	 * @return User
+	 */
+	public function setFriendUsers($friendUsers){
+		$this->friendUsers = $friendUsers;
 		return $this;
 	}
 
