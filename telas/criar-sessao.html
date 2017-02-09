@@ -286,21 +286,17 @@
 							<label>Nome da Sessão</label>
 							<input type="text" class="form-control">
 						</div>
-						<div class="form-group">
-							<label>Nome do Grupo</label>
-							<select class="form-control">
-								<option>Grupo 1</option>
-								<option>Grupo 2</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label>Descrição</label>
-							<textarea class="form-control textarea-block-resize"></textarea>
-						</div>
+						
 						<div class="form-group">
 							<label>Data e Hora</label>
 							<input type="datetime-local" class="form-control">
 						</div>
+						
+						<div class="form-group">
+							<label>Assunto a ser discutido</label>
+							<textarea class="form-control textarea-block-resize"></textarea>
+						</div>
+						
 						<div class="form-group">
 							<label>Visibilidade</label>
 							<br>
@@ -311,11 +307,21 @@
 								<input type="radio" name="visibilidade" value="privado"> Privado
 							</label>
 						</div>
+								
+						<div class="form-group">
+							<label>Convidar Grupos</label>
+							<select class="form-control">
+								<option>Grupo 1</option>
+								<option>Grupo 2</option>
+							</select>
+						</div>
+				
 					</div>
+					
 					<div class="col-xs-12 col-sm-6"> 
 						<div class="form-group">
 							<label for="pesquisarContatos">Convidar Amigos</label>
-							<p>Convide um amigo que não faz parte do grupo</p>
+							<p>Convide amigos individualmente ou que não fazem parte de algum grupo</p>
 							<input type="text" class="form-control" placeholder="Nome da pessoa" id="pesquisar-contatos" name="pesquisar-contatos">
 						</div>
 						<div class="pull-right">

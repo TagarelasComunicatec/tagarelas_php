@@ -52,17 +52,29 @@ class User extends BaseUser
 	/**
 	 * @ORM\Column(name="data_criacao", type="datetime", nullable=true)
 	 */
-	protected $data_criacao;
-	
-	/**
-	 * @ORM\Column(name="ultimo_login", type="datetime", nullable=true)
-	 */
-	protected $ultimo_login;
+	protected $created;
 	
 	/**
 	 * @ORM\Column(name="ultima_atualizacao", type="datetime", nullable=true)
 	 */
-	protected $ultima_atualizacao;
+	protected $lastUpdate;
+
+	/**
+	 * @ORM\Column(name="deletado", type="boolean", nullable=false)
+	 */
+	protected $isDeleted;
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\GroupUser", mappedBy="userGroups")
+	 */
+	protected $userGroups;
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\SessionUser", mappedBy="userSessions")
+	 */
+	protected $userSessions;
 	
 	/**
 	 * @ORM\PrePersist
@@ -70,8 +82,8 @@ class User extends BaseUser
 	public function onPrePersist()
 	{
 		//using Doctrine DateTime here
-		$this->data_criacao = new \DateTime('now');
-		$this->ultima_atualizacao = new \DateTime('now');
+		$this->created = new \DateTime('now');
+		$this->lastUpdate = new \DateTime('now');
 	}
 	/**
 	 * @ORM\PreUpdate
@@ -79,7 +91,7 @@ class User extends BaseUser
 	public function onPreUpdate()
 	{
 		//using Doctrine DateTime here
-		$this->ultima_atualizacao = new \DateTime('now');
+		$this->lastUpdate = new \DateTime('now');
 	}
 	
 	public function __construct()
@@ -197,56 +209,75 @@ class User extends BaseUser
 	}
 
 	/**
-	 * data_criacao
+	 * created
 	 * @return string
 	 */
-	public function getData_criacao(){
-		return $this->data_criacao;
+	public function getCreated(){
+		return $this->created;
 	}
 
 	/**
-	 * data_criacao
-	 * @param string $data_criacao
+	 * created
+	 * @param string $created
 	 * @return User
 	 */
-	public function setData_criacao($data_criacao){
-		$this->data_criacao = $data_criacao;
+	public function setCreated($created){
+		$this->created = $created;
 		return $this;
 	}
 
 	/**
-	 * ultimo_login
+	 * lastUpdate
 	 * @return string
 	 */
-	public function getUltimo_login(){
-		return $this->ultimo_login;
+	public function getLastUpdate(){
+		return $this->lastUpdate;
 	}
 
 	/**
-	 * ultimo_login
-	 * @param string $ultimo_login
+	 * lastUpdate
+	 * @param string $lastUpdate
 	 * @return User
 	 */
-	public function setUltimo_login($ultimo_login){
-		$this->ultimo_login = $ultimo_login;
+	public function setLastUpdate($lastUpdate){
+		$this->lastUpdate = $lastUpdate;
 		return $this;
 	}
 
 	/**
-	 * ultima_atualizacao
+	 * isDeleted
 	 * @return string
 	 */
-	public function getUltima_atualizacao(){
-		return $this->ultima_atualizacao;
+	public function getIsDeleted(){
+		return $this->isDeleted;
 	}
 
 	/**
-	 * ultima_atualizacao
-	 * @param string $ultima_atualizacao
+	 * isDeleted
+	 * @param string $isDeleted
 	 * @return User
 	 */
-	public function setUltima_atualizacao($ultima_atualizacao){
-		$this->ultima_atualizacao = $ultima_atualizacao;
+	public function setIsDeleted($isDeleted){
+		$this->isDeleted = $isDeleted;
+		return $this;
+	}
+
+
+	/**
+	 * userGroups
+	 * @return string
+	 */
+	public function getUserGroups(){
+		return $this->userGroups;
+	}
+
+	/**
+	 * userGroups
+	 * @param string $userGroups
+	 * @return User
+	 */
+	public function setUserGroups($userGroups){
+		$this->userGroups = $userGroups;
 		return $this;
 	}
 
