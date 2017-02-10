@@ -45,9 +45,14 @@ class Session
 	protected $visibility;
 	
 	/**
-	 * @ORM\Column(name="id_mediador", type="string", length=512, nullable=false)
+	 * @ORM\Column(name="id_mediador", type="integer", nullable=false)
 	 */
 	protected $idMediator;
+	
+	/**
+	 * @ORM\Column(name="arquivo_mensagem", type="string", length=64, nullable=false)
+	 */
+	protected $fileMessage;
 	
 	/**
 	 * @ORM\Column(name="data_criacao", type="datetime", nullable=true)
@@ -87,6 +92,12 @@ class Session
 		//using Doctrine DateTime here
 		$this->created = new \DateTime('now');
 		$this->lastUpdate = new \DateTime('now');
+		if (function_exists('com_create_guid') === true) {
+			$this->fileMessage = trim(com_create_guid(), '{}');
+		} else {
+			$this->fileMessage = "checarFormatoData";
+		}
+			
 	}
 	/**
 	 * @ORM\PreUpdate
