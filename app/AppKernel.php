@@ -20,6 +20,14 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
         	new CodeMe\TheBundle\TheBundle(),
         	new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+            new UserBundle\UserBundle(),
+            new SessionBundle\SessionBundle(),
+            new ProfileBundle\ProfileBundle(),
+            new FeedBundle\FeedBundle(),
+            new SearchBundle\SearchBundle(),
+            new AdminBundle\AdminBundle(),
+            new ChatBundle\ChatBundle(),
+            new GroupBundle\GroupBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
