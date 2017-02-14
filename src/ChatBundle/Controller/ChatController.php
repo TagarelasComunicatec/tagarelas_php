@@ -4,10 +4,10 @@ namespace ChatBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DefaultController extends Controller
+class ChatController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('ChatBundle:Default:index.html.twig');
+        return $this->render('ChatBundle:Chat:index.html.twig');
     }
 }

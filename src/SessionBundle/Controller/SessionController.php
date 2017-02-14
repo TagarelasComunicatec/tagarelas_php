@@ -4,10 +4,10 @@ namespace SessionBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DefaultController extends Controller
+class SessionController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('SessionBundle:Default:index.html.twig');
+        return $this->render('SessionBundle:Session:index.html.twig');
     }
 }
