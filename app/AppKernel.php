@@ -20,7 +20,6 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
         	new CodeMe\TheBundle\TheBundle(),
         	new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
-            new UserBundle\UserBundle(),
             new SessionBundle\SessionBundle(),
             new ProfileBundle\ProfileBundle(),
             new FeedBundle\FeedBundle(),

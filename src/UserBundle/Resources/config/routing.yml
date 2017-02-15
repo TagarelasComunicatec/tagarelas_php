@@ -1,3 +1,0 @@
-user_homepage:
-    path:     /userdata
-    defaults: { _controller: 'UserBundle:User:index' }
