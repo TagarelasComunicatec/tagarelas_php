@@ -1,13 +1,63 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+<head>
+
+<meta content="gzip/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>
+{% block title %} 
+	Tagarelas
+{% endblock	%}
+</title> 
+
+{% block stylesheets %}
+
+	<link rel="stylesheet" type="text/css" href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('css/tagarelas.css') }}" />
+	<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		
+{% endblock %} 
+
+{% block javascripts %}
+	<!--  Bibliotecas contidas no CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>		
+	
+	<script type="text/javascript" src="js/collapse.js"></script>
+	<script type="text/javascript" src="js/typeahead.bundle.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>		
+	
+	<!--  Bibliotecas  Google --> 
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	
+	<!-- Bibliotecas internas -->
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/tagarelas.js') }}"></script>
+	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/collapse.js') }}"></script>
+	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/typeahead.js') }}"></script>
+        
+{% endblock %} 
+
+{% block noJavaScript %}
+	<noscript>
+		<meta http-equiv="Refresh" content="0; url=erroJavascript.php">
+	</noscript>
+{% endblock %}
+
+</head>
+<body>
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+
+</body>
