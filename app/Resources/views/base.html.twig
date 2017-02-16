@@ -21,22 +21,21 @@
 
 {% block javascripts %}
 	<!--  Bibliotecas contidas no CDN -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"   
+          integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+    
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>		
-	
-	<script type="text/javascript" src="js/collapse.js"></script>
-	<script type="text/javascript" src="js/typeahead.bundle.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>		
-	
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>	
+   	
 	<!--  Bibliotecas  Google --> 
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	
 	<!-- Bibliotecas internas -->
-    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/tagarelas.js') }}"></script>
-	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/collapse.js') }}"></script>
-	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/typeahead.js') }}"></script>
-        
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/collapse.js') }}"></script>
+	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/typeahead.js') }}"></script>
+	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/GlobalVariables.js') }}"></script>
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/md5.js') }}"></script>    
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/ScreenTools.js') }}"></script>    
 {% endblock %} 
 
 {% block noJavaScript %}
@@ -48,7 +47,81 @@
 </head>
 <body>
 {% block head %}
-
+	<header class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="index.html">
+						<span class="logo">Tagarelas</span>
+					</a>
+				</div>
+				<nav id="menu" class="clearfix">
+					<div id="menu-lg" class="clearfix">
+						<div id="menu-sm" class="clearfix">
+							<ul id="nav-visivel-xs" class="nav text-center">
+								<li id="mais-menu-search" class="col-xs-4">
+									<a href="#" data-toggle="collapse" data-target="#submenu-pesquisa" aria-expanded="false">
+										<i class="material-icons">&#xE8B6;</i><span class="descricao-icone">Pesquisar</span>
+									</a>
+								</li>
+								<li id="mais-menu-xs" class="col-xs-4">
+									<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false" id="toogle">
+										<i class="material-icons">&#xE5D2;</i>
+									</a>
+								</li>
+							</ul>
+							<div id="menu-collapse-xs" class="menu-collapse text-left collapse">
+								<ul class="nav">
+									<li>
+										<a href="#">
+											<i class="material-icons">&#xE192;</i>Agenda
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<i class="material-icons">&#xE2C7;</i>Arquivos
+										</a>
+									</li>
+									<li id="mais-menu-sm">
+										<a href="#" data-toggle="collapse" data-target=".menu-collapse" aria-expanded="false" id="toogle">
+											<i class="material-icons">&#xE5D2;</i>Mais
+										</a>
+									</li>
+								</ul>
+							</div> <!-- collapse-xs !--> 
+						</div> <!-- menu-sm !-->
+						<div id="menu-collapse-sm" class="menu-collapse text-left collapse">
+							<ul class="nav">
+								<li>
+									<a href="#">
+										<i class="material-icons">&#xE24D;</i>Publicações
+									</a>
+								</li>
+								<li>
+									<a href="#perfil">
+										<i class="material-icons">&#xE7FD;</i><span class="descricao-icone">Perfil</span>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="material-icons">&#xE88E;</i>Sobre
+									</a>
+								</li>
+							</ul>
+						</div> <!-- collapse-sm !--> 
+					</div> <!-- menu-lg !-->
+					<div id="submenu-pesquisa" class="submenu clearfix text-left collapse">
+						<div class="input-group input-group-typeahead">
+							<input type="text" id="pesquisa-principal" class="form-control">
+							<span class="input-group-btn">
+								<button class="btn btn-link" type="button">
+									<i class="material-icons">&#xE8B6;</i>
+								</button>
+							</span>
+						</div><!-- input-group !-->
+					</div> <!-- submenu-pesquisa !-->
+				</nav>
+			</div>
+		</header>
 {% endblock %}
 
 {% block content %}
@@ -61,3 +134,4 @@
 
 
 </body>
+</html>
