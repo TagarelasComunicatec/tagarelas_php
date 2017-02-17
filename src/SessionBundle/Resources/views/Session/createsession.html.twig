@@ -1,0 +1,85 @@
+
+{% extends  '::base.html.twig' %} 
+{% block title %}
+Tagarelas - Minhas Sessões
+{% endblock %}
+{% block content %}
+		<section id="conteudo-principal">
+			<div class="container">
+            	<div id="conteudo-cabecalho">
+                	<div id="conteudo-titulo">
+                        <h1>
+                            <small>
+								<i class="material-icons md-48">&#xE0B7;</i> Criar Sessão
+					 		</small>
+                        </h1>
+                    </div> <!-- conteudo-titulo !-->
+                </div> <!-- conteudo-cabecalho !--> 
+				<form class="row">
+					<div class="col-xs-12 col-sm-6"> 
+						<div class="form-group">
+							<label>Nome da Sessão</label>
+							<input type="text" class="form-control">
+						</div>
+						
+						<div class="form-group">
+							<label>Data e Hora</label>
+							<input type="datetime-local" class="form-control">
+						</div>
+						
+						<div class="form-group">
+							<label>Assunto a ser discutido</label>
+							<textarea class="form-control textarea-block-resize"></textarea>
+						</div>
+						
+						<div class="form-group">
+							<label>Visibilidade</label>
+							<br>
+							<label class="radio-inline">
+								<input type="radio" name="visibilidade" value="publico"> Público
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="visibilidade" value="privado"> Privado
+							</label>
+						</div>
+								
+						<div class="form-group">
+							<label>Convidar Grupos</label>
+							<select class="form-control">
+								<option>Grupo 1</option>
+								<option>Grupo 2</option>
+							</select>
+						</div>
+				
+					</div>
+					
+					<div class="col-xs-12 col-sm-6"> 
+						<div class="form-group">
+							<label for="pesquisarContatos">Convidar Amigos</label>
+							<p>Convide amigos individualmente ou que não fazem parte de algum grupo</p>
+							<input type="text" class="form-control" placeholder="Nome da pessoa" id="pesquisar-contatos" name="pesquisar-contatos">
+						</div>
+						<div class="pull-right">
+								<span id="total-de-membros">0</span> <span id="mensagem-total-de-membros"> Amigo adicionado</span>
+							</div>
+						<div class="previa-membros-adicionados col-xs-12">
+							<ul>
+							</ul>
+						</div>
+						<div class="form-group">
+							<p><b>Total de Participantes: 11</b></p>
+							<p>
+								Todos os membros do grupo: 10
+								<br>
+								Todos os amigos convidados: 1
+							</p>
+						</div>
+					</div>
+					<div class="col-xs-12 form-group">
+						<button type="submit" class="clearfix btn btn-success">Salvar</button>
+					</div>
+				</form>
+			</div>
+		</section>
+		
+{% endblock %}

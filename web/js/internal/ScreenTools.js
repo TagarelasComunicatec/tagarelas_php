@@ -86,8 +86,9 @@ $( function() {
 
 		});
 
+		//*----------------------
 		contatos.initialize();
-		
+		//*----------------------
 		$('#pesquisa-principal').typeahead(
 			{
 				offset: true,	// os resultados são de acordo com as letras iniciais
@@ -115,6 +116,185 @@ $( function() {
 			}
 		);
 	}); 
+	
+	//*------------------------------
+	ajustarLarguraDosItensDoScroll();
+	//*-------------------------------
+	
+	function ajustarLarguraDosItensDoScroll() {
+		$(".frame").find(".slide").each(function(index) {
+			$(this).children().each(function(index) {
+				$(this).width($(this).width()+15);
+			});
+			
+		});
+	}
+	
+	$( window ).resize(function() {
+		scrollHorizontalResponsivo();
+	});
+	
+	$(window).on("orientationchange", function(){
+		scrollHorizontalResponsivo();
+	});
+	
+	function scrollHorizontalResponsivo() {
+		
+		$(".frame").each(function(index) { 
+		
+			var frame = $(this);
+			
+			frame.find(".slide").each(function(index) {
+			
+				var slide = $(this);
+				
+				if(slide.width() < frame.width()) {
+				
+					frame.sly(false);
+					
+					frame.parent().find(".btn-control-scroll").each(function(index) {
+					
+						if(!$(this).hasClass("disabled"))
+							$(this).addClass("disabled");
+							
+					});
+				}
+				else {
+					frame.sly(false);
+					reloadScroll();
+				}
+				
+			});
+		});
+	}
+	
+	var conteudo_menu_ativo;
+
+	function ConteudoMenuAtivo() {
+		$('#conteudo-menu-scroll ul li').each(function(index) {
+			if($(this).hasClass("ativo"))
+				conteudo_menu_ativo = index;
+		});
+	}
+	//*------------------
+	ConteudoMenuAtivo();
+	reloadScroll();
+	//*-----------------
+	
+	function reloadScroll() {
+		$frame  = $('#conteudo-menu-scroll');
+		var $slidee = $frame.children('ul').eq(0);
+		var $wrap   = $frame.parent();
+
+		// Call Sly on frame
+		$frame.sly({
+			// Item based navigation
+			horizontal: 1,
+			itemNav: 'basic',
+			smart: 1,
+			activateOn: 'click',
+			
+			// Dragging
+			mouseDragging: 1,
+			touchDragging: 1,
+			releaseSwing: 1,
+			elasticBounds: 1,
+			
+			// Scrolling
+			scrollBy: 1,
+			
+			// Mixed options
+			speed: 1000,
+			startAt: conteudo_menu_ativo,
+
+			// Buttons
+			prevPage: $wrap.find('.prevPage'),
+			nextPage: $wrap.find('.nextPage')
+		});
+	}			
+
+	
+	function retirarMembro(botao, event) {
+		// remoção do membro
+		botao.parentElement.remove();
+		
+		// atualização da mensagem de quantidade de membros adicionados
+		var total_de_membros_atual = parseInt($("#total-de-membros").text()) - 1;
+		$("#total-de-membros").text(total_de_membros_atual);
+		mensagemDeTotalDeMembros(total_de_membros_atual);		
+	}
+	
+	function adicionarMembro(link) {
+		// bloqueio da inclusão de um contato já adicionado
+		var bloqueio = false;
+		
+		$(".previa-membros-adicionados").find("li").each(function(index) {
+			if($(this).children('.id').text() == link.id)
+				bloqueio = true;
+		});
+		
+		if(bloqueio == true)
+			return false;
+		
+		// inclusão do membro
+		var contato_selecionado = $("#" + link.id).html();
+		$(".previa-membros-adicionados ul").first().prepend("<li>" + contato_selecionado + " <button class='btn btn-link' onclick='retirarMembro(this)'> <i class='material-icons'>&#xE5CD;</i></button> </li>");
+		
+		// atualização da mensagem de quantidade de membros adicionados
+		var total_de_membros_atual = parseInt($("#total-de-membros").text()) + 1;
+		$("#total-de-membros").text(total_de_membros_atual);
+		mensagemDeTotalDeMembros(total_de_membros_atual);
+	}
+	
+	function mensagemDeTotalDeMembros(total_de_membros_atual) {
+		if(total_de_membros_atual <= 1 ) {
+			$("#mensagem-total-de-membros").text("Membro adicionado");
+		}
+		else {
+			$("#mensagem-total-de-membros").text("Membros adicionados");
+		}
+	}
+	
+	function retirarMembro(botao, event) {
+		// remoção do membro
+		botao.parentElement.remove();
+		
+		// atualização da mensagem de quantidade de membros adicionados
+		var total_de_membros_atual = parseInt($("#total-de-membros").text()) - 1;
+		$("#total-de-membros").text(total_de_membros_atual);
+		mensagemDeTotalDeMembros(total_de_membros_atual);		
+	}
+	
+	function adicionarMembro(link) {
+		// bloqueio da inclusão de um contato já adicionado
+		var bloqueio = false;
+		
+		$(".previa-membros-adicionados").find("li").each(function(index) {
+			if($(this).children('.id').text() == link.id)
+				bloqueio = true;
+		});
+		
+		if(bloqueio == true)
+			return false;
+		
+		// inclusão do membro
+		var contato_selecionado = $("#" + link.id).html();
+		$(".previa-membros-adicionados ul").first().prepend("<li>" + contato_selecionado + " <button class='btn btn-link' onclick='retirarMembro(this)'> <i class='material-icons'>&#xE5CD;</i></button> </li>");
+		
+		// atualização da mensagem de quantidade de membros adicionados
+		var total_de_membros_atual = parseInt($("#total-de-membros").text()) + 1;
+		$("#total-de-membros").text(total_de_membros_atual);
+		mensagemDeTotalDeMembros(total_de_membros_atual);
+	}
+	
+	function mensagemDeTotalDeMembros(total_de_membros_atual) {
+		if(total_de_membros_atual <= 1 ) {
+			$("#mensagem-total-de-membros").text("Membro adicionado");
+		}
+		else {
+			$("#mensagem-total-de-membros").text("Membros adicionados");
+		}
+	}
 	
 	
 });	

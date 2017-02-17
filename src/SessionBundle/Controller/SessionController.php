@@ -10,4 +10,14 @@ class SessionController extends Controller
     {
         return $this->render('SessionBundle:Session:index.html.twig');
     }
+    
+    public function mySessionsAction()
+    {
+    	return $this->render('SessionBundle:Session:mysessions.html.twig');
+    }
+    
+    public function createSessionAction()
+    {
+    	return $this->render('SessionBundle:Session:createsession.html.twig');
+    }
 }

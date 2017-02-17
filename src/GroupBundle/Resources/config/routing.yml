@@ -1,3 +1,11 @@
 group_homepage:
     path:     /group
     defaults: { _controller: 'GroupBundle:Group:index' }
+
+group_create:
+    path:     /group/create
+    defaults: { _controller: 'GroupBundle:Group:createGroup' }    
+
+group_edit:
+    path:     /group/edit
+    defaults: { _controller: 'GroupBundle:Group:editGroup' }    

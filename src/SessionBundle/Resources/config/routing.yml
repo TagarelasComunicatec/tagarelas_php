@@ -1,3 +1,11 @@
 session_homepage:
     path:     /session
     defaults: { _controller: 'SessionBundle:Session:index' }
+    
+session_mysessions:    
+    path:     /session/mine
+    defaults: { _controller: 'SessionBundle:Session:mySessions' }
+    
+session_createsession:
+    path:     /session/create
+    defaults: { _controller: 'SessionBundle:Session:createSession' }

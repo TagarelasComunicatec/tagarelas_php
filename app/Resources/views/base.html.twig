@@ -30,12 +30,17 @@
 	<!--  Bibliotecas  Google --> 
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	
-	<!-- Bibliotecas internas -->
+	<!-- Bibliotecas de terceiros incluidas no projeto -->
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/collapse.js') }}"></script>
 	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/typeahead.js') }}"></script>
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/sly.min.js') }}"></script>  
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/sly.min.js') }}"></script>
+    
+    <!--  Bibliotecas desenvolvidas para o projeto -->
 	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/GlobalVariables.js') }}"></script>
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/md5.js') }}"></script>    
-    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/ScreenTools.js') }}"></script>    
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/ScreenTools.js') }}"></script>  
+
 {% endblock %} 
 
 {% block noJavaScript %}
