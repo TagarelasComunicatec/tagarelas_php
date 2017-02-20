@@ -8,17 +8,14 @@ Tagarelas - Login
 			<div class="container">
 				<div class="row">
 					<div class="col-xs-12 col-sm-6 text-center">
-						<img src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('img/img2_med.png')}}'" class="img-responsive center-block img-ilustrativa">
-						<h6>
-						{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('img/img2_med.png')}}
-						</h6>
+						<img src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('img/img2_med.png')}}" class="img-responsive center-block img-ilustrativa">
 						<h1>Batepapo Sério</h1>
 					</div>
 					<div id="login" class="col-xs-12 col-sm-6 text-center">
 						<hr>
 						<h3>Entrar</h3>
 						<button type="button" class="btn btn-facebook">
-							<span class="icone-social"><img src="img/facebook.icon.png"></span> Entre com o Facebook
+							<span class="icone-social"><img src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('img/facebook.icon.png')}}"></span> Entre com o Facebook
 						</button>
 						<br><br>
 						<p>ou</p>
