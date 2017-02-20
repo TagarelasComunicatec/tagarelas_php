@@ -18,4 +18,8 @@ class GroupController extends Controller
 	{
 		return $this->render('GroupBundle:Group:editgroup.html.twig');
 	}
+	public function sessionsGroupAction()
+	{
+		return $this->render('GroupBundle:Group:sessionsgroup.html.twig');
+	}
 }

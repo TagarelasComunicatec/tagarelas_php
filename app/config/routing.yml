@@ -50,4 +50,4 @@ google_login:
     
 the:
     resource: "@TheBundle/Resources/config/routing.yml"
-    prefix:   /    
+    prefix:   /   

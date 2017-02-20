@@ -10,4 +10,11 @@ class ProfileController extends Controller
     {
         return $this->render('ProfileBundle:Profile:index.html.twig');
     }
+    
+    public function editAction()
+    {
+    	return $this->render('ProfileBundle:Profile:edit.html.twig');
+    }
+    
+
 }

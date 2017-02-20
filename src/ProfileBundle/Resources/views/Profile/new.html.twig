@@ -1,0 +1,51 @@
+
+{% extends  '::base.html.twig' %} 
+{% block title %}
+Tagarelas - Criar Nova Conta
+{% endblock %}
+{% block content %}
+				<section id="area-destaque">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 col-sm-6 text-center">
+						<img src="img/img2_med.png" class="img-responsive center-block img-ilustrativa">
+						<h1>Batepapo Sério</h1>
+					</div>
+					<div class="col-xs-12 col-sm-6 text-center" id="cadastro" >
+						<hr>
+						<h3>Cadastrar</h3>
+						<button type="button" class="btn btn-facebook">
+							<span class="icone-social"><img src="img/facebook.icon.png"></span>Cadastre-se com o Facebook
+						</button>
+						<br><br>
+						<p>ou preencha os seus dados</p>
+						<form>
+							<div class="col-xs-12 col-lg-6 form-group">
+								<input type="text" class="form-control" placeholder="Nome completo">
+							</div>
+							<div class="col-xs-12 col-lg-6 form-group">
+								<input type="text" class="form-control" placeholder="Nome curto">
+							</div>
+							<div class="col-xs-12 form-group">
+								<input type="email" class="form-control" placeholder="Email">
+							</div>
+							<div class="col-xs-12 col-lg-6 form-group">
+								<input type="password" class="form-control" placeholder="Senha">
+							</div>
+							<div class="col-xs-12 col-lg-6 form-group">
+								<input type="password" class="form-control" placeholder="Confirmar Senha">
+							</div>
+							<div class="col-xs-12 form-group checkbox">
+								<label>
+								  <input type="checkbox">
+								  Li e concordo com os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a>.
+								</label>
+							</div>
+							<button type="submit" class="btn btn-default">Cadastrar</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+
+{% endblock %}

@@ -1,0 +1,308 @@
+
+{% extends  '::base.html.twig' %} 
+{% block title %}
+Tagarelas - Grupo = Sessões
+{% endblock %}
+{% block content %}
+		<section id="area-destaque">
+			<div class="container">
+			
+				<div class="row">
+				
+					<div class="col-xs-12">
+						
+						<button type="button" class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#editar-grupo"><i class="material-icons md-18">&#xE3C9;</i> Editar</button>
+						
+						<div class="col-xs-12 col-md-6" id="img-texto-apresentacao">
+							
+							<div class="col-xs-12 col-sm-6 text-center" id="img-apresentacao">
+								<a href="#">
+									<img src="img/ic_group_white_48dp.png" style="background-color: #c9c7c7;">
+								</a>
+							</div>
+							
+							<div class="col-xs-12 col-sm-6" id="texto-apresentacao">
+								<a href="">
+									<h1>
+										<small>
+											Grupo: Nome do grupo
+										</small>
+									</h1>
+								</a>
+							</div>
+							
+						</div>
+						
+						<div class="col-xs-12 col-md-6 text-center">
+							<br>
+							<p>
+								<button type="button" class="btn btn-success btn-sm-medio" data-toggle="modal" data-target="#adicionar-membros">
+									<i class="material-icons">&#xE7FE;</i> Adicionar Membro
+								</button>
+							</p>
+							<p>
+								<button type="button" class="btn btn-success btn-sm-medio" data-toggle="modal" data-target="#criar-sessao">
+									<i class="material-icons">&#xE0B7;</i> Criar Sessões
+								</button>
+							</p>
+						</div>
+						
+					</div> <!-- col-xs-12 -->
+					
+				</div> <!-- row -->
+				
+				<div class="row" -->
+					
+					<nav id="area-destaque-menu" class="col-xs-12 text-center">
+						<ul class="nav nav-sublinhado">
+							<li>
+								<a href="#">
+									Membros
+								</a>
+							</li>
+							<li class="ativo">
+								<a href="#">
+									Sessões
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									Sobre
+								</a>
+							</li> 
+							<li>
+								<div class="dropdown">
+									<button class="dropdown-toggle btn btn-link" type="button">
+										Mais Opções <i class="material-icons">&#xE5C5;</i>
+									</button>
+									<ul class="dropdown-menu dropdown-menu-right">
+										<li><a href="#">Excluir</a></li>
+										<li><a href="#">Denunciar</a></li>
+										<li><a href="#">Sair</a></li>
+									</ul>
+								</div>
+							</li> 
+						</ul>
+					</nav>
+					
+				</div> <!-- row !-->
+				
+			</div> <!-- container !-->
+		    </section> <!-- area-destaque !-->
+			<section id="conteudo-principal">
+			<div class="container">
+				<div class="row">
+				
+					<aside class="col-xs-12 col-md-3 divisao-de-area">
+					
+						<div class="aside-titulo">
+							<a href="#">
+								<span class="pull-right aside-btn">
+									<i class="material-icons">&#xE409;</i>
+								</span>
+								<span>
+									<span class="legenda-de-cor titulo-sessao-ja-realizada"></span>
+									<span class="aside-titulo-texto">Sessões já realizadas</span>
+								</span>
+							</a>							
+						</div>
+						
+						<div class="aside-titulo">
+							<a href="#">
+								<span class="pull-right aside-btn">
+									<i class="material-icons">&#xE409;</i>
+								</span>
+								<span class="legenda-de-cor titulo-sessao-agendada"></span>
+								<span class="aside-titulo-texto">Sessões agendadas</span>
+							</a>							
+						</div>
+						
+					</aside> <!-- col -->
+				
+					<div class="col-xs-12 col-md-9">
+						<div class="row">
+							<div class="col-xs-12">
+							
+								<br>
+							
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Pesquisar uma sessão">
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button">
+											<i class="material-icons md-18">&#xE8B6;</i>
+										</button>
+									</span>
+								</div><!-- input-group !-->
+								
+								<br>
+							
+								<div class="col-xs-12 col-sm-4">
+									<div class="thumbnail clearfix">
+										<a href="#" class="titulo-da-sessao titulo-sessao-ja-realizada">
+											Título da Sessão
+										</a>
+										<div class="caption">
+											<div class="data-e-hora-da-sessao">
+												<i class="material-icons">&#xE192;</i> 10 de Setembro de 2016 às 15:00
+											</div>
+											
+											<div class="link-de-acoes-da-sessao clearfix">
+												<div class="text-uppercase pull-left">
+													<a href="#">Ler Mais</a>
+												</div>
+											</div>
+										</div> <!-- caption !-->
+									</div> <!-- thumbnail !-->
+								</div> <!-- col !-->
+								
+								<div class="col-xs-12 col-sm-4">
+									<div class="thumbnail clearfix">
+										<a href="#" class="titulo-da-sessao titulo-sessao-agendada">
+											Título da Sessão
+										</a>
+										<div class="caption">
+											<div class="data-e-hora-da-sessao">
+												<i class="material-icons">&#xE192;</i> 10 de Setembro de 2016 às 15:00
+											</div>
+											
+											<div class="link-de-acoes-da-sessao clearfix">
+												<div class="text-uppercase pull-left">
+													<a href="#">Ler Mais</a>
+												</div>
+												<div class="text-uppercase pull-right">
+													<a href="#">Participar</a>
+												</div>
+											</div>
+										</div> <!-- caption !-->
+									</div> <!-- thumbnail !-->
+								</div> <!-- col !-->
+								
+								<div class="col-xs-12 col-sm-4">
+									<div class="thumbnail clearfix">
+										<a href="#" class="titulo-da-sessao titulo-sessao-agendada">
+											Título da Sessão
+										</a>
+										<div class="caption">
+											<div class="data-e-hora-da-sessao">
+												<i class="material-icons">&#xE192;</i> 10 de Setembro de 2016 às 15:00
+											</div>
+											
+											<div class="link-de-acoes-da-sessao clearfix">
+												<div class="text-uppercase pull-left">
+													<a href="#">Ler Mais</a>
+												</div>
+												<div class="text-uppercase pull-right">
+													<a href="#">Participar</a>
+												</div>
+											</div>
+										</div> <!-- caption !-->
+									</div> <!-- thumbnail !-->
+								</div> <!-- col !-->
+								
+								<div class="col-xs-12 col-sm-4">
+									<div class="thumbnail clearfix">
+										<a href="#" class="titulo-da-sessao titulo-sessao-agendada">
+											Título da Sessão
+										</a>
+										<div class="caption">
+											<div class="data-e-hora-da-sessao">
+												<i class="material-icons">&#xE192;</i> 10 de Setembro de 2016 às 15:00
+											</div>
+											
+											<div class="link-de-acoes-da-sessao clearfix">
+												<div class="text-uppercase pull-left">
+													<a href="#">Ler Mais</a>
+												</div>
+												<div class="text-uppercase pull-right">
+													<a href="#">Participar</a>
+												</div>
+											</div>
+										</div> <!-- caption !-->
+									</div> <!-- thumbnail !-->
+								</div> <!-- col !-->
+								
+							</div> <!-- col -->
+							
+						</div> <!-- row -->
+						
+					</div> <!-- col -->
+					
+				</div> <!-- row -->
+
+			</div> <!-- container -->			
+		</section>
+		
+		<div class="modal fade" id="editar-grupo" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Editar Grupo</h4>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label>Nome do Grupo</label>
+								<input type="text" class="form-control">
+							</div>
+							<div class="form-group">
+								<label>Foto</label>
+								<br>
+								<div class="text-center">
+									<img src="" style="background-color:#ccc" width="200px" height="200px">
+									<br>
+									<br>
+									<div class="btn btn-default btn-file">
+										<span><i class="material-icons">&#xE410;</i> Enviar Foto</span>
+										<input type="file" accept="image/*">
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer modal-footer-form">
+								<button class="btn btn-success" type="submit">Salvar</button>
+								<button class="btn btn-default" type="button" data-dismiss="modal" id="cancelar-editar-grupo">Cancelar</button>
+							</div>
+						</form>
+					</div> <!-- modal-body !-->
+				</div> <!-- modal-content !-->
+			</div> <!-- modal-dialog !-->
+		</div> <!-- modal editar-grupo !-->
+		
+		<div class="modal fade" id="adicionar-membros" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Adicionar Membro</h4>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="pesquisarContatos">Adicionar Membros</label>
+								<input type="text" class="form-control" placeholder="Nome da pessoa" id="pesquisar-contatos" name="pesquisar-contatos">
+							</div>
+							<div class="clearfix">
+								<div class="pull-right">
+									<span id="total-de-membros">0</span> <span id="mensagem-total-de-membros"> Membro adicionado</span>
+								</div>
+							</div>
+							<div class="previa-membros-adicionados col-xs-12">
+								<ul>
+								</ul>
+							</div>
+							<div class="form-group text-justify">
+								<label for="pesquisarContatos">Enviar Convite</label>
+								<p>
+									Envie um convite para uma pessoa que você não tem adicionado aos contatos ou para uma pessoa que não possui uma conta no Tagarelas.
+								</p>
+								<a href="#" class="btn btn-tagarelas btn-block">Enviar convite para o facebook</a>
+								<a href="#" class="btn btn-tagarelas btn-block">Enviar convite para o email</a>
+							</div>
+							<div class="modal-footer modal-footer-form">
+								<button class="btn btn-success" type="submit">Salvar</button>
+								<button class="btn btn-default" type="button" data-dismiss="modal" id="cancelar-editar-grupo">Cancelar</button>
+							</div>
+						</form>
+					</div> <!-- modal-body !-->
+				</div> <!-- modal-content !-->
+			</div> <!-- modal-dialog !-->
+		</div> <!-- modal adicionar-membros !-->
+{% endblock %}

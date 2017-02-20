@@ -19,8 +19,20 @@ class DefaultController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/login", name="logon")
+     */
 	public function loginAction()
 	{
 		return $this->render('default/login.html.twig');
 	}
+	
+	/**
+	 * @Route("/new", name="newLogin")
+	 */
+	public function newAction()
+	{
+		return $this->render('ProfileBundle:Profile:new.html.twig');
+	}
+	
 }

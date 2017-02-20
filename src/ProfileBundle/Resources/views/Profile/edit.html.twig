@@ -1,0 +1,98 @@
+
+{% extends  '::base.html.twig' %} 
+{% block title %}
+Tagarelas - Meu Perfil - Editar
+{% endblock %}
+{% block content %}
+		<section id="conteudo-principal">
+			<div class="container">
+
+				<div id="conteudo-cabecalho">
+
+					<div id="conteudo-titulo">
+                        <h1>
+                            <small>
+								<i class="material-icons md-36">&#xE8B8;</i> Configurações da Conta
+					 		</small>
+                        </h1>
+                    </div> <!-- conteudo-titulo -->
+
+					<div id="conteudo-menu" class="clearfix">
+					
+						<div class="scroll-area">
+					
+							<button class="btn-link btn-control-scroll btn prevPage">
+								<i class="material-icons">&#xE408;</i>
+							</button>
+							
+							<button class="btn-link btn-control-scroll btn nextPage">
+								<i class="material-icons">&#xE409;</i>
+							</button>
+						
+							<div class="frame crazy" id="conteudo-menu-scroll">
+							
+								<ul class="nav nav-sublinhado slide">
+									<li class="ativo">
+										<a href="#">Dados Pessoais</a>
+									</li>
+									<li>
+										<a href="#">Senha</a>
+									</li>
+									<li>
+										<a href="#">Desativação</a>
+									</li>
+								</ul> <!-- slide -->
+								
+							</div> <!-- frame --> 
+							
+						</div> <!-- scroll-area -->
+						
+					</div> <!-- conteudo-menu --> 
+					
+                </div> <!-- conteudo-cabecalho --> 
+				
+				<form class="row">
+				
+					<div class="col-xs-12 col-sm-4 form-group">
+						<label>Nome Completo</label>
+						<input type="text" class="form-control" value="Lucianna">
+					</div>
+					<div class="col-xs-12 col-sm-4 form-group">
+						<label>Nome Curto</label>
+						<input type="text" class="form-control" value="Santos">
+					</div>
+					<div class="col-xs-12 col-sm-4 form-group">
+						<label>Email</label>
+						<input type="email" class="form-control" value="luciannasantos@gmail.com">
+					</div>
+					<div class="col-xs-12 form-group">
+						<label>Avatar</label>
+						<br>
+						<div class="col-xs-12 form-group">
+							<div class="col-xs-12 col-sm-4 text-center form-group">
+								<img src="img/default-avatar.gif" class="avatar-img">
+							</div>
+							<div class="col-xs-12 col-sm-4 text-center form-group">
+								<p>
+									<div class="btn btn-default btn-file">
+										<span><i class="material-icons">&#xE410;</i> Enviar Foto</span>
+										<input type="file" accept="image/*">
+									</div>
+								</p>
+								<p>ou</p>
+								<p>
+									<label class="checkbox-inline">
+										<input type="checkbox"> Usar foto do Facebook
+									</label>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 form-group">
+						<button type="submit" class="clearfix btn btn-success">Salvar</button>
+					</div>
+				</form>
+			</div> <!-- container --> 
+		</section>
+
+{% endblock %}

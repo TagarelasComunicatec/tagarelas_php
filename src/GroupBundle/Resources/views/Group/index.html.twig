@@ -1,1 +1,218 @@
-Hello Group!
+{% extends  '::base.html.twig' %} 
+{% block title %}
+Tagarelas - Grupos
+{% endblock %}
+{% block content %}
+
+	<section id="conteudo-principal">
+			<div class="container">
+			
+            	<div id="conteudo-cabecalho">
+				
+                	<div id="conteudo-titulo">
+                        <h1>
+                            <small>
+                                <i class="material-icons md-36">&#xE7FB;</i>Amigos e Grupos
+                            </small>
+                        </h1>
+                    </div> <!-- conteudo-titulo !-->
+					
+                    <div id="conteudo-menu" class="clearfix">
+					
+						<div class="scroll-area">
+					
+							<button class="btn-link btn-control-scroll btn prevPage">
+								<i class="material-icons">&#xE408;</i>
+							</button>
+							
+							<button class="btn-link btn-control-scroll btn nextPage">
+								<i class="material-icons">&#xE409;</i>
+							</button>
+						
+							<div class="frame crazy" id="conteudo-menu-scroll">
+							
+								<ul class="nav nav-sublinhado slide">
+									<li>
+										<a href="amigos.html">Todos os Amigos
+											<span class="quantidade-total">(200)</span>
+										</a>
+									</li>
+									<li class="ativo">
+										<a href="#">Todos os Grupo
+											<span class="quantidade-total">(200)</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">Solicitações de Amizade
+											<span id="quantidade-total-solicitacoes" >(2)</span>
+										</a>
+									</li>
+								</ul> <!-- slide -->
+								
+							</div> <!-- frame --> 
+							
+						</div> <!-- scroll-area -->
+						
+                	</div> <!-- conteudo-menu !--> 
+					
+                </div> <!-- conteudo-cabecalho !--> 
+				
+				<div class="row">
+				
+					<div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-4 text-right">
+					
+						<a href="#" class="btn btn-tagarelas" style="margin-bottom: 10px">
+							Criar Grupo
+						</a>
+					
+						<button data-toggle="collapse" data-target="#submenu-pesquisa" aria-expanded="false" class="btn btn-tagarelas" style="margin-bottom: 10px">
+							Adicionar Grupo
+						</button>
+						
+					</div>
+					
+					<div class="col-xs-12 col-sm-6 col-md-4">
+					
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Pesquisar grupo">
+							
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button">
+									<i class="material-icons md-18">&#xE8B6;</i>
+								</button>
+							</span>
+							
+						</div><!-- input-group !-->
+						
+					</div>
+					
+				</div>
+				
+				<div class="row">
+				
+					<br>
+				
+					<div class="col-xs-12 col-sm-6 col-md-3">
+					
+						<div class="caixa-de-apresentacao">
+							<a href="#">
+								<img src="img/ic_group_white_48dp.png" class="pull-left">
+								Nome do Grupo 1
+							</a>
+							<div class="info-adicional">
+								10 Membros
+							</div>
+						
+							<div class="caixa-de-apresentacao-opcoes dropdown pull-right">
+								 <button class="btn btn-default btn-xs dropdown-toggle" type="button"><i class="material-icons md-18">&#xE8B8;</i>
+								  </button>
+								  <ul class="dropdown-menu">
+									<li><a href="#">Sair do Grupo</a></li>
+								  </ul>
+							</div>
+							
+						</div>
+						
+					</div>
+					
+					<div class="col-xs-12 col-sm-6 col-md-3">
+					
+						<div class="caixa-de-apresentacao">
+							<a href="#">
+								<img src="img/ic_group_white_48dp.png" class="pull-left">
+								Nome do Grupo 1
+							</a>
+							<div class="info-adicional">
+								10 Membros
+							</div>
+						
+							<div class="caixa-de-apresentacao-opcoes dropdown pull-right">
+								 <button class="btn btn-default btn-xs dropdown-toggle" type="button"><i class="material-icons md-18">&#xE8B8;</i>
+								  </button>
+								  <ul class="dropdown-menu">
+									<li><a href="#">Sair do Grupo</a></li>
+								  </ul>
+							</div>
+						
+						</div>
+						
+					</div>
+					
+					<div class="col-xs-12 col-sm-6 col-md-3">
+					
+						<div class="caixa-de-apresentacao">
+							<a href="#">
+								<img src="img/ic_group_white_48dp.png" class="pull-left">
+								Nome do Grupo 1
+							</a>
+							<div class="info-adicional">
+								10 Membros
+							</div>
+						
+							<div class="caixa-de-apresentacao-opcoes dropdown pull-right">
+								 <button class="btn btn-default btn-xs dropdown-toggle" type="button"><i class="material-icons md-18">&#xE8B8;</i>
+								  </button>
+								  <ul class="dropdown-menu">
+									<li><a href="#">Sair do Grupo</a></li>
+								  </ul>
+							</div>
+						
+						</div>
+						
+					</div>
+					
+					<div class="col-xs-12 col-sm-6 col-md-3">
+					
+						<div class="caixa-de-apresentacao">
+							<a href="#">
+								<img src="img/ic_group_white_48dp.png" class="pull-left">
+								Nome do Grupo 1
+							</a>
+							<div class="info-adicional">
+								10 Membros
+							</div>
+						
+							<div class="caixa-de-apresentacao-opcoes dropdown pull-right">
+								 <button class="btn btn-default btn-xs dropdown-toggle" type="button"><i class="material-icons md-18">&#xE8B8;</i>
+								  </button>
+								  <ul class="dropdown-menu">
+									<li><a href="#">Sair do Grupo</a></li>
+								  </ul>
+							</div>
+							
+						</div>
+						
+					</div>
+					
+				</div> <!-- row -->
+				
+				<div class="row">
+					
+					<div class="col-xs-12 col-sm-6 col-md-3">
+					
+						<div class="caixa-de-apresentacao">
+							<a href="#">
+								<img src="img/ic_group_white_48dp.png" class="pull-left">
+								Nome do Grupo 1
+							</a>
+							<div class="info-adicional">
+								10 Membros
+							</div>
+						
+							<div class="caixa-de-apresentacao-opcoes dropdown pull-right">
+								 <button class="btn btn-default btn-xs dropdown-toggle" type="button"><i class="material-icons md-18">&#xE8B8;</i>
+								  </button>
+								  <ul class="dropdown-menu">
+									<li><a href="#">Sair do Grupo</a></li>
+								  </ul>
+							</div>
+							
+						</div>
+						
+					</div>
+						
+				</div> <!-- row !-->
+			</div>
+		</section>
+		
+{% endblock %}

@@ -9,3 +9,7 @@ group_create:
 group_edit:
     path:     /group/edit
     defaults: { _controller: 'GroupBundle:Group:editGroup' }    
+    
+group_sessions:
+    path:     /group/sessions
+    defaults: { _controller: 'GroupBundle:Group:sessionsGroup' }        

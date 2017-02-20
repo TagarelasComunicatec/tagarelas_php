@@ -1,1 +1,106 @@
-Hello Profile!
+
+{% extends  '::base.html.twig' %} 
+{% block title %}
+Tagarelas - Meu Perfil
+{% endblock %}
+{% block content %}
+
+		<section id="area-destaque">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<button type="button" class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#editar-perfil"><i class="material-icons md-18">&#xE3C9;</i> Editar</button>
+						<div class="col-xs-12 col-md-6" id="img-texto-apresentacao">
+							<div class="col-xs-12 col-sm-6 text-center" id="img-apresentacao">
+								<img src="img/default-avatar.gif" class="avatar-perfil">
+							</div>
+							<div class="col-xs-12 col-sm-6" id="texto-apresentacao">
+								<h1>
+									<small>
+										Lucianna Santos
+									</small>
+								</h1>
+								<span>luciannasantos@gmail.com</span>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-6 text-center">
+							<br>
+							<p>
+								<a href="#" class="btn btn-tagarelas btn-sm-medio">
+									<i class="material-icons">&#xE7FB;</i> Amigos<span class="quantidade-total">(2)</span>
+								</a>
+							</p>
+							<p>
+								<a href="#" class="btn btn-tagarelas btn-sm-medio">
+									<i class="material-icons">&#xE0B7;</i> Sessões<span class="quantidade-total">(1)</span>
+								</a>
+							</p>
+						</div>
+					</div>
+				</div> <!-- row !-->
+			</div> <!-- container !-->
+		</section> <!-- area-destaque !-->
+		<section id="conteudo-principal">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 col-sm-4 col-md-3">
+						<div class="thumbnail clearfix">
+							<a href="#" class="titulo-da-sessao titulo-sessao-publica">
+								Título da Sessão
+							</a>
+							<div class="caption">
+								<div class="data-e-hora-da-sessao">
+									<i class="material-icons">&#xE192;</i> 10 de Setembro de 2016 às 15:00
+								</div>
+								
+								<div class="link-de-acoes-da-sessao clearfix">
+									<div class="text-uppercase pull-left">
+										<a href="#">Ler Mais</a>
+									</div>
+									<div class="text-uppercase pull-right">
+										<a href="#">Participar</a>
+									</div>
+								</div>
+							</div> <!-- caption !-->
+						</div> <!-- thumbnail !-->
+					</div> <!-- col !-->
+				</div> <!-- row !-->
+			</div> <!-- container !-->
+            <div class="modal fade" id="editar-perfil" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Editar Perfil</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <p>Quais dados pessoais exibir no perfil?</p>
+                                <label class="radio-inline">
+                                    <input type="radio" name="nome" value="nome_completo"> Nome completo
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="nome" value="nome_curto"> Nome curto
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="checkbox" name="email" value="email"> Email
+                                </label>
+                                <br><br>
+                                <p>Quem pode visualizar meu perfil?</p>
+                                <label class="radio-inline">
+                                    <input type="radio" name="visibilidade-perfil" value="todo_mundo"> Todo o mundo
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="visibilidade-perfil" value="somente_amigos"> Somente meus amigos
+                                </label>
+								<div class="modal-footer modal-footer-form">
+									<button class="btn btn-success" type="submit">Salvar</button>
+									<button class="btn btn-default" type="button" data-dismiss="modal" id="cancelar-editar-grupo">Cancelar</button>
+								</div>
+                            </form>
+                        </div> <!-- modal-body !-->
+                    </div> <!-- modal-content !-->
+                </div> <!-- modal-dialog !-->
+            </div> <!-- modal criar-grupo !-->
+		</section>
+
+{% endblock %}
