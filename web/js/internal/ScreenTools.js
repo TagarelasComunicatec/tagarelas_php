@@ -296,6 +296,84 @@ $( function() {
 		}
 	}
 	
+	/**
+	 * ========================================================
+	 * Verifica as condições necessárias para aprovar uma senha
+	 * ========================================================
+	 */
 	
+	pass.doVerifyPassword = function (password,confirmPassword){
+	    var result 			= {};
+	    var p 				= password;
+	    var cp 				= confirmPassword;
+	    
+	    result.status = true;
+
+	    if(p.length < pass.minimalLength){
+	        result.status   =false;
+	        global.msgbox.data('messageBox').danger(window.important, global.error.length);
+	        return result.status;
+	    }  else  if (p != cp) {
+	        result.status   =false;
+	        global.msgbox.data('messageBox').danger(window.important,global.error.confirm);
+	        return result.status;
+	    }
+
+	    var numUpper = 0;
+	    var numLower = 0;
+	    var numNums = 0;
+	    var numSpecials = 0;
+	    
+	    for(var i=0; i<p.length; i++){
+	        if(global.regex.anUpperCase.test(p[i]))
+	            numUpper++;
+	        else if(global.regex.aLowerCase.test(p[i]))
+	            numLower++;
+	        else if(global.regex.aNumber.test(p[i]))
+	            numNums++;
+	        else if(global.regex.aSpecial.test(p[i]))
+	            numSpecials++;
+	    }
+
+	    if(numUpper    < pass.minimalUpper  || 
+	       numLower    < pass.minimalLower  || 
+	       numNums     < pass.minimalNumber || 
+	       numSpecials < pass.minimalEspChar){
+	        result.status  = false;
+	        global.msgbox.data('messageBox').danger(window.important,global.error.format);
+	        return result.status;
+	    }
+	    return result.status;
+	}
+	
+	/**
+	 * Verifica a validade do Email
+	 * @param email 
+	 * @param confirmeEmail
+	 * @returns {Boolean} true - emails ok, false - não ok
+	 */
+
+	window.docheckEmail = function (email, confirmeEmail){
+		if (! global.isValidEmailAddress(email)){
+			global.msgbox.data('messageBox').danger(window.important,global.error.emailFormat + email);
+			return false;
+		}
+
+		if (email != confirmeEmail){
+			global.msgbox.data('messageBox').danger(window.important,global.error.confirmEmail);
+			return false;
+		}	
+		
+		return true;
+	};
+	
+	
+	window.doCheckEmptyField = function(field,msgError){
+		if (field.is(":empty")){
+			global.msgbox.data('messageBox').danger(window.important,msgError);
+			return false;
+		}
+		return true;
+	}
 });	
 

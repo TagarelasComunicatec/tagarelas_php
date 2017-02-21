@@ -8,40 +8,40 @@ Tagarelas - Criar Nova Conta
 			<div class="container">
 				<div class="row">
 					<div class="col-xs-12 col-sm-6 text-center">
-						<img src="img/img2_med.png" class="img-responsive center-block img-ilustrativa">
+						<img src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('img/img2_med.png')}}" class="img-responsive center-block img-ilustrativa">
 						<h1>Batepapo Sério</h1>
 					</div>
 					<div class="col-xs-12 col-sm-6 text-center" id="cadastro" >
 						<hr>
 						<h3>Cadastrar</h3>
 						<button type="button" class="btn btn-facebook">
-							<span class="icone-social"><img src="img/facebook.icon.png"></span>Cadastre-se com o Facebook
+							<span class="icone-social"><img src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('img/facebook.icon.png')}}"></span>Cadastre-se com o Facebook
 						</button>
 						<br><br>
 						<p>ou preencha os seus dados</p>
 						<form>
 							<div class="col-xs-12 col-lg-6 form-group">
-								<input type="text" class="form-control" placeholder="Nome completo">
+								<input type="text" class="form-control" placeholder="Nome completo"  id= 'name'>
 							</div>
 							<div class="col-xs-12 col-lg-6 form-group">
-								<input type="text" class="form-control" placeholder="Nome curto">
+								<input type="text" class="form-control" placeholder="Nome curto"  id= 'shortName'>
 							</div>
 							<div class="col-xs-12 form-group">
-								<input type="email" class="form-control" placeholder="Email">
+								<input type="email" class="form-control"  id= 'email' placeholder="Email">
 							</div>
-							<div class="col-xs-12 col-lg-6 form-group">
-								<input type="password" class="form-control" placeholder="Senha">
+							<div class="col-xs-12 col-lg-6 form-group" >
+								<input type="password" class="form-control" id= 'password'  placeholder="Senha">
 							</div>
-							<div class="col-xs-12 col-lg-6 form-group">
-								<input type="password" class="form-control" placeholder="Confirmar Senha">
+							<div class="col-xs-12 col-lg-6 form-group"  >
+								<input type="password" class="form-control"  id= 'confirmPassword' placeholder="Confirmar Senha">
 							</div>
 							<div class="col-xs-12 form-group checkbox">
 								<label>
-								  <input type="checkbox">
+								  <input type="checkbox" id= "agree">
 								  Li e concordo com os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a>.
 								</label>
 							</div>
-							<button type="submit" class="btn btn-default">Cadastrar</button>
+							<button type="button" class="btn btn-default" id="newUser">Cadastrar</button>
 						</form>
 					</div>
 				</div>
