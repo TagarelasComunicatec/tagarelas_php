@@ -368,12 +368,13 @@ $( function() {
 	};
 	
 	
-	window.doCheckEmptyField = function(field,msgError){
-		if (field.is(":empty")){
+	window.doCheckIsEmptyField = function(field,msgError){
+		var field = $('#'+field).val()+'';
+		if (! field){
 			global.msgbox.data('messageBox').danger(window.important,msgError);
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 });	
 
