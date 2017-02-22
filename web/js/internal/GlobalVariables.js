@@ -107,6 +107,12 @@ $( function() {
 		
 	global.isMobile 			= false;
 	
+	/*
+	 * Variaveis de Ambiente
+	 */	
+		
+	global.recordFound			= 	"1";
+	
 	global.isValidEmailAddress= function(emailAddress) {
 	    return global.regex.email.test(emailAddress);
 	}

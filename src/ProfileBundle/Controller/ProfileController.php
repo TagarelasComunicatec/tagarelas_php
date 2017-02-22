@@ -21,19 +21,21 @@ class ProfileController extends Controller
     	$request = $this->container->get('request_stack')->getCurrentRequest();
     	$email         = $request->get("email");
     	$profileService = $this->get('profile.services');
-    	try {;
+    	try {
     			$result    = $profileService->findUserByEmail($email);
-    			$returnCode = ($result->size() > 0)? "2":"1";
+    			$returnCode = (count($result) > 0 )? "2":"1";
     			$myReturn = array (
     				"responseCode" => 200,
     				"result" => $returnCode,
-    				"method" => $request->getMethod()
+    				"method" => $request->getMethod(),
+    				"type of result" => gettype($result),
+    				"count of result" => count($result),	
 	    			);
     	
     	} catch( \Exception $e){
     		$myReturn = array (
     				"responseCode" => 400,
-    				"result" => $e->getMessage(),
+    				"result" => $e->getTraceAsString(),
     				"method" => $request->getMethod()
     				);
     	}

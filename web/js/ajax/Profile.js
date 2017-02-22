@@ -34,31 +34,28 @@ $( function() {
 		
 			error: function(){
 				imgError = inicioImgHtmlTag +  closing  +
-						   global.error.ln001 + fimImgHtmlTag;
+						  + " alt='"	
+						  + global.error.ln001 + "'" + fimImgHtmlTag;
 			    $(divPosicao).empty();
 			    $(divPosicao).append(imgError);
 
 			},
 
-			success: function(result){ 
+			success: function(returned){ 
 				//debugger;
-				if($.trim(result) == '1'){
-					$(divPosicao).empty();
-					$(divPosicao).append(imgOk);
-					return;
-					
-				} else if ($.trim(result) == '2'){  // registro já existe
-					$(divPosicao).empty();
-					$(divPosicao).append(imgTrash);
-					global.msgbox.data('messageBox').danger(window.important, 
-							gglobal.error.emailFound);
-					return;
-				}
+				$(divPosicao).empty();
+				imgError = inicioImgHtmlTag +  closing  
+				 			 + " title='"	
+				 			 +	global.error.emailFound + "'" 
+							 + fimImgHtmlTag;
 				
-				imgError = inicioImgHtmlTag +  closing  +
-				           global.error.ln001 + fimImgHtmlTag;
-				           $(divPosicao).empty();
-				           $(divPosicao).append(imgError);
+				var dataout = $.parseJSON(returned);
+				
+				if($.trim(dataout.result) === global.recordFound)
+					$(divPosicao).append(imgOk);
+				else 
+					$(divPosicao).append(imgError);
+				 
 				return;
 			},
 			statusCode: {
@@ -69,10 +66,6 @@ $( function() {
 			}
 		});
 	};		
-
-	
-	
-	
 	
 });
 

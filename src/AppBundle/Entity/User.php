@@ -3,15 +3,15 @@
 
 namespace AppBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="usuario")
  * @ORM\HasLifecycleCallbacks()
  */
-class User extends BaseUser
+class User extends BaseUser 
 {
 	/**
 	 * @ORM\Id
@@ -98,6 +98,7 @@ class User extends BaseUser
 		$this->created = new \DateTime('now');
 		$this->lastUpdate = new \DateTime('now');
 	}
+
 	/**
 	 * @ORM\PreUpdate
 	 */
@@ -113,7 +114,7 @@ class User extends BaseUser
 		// your own logic
 	}
 	
-		/**
+	/**
 	 * id
 	 * @return int
 	 */
