@@ -79,6 +79,7 @@ $( function() {
 	global.error.cpf	    	= 'CPF incorreto. Verifique o conteúdo e digite apenas números.';
 	global.error.nascimento 	= 'Data de Nascimento incorreta. Digite no formato dd/mm/aaaa.';
 	global.error.emailFormat    = "Formato do email inválido. Tente de novo. ";
+	global.error.emailFound     = "Email já está cadastrado. Verifique seu email ";
 	global.error.confirmEmail   = "Emails Digitados não conferem !!"
 	global.error.passFormat     = "Formato do senha inválida. Tente de novo. ";
 	global.error.confirmPass    = "Emails Digitados não conferem !!"
@@ -91,6 +92,15 @@ $( function() {
 	
 	global.error.confirmTerm    = "Por favor, confirme se concorda com os termos de uso e privacidade";	
 
+	global.error.ln001          = " alt='Erro na tentativa de chamar rotina AJAX - Codigo LN001.' "	+ 
+	                              " title='Erro na tentativa de chamar rotina AJAX - Codigo LN001.' ";
+	
+	global.error.ln002          = " alt='Erro na tentativa de chamar rotina AJAX - Codigo LN002.' "	+ 
+								  " title='Erro na tentativa de chamar rotina AJAX - Codigo LN002.' ";
+	
+	global.error.connection     = "Falha na conexao. Problemas ao executar o navegador. <BR /> Código Suporte: " ;
+	global.error.tryagain       = "Tente novamente.";
+	
 	/*
 	 * Variaveis de Ambiente Mobile
 	 */	

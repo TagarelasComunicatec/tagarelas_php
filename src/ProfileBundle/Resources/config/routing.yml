@@ -5,3 +5,7 @@ profile_homepage:
 profile_edit:
     path:     /profile/edit
     defaults: { _controller: 'ProfileBundle:Profile:edit' }
+    
+profile_checkemail:
+    path: /profile/checkemail
+    defaults: { _controller: 'ProfileBundle:Profile:checkEmail' }   

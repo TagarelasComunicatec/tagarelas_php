@@ -1,6 +1,6 @@
 /**
  * Autor:    Ricardo Rodriguez
- * Objetivo: Funcoes Globais do Sistema de Alunos
+ * Objetivo: Controle de Eventos do Sistema
  */
 
 $("input[type=text]").focus(function() {
@@ -8,6 +8,10 @@ $("input[type=text]").focus(function() {
 });
 
 $( function() {
+	$("#email").focusout(function(){
+		jsProfile.checkEmail();
+	});
+
 	/**
 	 * Clique do botão de novo cadastro
 	 */

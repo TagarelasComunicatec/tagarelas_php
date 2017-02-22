@@ -27,10 +27,13 @@ Tagarelas - Criar Nova Conta
 								<input type="text" class="form-control" required placeholder="Nome curto"  id= 'shortName'>
 							</div>
 							<div class="col-xs-12 form-group">
+							    <input type='hidden' id="checkEmailPath" value="{{path('profile_checkemail')}}">
 								<input type="email" class="form-control"  id= 'email' placeholder="Email">
+								<span id="imgEmail" style="valign: center;"></span>
 							</div>
 							<div class="col-xs-12 form-group">
 								<input type="email" class="form-control"  id= 'confirmEmail' placeholder="Confirmar Email">
+								<div
 							</div>
 							<div class="col-xs-12 col-lg-6 form-group" >
 								<input type="password" class="form-control" id= 'password'  placeholder="Senha">

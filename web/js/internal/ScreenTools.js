@@ -1,6 +1,6 @@
 /**
  * Autor:    Ricardo Rodriguez
- * Objetivo: Funcoes Globais do Sistema de Alunos
+ * Objetivo: Ferramentas de Tela
  */
 
 $( function() {
