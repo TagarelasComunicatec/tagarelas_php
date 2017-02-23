@@ -25,9 +25,8 @@ class ProfileService {
 	   	    ->setParameter('email', $email );
 		
 		$myReturn =  $qb->getQuery()->getResult();
-	   	$this->logger->err("Type of myReturn da query executada". gettype($myReturn));
-		
-	   	return $myReturn;
+
+		return $myReturn;
 	}
 	
 }
