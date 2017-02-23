@@ -14,6 +14,7 @@
 {% block stylesheets %}
 
 	<link rel="stylesheet" type="text/css" href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('css/tagarelas.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('css/loading.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('css/messageBox.min.css') }}" />
 	<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -139,7 +140,12 @@
 {% block content %}
 
 {% endblock %}
-
+{% block imageLoading %}
+      <div id="loadingDiv" class="reveal-modal-loading ">
+             <img src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('img/loading.gif')}}" 
+                   class="img-responsive center-block img-ilustrativa">
+ 	  </div>
+{% endblock %}
 {% block footer %}
 
 {% endblock %}

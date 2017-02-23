@@ -2,10 +2,14 @@ profile_homepage:
     path:     /profile
     defaults: { _controller: 'ProfileBundle:Profile:index' }
 
+profile_new:
+    path:     /profile/new
+    defaults: { _controller: 'ProfileBundle:Profile:new' }       
+
 profile_edit:
     path:     /profile/edit
     defaults: { _controller: 'ProfileBundle:Profile:edit' }
     
 profile_checkemail:
     path: /profile/checkemail
-    defaults: { _controller: 'ProfileBundle:Profile:checkEmail' }   
+    defaults: { _controller: 'ProfileBundle:Profile:checkEmail' }

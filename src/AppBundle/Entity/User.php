@@ -88,6 +88,18 @@ class User extends BaseUser
 	 */
 	protected $friendUsers;
 	
+	/**
+	 * Carrega o objeto com as variaveis de tela padronizadas
+	 * @param Request $request
+	 */
+	public function loadByRequest($request){
+		$this->email          = $request->get("email");
+		$this->emailCanonical = $this->email;
+		$this->name	          = $request->get('name');
+		$this->nickname       = $request->get('shortName');
+		$this->password		  = $request->get("password");
+		
+	}
 	
 	/**
 	 * @ORM\PrePersist

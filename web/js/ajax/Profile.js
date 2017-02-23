@@ -5,6 +5,7 @@
 
 $( function() {
 	jsProfile = {};
+	jsProfile.emailFound = false;
 	
 	jsProfile.checkEmail = function() {
 		var email 	   = $("#email").val();
@@ -50,12 +51,80 @@ $( function() {
 							 + fimImgHtmlTag;
 				
 				var dataout = $.parseJSON(returned);
-				
-				if($.trim(dataout.result) === global.recordFound)
+				jsProfile.emailFound = false;
+				if($.trim(dataout.result) === global.recordFound){
+					jsProfile.emailFound = true;
 					$(divPosicao).append(imgOk);
-				else 
+				} else  
 					$(divPosicao).append(imgError);
 				 
+				return;
+			},
+			statusCode: {
+				404: function() {
+					global.msgbox.data('messageBox').danger(window.important, 
+							global.error.connection + pageurl + ". "+ global.error.tryagain);
+				}
+			}
+		});
+	};		
+	
+	jsProfile.checkFields= function() {
+		
+		if (window.doCheckIsEmptyField("name", global.error.nameFormat)){
+        	$("#name").focus();
+        	return false;
+        } else if (window.doCheckIsEmptyField("shortName", global.error.shortNameFormat)){
+        	$("#shortName").focus();
+        	return false;
+        } else if (! window.docheckEmail(jsProfile.screenData.email,
+        								 jsProfile.screenData.confirmEmail) ){
+			$("#email").focus();
+			return false;
+		} else if (! pass.doVerifyPassword(jsProfile.screenData.password,
+										   jsProfile.screenData.confirmPassword)){
+			$("#password").focus();
+			return false;
+		} else if (!jsProfile.screenData.agree) {
+			global.msgbox.data('messageBox').danger(window.important, global.error.confirmTerm);
+			return false;
+		}
+		return true;
+	};
+	
+	jsProfile.saveNewUser = function() {
+		jsProfile.checkEmail();
+		jsProfile.screenData = { 'name' : $("#name").val(),
+								 'shortName' : $("#shortName").val(),
+								 'password': 	$("#password").val(),			
+								 'confirmPassword': $("#confirmPassword").val(),
+								 'email' : $("#email").val(),
+								 'confirmEmail': $("#confirmEmail").val(),
+								 'agree': $('#agree').is(":checked"),
+								 'path' : $("#newPath").val(),
+								 'login': $("#loginPath").val(),
+				     			};
+		if  (! jsProfile.checkFields())
+			return false;
+		
+		/**
+		 * Execute the call of save record
+		 */
+		
+		$.ajax({
+			url: jsProfile.screenData.path,
+			data: jsProfile.screenData,
+			type: 'POST',
+			cache: false,
+				
+			success: function(returned){ 
+				//debugger;
+				$('#loadingDiv').hide();
+				var dataout = $.parseJSON(returned);
+				if($.trim(dataout.result) === global.recordSavedWithSuccess){
+					location.href =jsProfile.screenData.login;
+				} else  
+					alert('Erro no cadastro:');
 				return;
 			},
 			statusCode: {

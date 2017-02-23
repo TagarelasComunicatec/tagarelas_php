@@ -4,6 +4,7 @@ namespace ProfileBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use ProfileBundle\Service\ProfileService;
 
 class ProfileController extends Controller
 {
@@ -23,7 +24,8 @@ class ProfileController extends Controller
     	$profileService = $this->get('profile.services');
     	try {
     			$result    = $profileService->findUserByEmail($email);
-    			$returnCode = (count($result) > 0 )? "2":"1";
+    			$returnCode = (count($result) > 0 )? ProfileService::EMAIL_NOT_FOUND:
+    												 ProfileService::EMAIL_FOUND;
     			$myReturn = array (
     				"responseCode" => 200,
     				"result" => $returnCode,
@@ -45,5 +47,28 @@ class ProfileController extends Controller
     			'Content-Type' => 'application/text'
     	) );
     	 
-    }    	
+    } 
+    
+    public function newAction()
+    {
+    	$profileService = $this->get('profile.services');
+    	try{
+    		$profileService->saveUser();
+    		$myReturn = array (
+    				"responseCode" => 200,
+    				"result" => ProfileService::SUCCESS_SAVE,
+    		);
+    	} catch (Exception $e){
+    		$myReturn = array (
+    				"responseCode" => 400,
+    				"result" => $e->getTraceAsString(),
+    				);
+     	}
+ 
+     	$returnJson = json_encode ( $myReturn );
+    	return new Response ( $returnJson, 200, array (
+    			'Content-Type' => 'application/text'
+    	) );    	
+    }
+
 }

@@ -111,7 +111,9 @@ $( function() {
 	 * Variaveis de Ambiente
 	 */	
 		
-	global.recordFound			= 	"1";
+	global.recordFound				= 	"1";
+	global.recordSavedWithSuccess   =   "1";
+	
 	
 	global.isValidEmailAddress= function(emailAddress) {
 	    return global.regex.email.test(emailAddress);
