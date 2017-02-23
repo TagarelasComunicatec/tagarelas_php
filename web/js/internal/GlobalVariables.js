@@ -112,7 +112,11 @@ $( function() {
 	 */	
 		
 	global.recordFound				= 	"1";
-	global.recordSavedWithSuccess   =   "1";
+	global.recordNotFound			=   "2";
+	global.recordSavedWithSuccess   =   "3";
+	global.recordUnsaved			=   "4";
+	global.loginCorrect				=   "5";
+	global.loginUncorrect			=   "6";
 	
 	
 	global.isValidEmailAddress= function(emailAddress) {

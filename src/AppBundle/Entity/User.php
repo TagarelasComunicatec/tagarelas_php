@@ -93,12 +93,19 @@ class User extends BaseUser
 	 * @param Request $request
 	 */
 	public function loadByRequest($request){
-		$this->email          = $request->get("email");
-		$this->emailCanonical = $this->email;
-		$this->name	          = $request->get('name');
-		$this->nickname       = $request->get('shortName');
-		$this->password		  = $request->get("password");
-		
+		$this->id						= 0;
+		$this->email          			= $request->get("email");
+		$this->emailCanonical 			= $this->email;
+		$this->name	          			= $request->get('name');
+		$this->nickname       			= $request->get('shortName');
+		$this->password		  			= $request->get("password");
+		$this->username		  			= $this->name;
+		$this->usernameCanonical		= $this->name;
+		$this->enabled					= true;
+		$this->salt						= "DEFAULT";
+		$this->roles					= array("USER");
+		$this->realName					= $this->name;
+		$this->isDeleted				= false;
 	}
 	
 	/**

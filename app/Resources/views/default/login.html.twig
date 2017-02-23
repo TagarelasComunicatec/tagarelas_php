@@ -5,6 +5,8 @@ Tagarelas - Login
 {% endblock %}
 {% block content %}
 			<section id="area-destaque">
+			<input type='hidden' id="feedPath" value="{{path('feed_homepage')}}">
+			<input type='hidden' id="checkLoginPath" value="{{path('profile_loginUser')}}">
 			<div class="container">
 				<div class="row">
 					<div class="col-xs-12 col-sm-6 text-center">
@@ -21,13 +23,13 @@ Tagarelas - Login
 						<p>ou</p>
 						<form>
 							<div class="form-group">
-								<input type="email" class="form-control" placeholder="Email">
+								<input type="email" class="form-control" id='email' placeholder="Email">
 							</div>
 							<div class="form-group">
-								<input type="password" class="form-control" placeholder="Senha">
+								<input type="password" class="form-control" id= 'password' placeholder="Senha">
 								<a href="#" class="small">Esqueceu a Senha?</a>
 							</div>
-								<button type="submit" class="btn btn-default">Entrar</button>
+								<button type="button" id = 'loginUserTagarelas' class="btn btn-default">Entrar</button>
 						</form>
 						<p>
 							Não possui um login? <a href="{{ path('newLogin') }}">Cadastre-se</a>

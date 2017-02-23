@@ -3,11 +3,13 @@
  * Objetivo: Controle de Eventos do Sistema
  */
 
-$("input[type=text]").focus(function() {
-   $(this).select();
-});
+
 
 $( function() {
+	$("input[type=text]").focus(function() {
+		   $(this).select();
+	});
+	
 	$("#email").focusout(function(){
 		jsProfile.checkEmail();
 	});
@@ -20,6 +22,12 @@ $( function() {
 		
 	});
 	
+	$("#loginUserTagarelas").click(function() {
+		jsProfile.checkLoginTagarelas();
+		
+	});
+	
+	
 	$('#loadingDiv')
     .hide()  // Hide it initially
     .ajaxStart(function() {
@@ -28,6 +36,7 @@ $( function() {
     .ajaxStop(function() {
         $(this).hide();
     });	
+
 	
 });	
 

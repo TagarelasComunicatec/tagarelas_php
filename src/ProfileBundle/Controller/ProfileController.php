@@ -13,6 +13,27 @@ class ProfileController extends Controller
         return $this->render('ProfileBundle:Profile:index.html.twig');
     }
     
+    public function  loginUserAction(){
+    	$profileService = $this->get('profile.services');
+    	try{
+    		$result = $profileService->loginUser();
+    		$myReturn = array (
+    				"responseCode" => 200,
+    				"result" => $result,
+    		);
+    	} catch (Exception $e){
+    		$myReturn = array (
+    				"responseCode" => 400,
+    				"result" => $e->getTraceAsString(),
+    		);
+    	}
+    	
+    	$returnJson = json_encode ( $myReturn );
+    	return new Response ( $returnJson, 200, array (
+    			'Content-Type' => 'application/text'
+    	) );
+    }
+    
     public function editAction()
     {
     	return $this->render('ProfileBundle:Profile:edit.html.twig');
@@ -29,10 +50,7 @@ class ProfileController extends Controller
     			$myReturn = array (
     				"responseCode" => 200,
     				"result" => $returnCode,
-    				"method" => $request->getMethod(),
-    				"type of result" => gettype($result),
-    				"count of result" => count($result),	
-	    			);
+ 	    			);
     	
     	} catch( \Exception $e){
     		$myReturn = array (

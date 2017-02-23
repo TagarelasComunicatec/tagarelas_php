@@ -94,15 +94,19 @@ $( function() {
 	
 	jsProfile.saveNewUser = function() {
 		jsProfile.checkEmail();
-		jsProfile.screenData = { 'name' : $("#name").val(),
-								 'shortName' : $("#shortName").val(),
-								 'password': 	$("#password").val(),			
-								 'confirmPassword': $("#confirmPassword").val(),
-								 'email' : $("#email").val(),
-								 'confirmEmail': $("#confirmEmail").val(),
-								 'agree': $('#agree').is(":checked"),
-								 'path' : $("#newPath").val(),
-								 'login': $("#loginPath").val(),
+		//------------------------------------------
+		var passMD5   = calcMD5($("#password").val());
+		var cPassMD5  = calcMD5($("#confirmPassword").val());
+		//------------------------------------------
+		jsProfile.screenData = { 'name'           : $("#name").val(),
+								 'shortName'      : $("#shortName").val(),
+								 'password'       : passMD5,
+								 'confirmPassword': cPassMD5,
+								 'email'          : $("#email").val(),
+								 'confirmEmail'   : $("#confirmEmail").val(),
+								 'agree'          : $('#agree').is(":checked"),
+								 'path'           : $("#newPath").val(),
+								 'login'          : $("#loginPath").val(),
 				     			};
 		if  (! jsProfile.checkFields())
 			return false;
@@ -115,7 +119,7 @@ $( function() {
 			url: jsProfile.screenData.path,
 			data: jsProfile.screenData,
 			type: 'POST',
-			cache: false,
+			cache: true,
 				
 			success: function(returned){ 
 				//debugger;
@@ -135,6 +139,45 @@ $( function() {
 			}
 		});
 	};		
+	
+	jsProfile.checkLoginTagarelas = function(){
+		//------------------------------------------
+		var email 	  = $("#email").val();
+		var passMD5   = calcMD5($("#password").val());
+
+		//------------------------------------------
+		jsProfile.screenData = { 'password'       : passMD5,
+								 'email'          : $("#email").val(),
+								 'checkLoginPath' : $("#checkLoginPath").val(),
+								 'feedPath'       : $("#feedPath").val(),
+				     			};
+		/**
+		 * Execute the call of save record
+		 */
+		
+		$.ajax({
+			url: jsProfile.screenData.checkLoginPath,
+			data: jsProfile.screenData,
+			type: 'POST',
+			cache: true,
+				
+			success: function(returned){ 
+				debugger;
+				var dataout = $.parseJSON(returned);
+				if($.trim(dataout.result) === global.loginCorrect){
+					location.href =jsProfile.screenData.feedPath;
+				} else  
+					alert('Login Inválido. Tente de novo');
+				return;
+			},
+			statusCode: {
+				404: function() {
+					global.msgbox.data('messageBox').danger(window.important, 
+							global.error.connection + pageurl + ". "+ global.error.tryagain);
+				}
+			}
+		});
+	};
 	
 });
 

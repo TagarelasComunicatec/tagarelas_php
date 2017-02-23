@@ -8,12 +8,14 @@ use Monolog\Logger;
 use AppBundle\Entity\User;
 
 class ProfileService {
-	const EMAIL_NOT_FOUND = 1;
-	const EMAIL_FOUND = 2;
+	const EMAIL_FOUND = 1;
+	const EMAIL_NOT_FOUND = 2;
 
 	const SUCCESS_SAVE= 3;
 	const FAIL_SAVE = 4;
 	
+	const LOGIN_CORRECT = 5;
+	const LOGIN_UNCORRECT = 6;
 	protected $em;
 	private   $container;
 	private   $logger;
@@ -26,7 +28,7 @@ class ProfileService {
 	
 	public function findUserByEmail($email){
 		$qb = $this->em->createQueryBuilder();
-		$qb->select('u.id')
+		$qb->select('u.id,u.password')
 			->from('AppBundle:User', 'u')
 			->where('u.email LIKE :email')
 	   	    ->setParameter('email', $email );
@@ -40,7 +42,9 @@ class ProfileService {
 		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$email   = $request->get("email");
 		if (count($this->findUserByEmail($email)) >0){
-			throw new \Exception('Email já está cadastrado. Não foi possível alterar a informação');
+			throw new \Exception('Email já está cadastrado. ' .
+								 'Não foi possível cadastrar usuário. '.
+					             'Entre em contato com o Suporte Tagarelas');
 		}
 		$user = new User();
 		$user->loadByRequest($request);
@@ -48,4 +52,18 @@ class ProfileService {
 		$this->em->flush();
 	}
 
+	public function loginUser(){
+		$request     = $this->container->get('request_stack')->getCurrentRequest();
+		$email       = $request->get('email');
+		$password    = $request->get('password');
+		$return		 = ProfileService::LOGIN_UNCORRECT;
+		$users       = $this->findUserByEmail($email);
+		//$this->logger->error($users);
+		foreach ($users as $user){
+			if($password === $user["password"]); 
+				$return = ProfileService::LOGIN_CORRECT;
+		}
+		return $return;
+	}
+	
 }
