@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Doctrine\ORM\EntityManager;
 use Monolog\Logger;
 use AppBundle\Entity\User;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class ProfileService {
 	const EMAIL_FOUND = 1;
@@ -28,7 +29,7 @@ class ProfileService {
 	
 	public function findUserByEmail($email){
 		$qb = $this->em->createQueryBuilder();
-		$qb->select('u.id,u.password')
+		$qb->select('u.id,u.password,u.name,u.nickname')
 			->from('AppBundle:User', 'u')
 			->where('u.email LIKE :email')
 	   	    ->setParameter('email', $email );
@@ -54,16 +55,30 @@ class ProfileService {
 
 	public function loginUser(){
 		$request     = $this->container->get('request_stack')->getCurrentRequest();
-		$email       = $request->get('email');
-		$password    = $request->get('password');
 		$return		 = ProfileService::LOGIN_UNCORRECT;
-		$users       = $this->findUserByEmail($email);
-		//$this->logger->error($users);
+		$users       = $this->findUserByEmail($request->get('email'));
 		foreach ($users as $user){
-			if($password === $user["password"]); 
-				$return = ProfileService::LOGIN_CORRECT;
+			$return = $this->verifyUser($request, $user);
+		}
+		return $return;
+	}
+
+	private function verifyUser($request,$user){
+		$return	= ProfileService::LOGIN_UNCORRECT;
+		if( $request->get('password') === $user["password"]){
+			$this->moveUserToSession($user);
+			$return = ProfileService::LOGIN_CORRECT;
 		}
 		return $return;
 	}
 	
+	private function moveUserToSession($user){
+		$session = new Session();
+		$session->start();
+		$session->set('name' , $user["name"]);
+		$session->set('email', $user["email"]);
+		$session->set('nickname', $user["nickname"]);
+	}
+	
+
 }
