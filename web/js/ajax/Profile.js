@@ -21,7 +21,6 @@ $( function() {
 		// 		http://api.jquery.com/jQuery.ajax/
 		//=========================================================
 		var myData = {'email' : email};
-		
 		$.ajax({
 			url: pageurl,
 			data: myData,
@@ -39,6 +38,7 @@ $( function() {
 						  + global.error.ln001 + "'" + fimImgHtmlTag;
 			    $(divPosicao).empty();
 			    $(divPosicao).append(imgError);
+
 
 			},
 
@@ -114,7 +114,7 @@ $( function() {
 		/**
 		 * Execute the call of save record
 		 */
-		
+		window.ajaxLoading("show");
 		$.ajax({
 			url: jsProfile.screenData.path,
 			data: jsProfile.screenData,
@@ -123,7 +123,7 @@ $( function() {
 				
 			success: function(returned){ 
 				//debugger;
-				$('#loadingDiv').hide();
+				window.ajaxLoading("hide");
 				var dataout = $.parseJSON(returned);
 				if($.trim(dataout.result) === global.recordSavedWithSuccess){
 					location.href =jsProfile.screenData.login;
@@ -133,6 +133,7 @@ $( function() {
 			},
 			statusCode: {
 				404: function() {
+					window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
 							global.error.connection + pageurl + ". "+ global.error.tryagain);
 				}
@@ -154,7 +155,7 @@ $( function() {
 		/**
 		 * Execute the call of save record
 		 */
-		
+		window.ajaxLoading("show");
 		$.ajax({
 			url: jsProfile.screenData.checkLoginPath,
 			data: jsProfile.screenData,
@@ -162,7 +163,7 @@ $( function() {
 			cache: true,
 				
 			success: function(returned){ 
-				debugger;
+				window.ajaxLoading("hide");
 				var dataout = $.parseJSON(returned);
 				if($.trim(dataout.result) === global.loginCorrect){
 					location.href =jsProfile.screenData.feedPath;
@@ -172,6 +173,7 @@ $( function() {
 			},
 			statusCode: {
 				404: function() {
+					window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
 							global.error.connection + pageurl + ". "+ global.error.tryagain);
 				}

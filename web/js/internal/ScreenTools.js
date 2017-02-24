@@ -376,5 +376,35 @@ $( function() {
 		}
 		return false;
 	}
+	
+	
+	window.ajaxLoading = function(show){
+		$.LoadingOverlay(show, {
+			  // background color
+			  color           : "rgba(255, 255, 255, 0.8)",
+			  // additonal CSS classes
+			  custom          : "",
+			  // fade out the loading overlay
+			  fade            : true,
+			  // use Font Awesome 4 icons for the loading spinner
+			  fontawesome     : "",
+			  // default loading spinner
+			  image           : "/tagarelas/web//img/loading.gif",
+			  // postion of the spinner
+			  imagePosition   : "center center",
+			  // min/max size of the spinner
+			  maxSize         : "100px",
+			  minSize         : "20px",
+			  // Specifies an interval in milliseconds to resize the Loading Overlay accoring to its container.
+			  // Use this when the DOM element is supposed to change size while the Loading Overlay is shown.
+			  resizeInterval  : 0,
+			  // size of the spinner
+			  size            : "50%",
+			  // z-index property
+			  zIndex          : undefined
+			});
+	}
+	
+	window.ajaxLoading("hide");
 });	
 
