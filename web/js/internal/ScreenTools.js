@@ -50,12 +50,12 @@ $( function() {
 		
 		// footer no final da página quando o conteúdo é pouco
 		var docHeight = $(window).height();
-		var footerHeight = $('footer').height();
+	/*	var footerHeight = $('footer').height();
 		var footerTop = $('footer').position().top + footerHeight;
 	   
 		if (footerTop < docHeight) {
 			$('footer').css('margin-top', (docHeight - footerTop) + 'px');
-		}
+		} */
 		
 		$('#submenu-pesquisa').on('shown.bs.collapse', function () {
 			$("#pesquisa-principal").focus();

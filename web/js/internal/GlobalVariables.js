@@ -83,7 +83,6 @@ $( function() {
 	global.error.confirmEmail   = "Emails Digitados não conferem !!"
 	global.error.passFormat     = "Formato do senha inválida. Tente de novo. ";
 	global.error.confirmPass    = "Emails Digitados não conferem !!"
-
 	global.error.nameFormat		= "Preencha corretamente o nome";
 	global.error.shortNameFormat= "Preencha corretamente o nome curto" ;
 	global.error.format 		= "A senha necessita conter no mínimo 1 letra maiúscula, 1 minúscula e 1 algarismo"; 
@@ -97,6 +96,9 @@ $( function() {
 	
 	global.error.ln002          = " alt='Erro na tentativa de chamar rotina AJAX - Codigo LN002.' "	+ 
 								  " title='Erro na tentativa de chamar rotina AJAX - Codigo LN002.' ";
+
+	global.error.groupNameFound = "Nome do grupo já está cadastrado. Tente outro nome";
+	global.error.groupEmpty     = "Nome do grupo não está preenchido. Tente de novo";
 	
 	global.error.connection     = "Falha na conexao. Problemas ao executar o navegador. <BR /> Código Suporte: " ;
 	global.error.tryagain       = "Tente novamente.";
@@ -117,6 +119,9 @@ $( function() {
 	global.recordUnsaved			=   "4";
 	global.loginCorrect				=   "5";
 	global.loginUncorrect			=   "6";
+	global.usersFound 				= 	"7";
+	global.usersNotFound 			=   "8";
+
 	
 	
 	global.isValidEmailAddress= function(emailAddress) {

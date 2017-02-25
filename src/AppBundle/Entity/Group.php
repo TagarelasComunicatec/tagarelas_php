@@ -25,7 +25,7 @@ class Group
 	 *
 	 * @ORM\Column(name="nome_grupo", type="string", nullable=true)
 	 */
-	private $GroupName;
+	private $groupName;
 	
 	/**
 	 * @ORM\Column(name="avatar", type="string", length=255, nullable=true)
@@ -110,7 +110,7 @@ class Group
 	 * @return string
 	 */
 	public function getGroupName(){
-		return $this->GroupName;
+		return $this->groupName;
 	}
 
 	/**
@@ -118,8 +118,8 @@ class Group
 	 * @param string $GroupName
 	 * @return Group
 	 */
-	public function setGroupName($GroupName){
-		$this->GroupName = $GroupName;
+	public function setGroupName($groupName){
+		$this->groupName = $groupName;
 		return $this;
 	}
 

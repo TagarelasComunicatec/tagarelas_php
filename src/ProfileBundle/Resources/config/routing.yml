@@ -16,4 +16,8 @@ profile_checkemail:
     
 profile_loginUser:
     path:     /checkLoginUser
-    defaults: { _controller: 'ProfileBundle:Profile:loginUser' }           
+    defaults: { _controller: 'ProfileBundle:Profile:loginUser' }     
+    
+profile_loadallusers:          
+    path:     /profile/loadallusers
+    defaults: { _controller: 'ProfileBundle:Profile:loadAllUsers' }     

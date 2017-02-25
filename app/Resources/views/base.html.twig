@@ -15,6 +15,8 @@
 
 	<link rel="stylesheet" type="text/css" href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('css/tagarelas.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('css/messageBox.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('css/jquery.magicsearch.css') }}" />
+	
 	<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -39,15 +41,17 @@
 	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/loadingoverlay.js') }}"></script>
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/sly.min.js') }}"></script>  
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/jquery.messagebox.min.js') }}"></script>  
-
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/jquery.magicsearch.js') }}"></script>  
     
     <!--  Bibliotecas desenvolvidas para o projeto -->
 	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/GlobalVariables.js') }}"></script>
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/md5.js') }}"></script>    
-    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/ScreenTools.js') }}"></script>  
-    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Profile.js') }}"></script>  
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/ScreenTools.js') }}"></script>   
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/Events.js') }}"></script>  
-    
+ 
+ 	<!--  Bibliotecas para chamadas AJAX -->
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Profile.js') }}"></script>    
+ 	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Group.js') }}"></script>    
  
 {% endblock %} 
 
@@ -140,12 +144,7 @@
 {% block content %}
 
 {% endblock %}
-{% block imageLoading %}
-      <div id="loadingDiv" class="reveal-modal-loading ">
-             <img src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('img/loading.gif')}}" 
-                   class="img-responsive center-block img-ilustrativa">
- 	  </div>
-{% endblock %}
+
 {% block footer %}
 
 {% endblock %}

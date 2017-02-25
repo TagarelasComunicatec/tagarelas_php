@@ -3,7 +3,7 @@ group_homepage:
     defaults: { _controller: 'GroupBundle:Group:index' }
 
 group_create:
-    path:     /group/create
+    path:     /group/new
     defaults: { _controller: 'GroupBundle:Group:createGroup' }    
 
 group_edit:
@@ -12,4 +12,8 @@ group_edit:
     
 group_sessions:
     path:     /group/sessions
-    defaults: { _controller: 'GroupBundle:Group:sessionsGroup' }        
+    defaults: { _controller: 'GroupBundle:Group:sessionsGroup' }   
+    
+group_checkGroupName:
+    path:     /group/checkname
+    defaults: { _controller: 'GroupBundle:Group:checkGroupByName' }            

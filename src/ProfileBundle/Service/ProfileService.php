@@ -17,6 +17,10 @@ class ProfileService {
 	
 	const LOGIN_CORRECT = 5;
 	const LOGIN_UNCORRECT = 6;
+	
+	const USERS_FOUND = 7;
+	const USERS_NOT_FOUND = 8;
+	
 	protected $em;
 	private   $container;
 	private   $logger;
@@ -27,9 +31,18 @@ class ProfileService {
 		$this->logger = $log;
 	}
 	
+	public function loadAllUsers(){
+		$qb = $this->em->createQueryBuilder();
+		$qb->select('u.id,u.realName,u.nickname')
+			->from('AppBundle:User', 'u');
+		$myReturn =  $qb->getQuery()->getResult();
+		
+		return $myReturn;
+	}
+	
 	public function findUserByEmail($email){
 		$qb = $this->em->createQueryBuilder();
-		$qb->select('u.id,u.password,u.name,u.nickname')
+		$qb->select('u.id,u.password,u.realName,u.nickname')
 			->from('AppBundle:User', 'u')
 			->where('u.email LIKE :email')
 	   	    ->setParameter('email', $email );
@@ -75,7 +88,7 @@ class ProfileService {
 	private function moveUserToSession($user){
 		$session = new Session();
 		$session->start();
-		$session->set('name' , $user["name"]);
+		$session->set('name' , $user["realName"]);
 		$session->set('email', $user["email"]);
 		$session->set('nickname', $user["nickname"]);
 	}

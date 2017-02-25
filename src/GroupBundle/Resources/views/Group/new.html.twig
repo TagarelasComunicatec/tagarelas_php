@@ -5,7 +5,11 @@ Tagarelas - Criar Grupo
 {% endblock %}
 {% block content %}
 		<section id="conteudo-principal">
-			<div class="container">
+			<div class="container" id="newGroupLoadDiv">
+			
+			    <input type='hidden' id="loadAllUsersPath" value="{{path('profile_loadallusers')}}">
+			    <input type='hidden' id="checkGroupNamePath" value="{{path('group_checkGroupName')}}">
+            
             	<div id="conteudo-cabecalho">
                 	<div id="conteudo-titulo">
                         <h1>
@@ -17,10 +21,11 @@ Tagarelas - Criar Grupo
                 </div> <!-- conteudo-cabecalho !--> 
 				<form class="row">
 					<div class="col-xs-12 col-sm-6"> 
-						<div class="form-group">
-							<label>Nome do Grupo</label>
-							<input type="text" class="form-control">
+						<div class="form-group" >
+							  <input type="text" id= "groupName" style='width:90% !important'  placeholder= "Nome do grupo"/>
+ 						      <span id="imgGroupName" style='width:10% !important' style="valign: left !important; align: left; !important"></span>
 						</div>
+						
 						<div class="form-group">
 							<label>Foto</label>
 							<br>
@@ -38,9 +43,9 @@ Tagarelas - Criar Grupo
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-6"> 
-						<div class="form-group">
-							<label for="pesquisarContatos">Adicionar Membros</label>
-							<input type="text" class="form-control" placeholder="Nome da pessoa" id="pesquisar-contatos" name="pesquisar-contatos">
+						<div class="form-group"  >
+							 <input class="magicsearch"   style='width:100% !important'   
+							 			id="groupMembers" placeholder="Adicionar / Procurar membros...">
 						</div>
 						<div class="pull-right">
 								<span id="total-de-membros">0</span> <span id="mensagem-total-de-membros"> Membro adicionado</span>
@@ -51,8 +56,9 @@ Tagarelas - Criar Grupo
 						</div>
 					</div>
 					<div class="col-xs-12 form-group">
-						<button type="submit" class="clearfix btn btn-success">Salvar</button>
+						<button type="button" id="insertGroup" class="clearfix btn btn-success">Salvar</button>
 					</div>
+				   </div>
 				</form>
 			</div>
 		</section>
