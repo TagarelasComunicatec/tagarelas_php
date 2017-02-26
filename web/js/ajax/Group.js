@@ -6,6 +6,69 @@
 $( function() {
 	jsGroup = {};
 	
+	jsGroup.hasGroupName = function (groupName,divPosicao){
+		if (groupName) return true;
+		
+		imgError = inicioImgHtmlTag +  closing  
+				   + " title='"	
+				   + global.error.groupEmpty + "'" 
+				   + fimImgHtmlTag;
+	    $(divPosicao).append(imgError);
+		
+	    return false;	
+	}
+	
+	jsGroup.hasMembers = function(){
+		if (!$("#groupMembers")) return true;	
+		
+		global.msgbox.data('messageBox').danger(window.important, 
+												global.error.groupMemberNotFound);
+		return false;
+	}
+	
+	jsGroup.saveNewGroup = function(){
+		var groupName  = $("#groupName").val();
+		var divPosicao = '#imgGroupName';
+		var users	   = $("#groupMembers").val();
+		var myData     = {'groupName' : groupName,
+					      'users'	  : users 	};
+		var pageurl    = $("saveNewGroupPath").val();
+		
+		/* Check if fields is ok! */
+		if (! jsGroup.hasGroupName(groupName, divPosicao)) return;
+		if (! jsGroup.hasMembers) return;
+		
+	    $.ajax({
+			
+			url: pageurl,
+			data: myData,
+			type: 'POST',
+			cache: true,
+	
+			beforeSend: function( ) {
+			},
+		
+			error: function(){
+			},
+
+			success: function(returned){ 
+				//debugger;
+				var dataout = $.parseJSON(returned);
+				if($.trim(dataout.result) === global.recordNotFound){
+					
+				} else  
+					
+				return;
+			},
+			statusCode: {
+				404: function() {
+					global.msgbox.data('messageBox').danger(window.important, 
+							global.error.connection + pageurl + ". "+ global.error.tryagain);
+				}
+			}
+		});
+		
+	}
 	
 	jsGroup.checkGroupName = function(){
 		
@@ -13,16 +76,9 @@ $( function() {
 		var pageurl  = $('#checkGroupNamePath').val();
 		var divPosicao = '#imgGroupName';
 		var myData = {'groupName' : groupName};
-
-		if (! groupName) {
-			imgError = inicioImgHtmlTag +  closing  
-			 + " title='"	
-			 +	global.error.groupEmpty + "'" 
-			 + fimImgHtmlTag;
-			$(divPosicao).append(imgError);
-			return;
-		}
 		
+		if (! jsGroup.hasGroupName(groupName, divPosicao)) return; 
+	
 		$.ajax({
 			
 			url: pageurl,

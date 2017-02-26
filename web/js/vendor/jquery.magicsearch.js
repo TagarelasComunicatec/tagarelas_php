@@ -640,7 +640,7 @@ MagicSearch.prototype = {
 
         //generate html string
         if (data.length === 0) {
-            let noResult = options.noResult ? options.noResult : '&#x672a;&#x641c;&#x7d22;&#x5230;&#x7ed3;&#x679c;';
+            let noResult = options.noResult ? options.noResult : 'Nome não encontrado !!';
             htmlStr = `<span class="no-result">${noResult}</span>`;
         } else {
             //delete empty input

@@ -4,7 +4,11 @@ group_homepage:
 
 group_create:
     path:     /group/new
-    defaults: { _controller: 'GroupBundle:Group:createGroup' }    
+    defaults: { _controller: 'GroupBundle:Group:createGroup' }   
+    
+group_savenewgroup:
+    path:     /group/savenewgroup
+    defaults: { _controller: 'GroupBundle:Group:saveNewGroup' }        
 
 group_edit:
     path:     /group/edit

@@ -52,4 +52,17 @@ class GroupController extends Controller
 		) );
 	}
 	
+	public function saveNewGroupAction(){
+		$groupService = $this->get("group.services");
+	     $returnCode  =	$groupService->saveGroup();
+		 $myReturn    = array (
+							"responseCode" => 200,
+							"result" => $returnCode,
+					);
+		 $returnJson = json_encode ( $myReturn );
+		 return new Response ( $returnJson, 200, array (
+		 		'Content-Type' => 'application/text'
+		 ) );
+	}
+	
 }

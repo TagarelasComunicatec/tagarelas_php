@@ -30,6 +30,13 @@ $( function() {
 	$("#groupName").focusout(function(){
 		jsGroup.checkGroupName();
 	});
+
+	/**
+	 * Clique do botão de novo grupo
+	 */
+	$("#insertNewGroup").click(function() {
+		jsGroup.saveNewGroup();
+	});
 	
 });	
 

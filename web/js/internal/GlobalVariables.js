@@ -97,8 +97,9 @@ $( function() {
 	global.error.ln002          = " alt='Erro na tentativa de chamar rotina AJAX - Codigo LN002.' "	+ 
 								  " title='Erro na tentativa de chamar rotina AJAX - Codigo LN002.' ";
 
-	global.error.groupNameFound = "Nome do grupo já está cadastrado. Tente outro nome";
-	global.error.groupEmpty     = "Nome do grupo não está preenchido. Tente de novo";
+	global.error.groupNameFound      = "Nome do grupo já está cadastrado. Tente outro nome";
+	global.error.groupEmpty          = "Nome do grupo não está preenchido. Tente de novo";
+	global.error.groupMemberNotFound = "Insira pelo menos 1 nome como membro do grupo";
 	
 	global.error.connection     = "Falha na conexao. Problemas ao executar o navegador. <BR /> Código Suporte: " ;
 	global.error.tryagain       = "Tente novamente.";
