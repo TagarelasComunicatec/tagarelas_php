@@ -2,11 +2,11 @@
 namespace GroupBundle\Service;
 
 
+use AppBundle\Entity\Group;
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Monolog\Logger;
 use Symfony\Component\DependencyInjection\Container;
-use AppBundle\Entity\Group;
-use AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class GroupService {
@@ -53,13 +53,21 @@ class GroupService {
 								 'Não foi possível cadastrar o grupo. ');
 		}
 		
-		$userId    = $session = $this->container->get('session')->get('userId');
-
-		$group = new Group();
+		$userId        = $this->container->get('session')->get('userId');
+		$usersGroup	   = $request->get("users");
+		$group         = new Group();
+		
 		$group->loadByRequest($request)
 			   ->setCreatedBy($userId);
+		
+		foreach ($usersGroup as $userGroup){
+			$user = $this->em->getReference("AppBundle:User", $userGroup["id"]);
+			$group->addUser($user);
+		
+		}
+		
 		$this->em->persist($group);
 		$this->em->flush();
-	}
 
+	}
 }

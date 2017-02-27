@@ -42,6 +42,11 @@ class GroupUser
 	protected $createdBy;
 	
 	/**
+	 * @ORM\Column(name="administrador", type="integer", nullable=true)
+	 */
+	protected $isAdministrator;
+	
+	/**
 	 * @ORM\Column(name="data_criacao", type="datetime", nullable=true)
 	 */
 	protected $created;

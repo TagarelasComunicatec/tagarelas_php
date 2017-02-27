@@ -3,8 +3,8 @@
 
 namespace AppBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -50,16 +50,22 @@ class Group
 	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\GroupUser", mappedBy="groupUsers")
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\GroupUser", mappedBy="groupUsers", cascade={"all"})
 	 */
 	protected $groupUsers;
 	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\SessionGroup", mappedBy="groupSessions")
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\SessionGroup", mappedBy="groupSessions", cascade={"all"})
 	 */
 	protected $groupSessions;
 	
+	
+	public function __construct()
+	{
+		$this->groupUsers    = new ArrayCollection();
+		$this->groupSessions =  new ArrayCollection();
+	}
 	
 	/**
 	 * @ORM\PrePersist
@@ -83,11 +89,6 @@ class Group
 		$this->groupName = $request->get("groupName");
 		$this->groupUsers = $request->get("groupMembers");
 		return $this;
-	}
-	
-	public function __construct()
-	{
-		
 	}
 	
 	/**
@@ -222,7 +223,10 @@ class Group
 		return $this;
 	}
 
-
+	public function addUser(User $user){
+ 		$this->groupUsers[]=$user;
+	}
+	
 	/**
 	 * groupSessions
 	 * @return string
