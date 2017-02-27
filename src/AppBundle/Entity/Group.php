@@ -23,7 +23,7 @@ class Group
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="nome_grupo", type="string", nullable=true)
+	 * @ORM\Column(name="nome_grupo", type="string", nullable=false)
 	 */
 	private $groupName;
 	
@@ -33,7 +33,7 @@ class Group
 	protected $avatar;
 	
 	/**
-	 * @ORM\Column(name="id_usuario_criador", type="integer", nullable=false)
+	 * @ORM\Column(name="id_usuario_criador", type="integer", nullable=true)
 	 */
 	protected $createdBy;
 	
@@ -77,6 +77,12 @@ class Group
 	{
 		//using Doctrine DateTime here
 		$this->lastUpdate = new \DateTime('now');
+	}
+	
+	public function loadByRequest($request){
+		$this->groupName = $request->get("groupName");
+		$this->groupUsers = $request->get("groupMembers");
+		return $this;
 	}
 	
 	public function __construct()

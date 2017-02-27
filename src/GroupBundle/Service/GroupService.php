@@ -5,6 +5,9 @@ namespace GroupBundle\Service;
 use Doctrine\ORM\EntityManager;
 use Monolog\Logger;
 use Symfony\Component\DependencyInjection\Container;
+use AppBundle\Entity\Group;
+use AppBundle\Entity\User;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class GroupService {
 	const NAME_FOUND     = 1;
@@ -49,8 +52,12 @@ class GroupService {
 			throw new \Exception('Nome Grupo já está cadastrado. ' .
 								 'Não foi possível cadastrar o grupo. ');
 		}
+		
+		$userId    = $session = $this->container->get('session')->get('userId');
+
 		$group = new Group();
-		$group->loadByRequest($request);
+		$group->loadByRequest($request)
+			   ->setCreatedBy($userId);
 		$this->em->persist($group);
 		$this->em->flush();
 	}

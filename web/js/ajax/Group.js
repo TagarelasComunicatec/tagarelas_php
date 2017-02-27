@@ -6,6 +6,9 @@
 $( function() {
 	jsGroup = {};
 	
+	jsGroup.INCLUDE = 0;
+	jsGroup.DELETE  = 1;
+	
 	jsGroup.hasGroupName = function (groupName,divPosicao){
 		if (groupName) return true;
 		
@@ -18,8 +21,9 @@ $( function() {
 	    return false;	
 	}
 	
+	
 	jsGroup.hasMembers = function(){
-		if (!$("#groupMembers")) return true;	
+		if (jsGroup.membersSelected.length > 0) return true;	
 		
 		global.msgbox.data('messageBox').danger(window.important, 
 												global.error.groupMemberNotFound);
@@ -29,10 +33,10 @@ $( function() {
 	jsGroup.saveNewGroup = function(){
 		var groupName  = $("#groupName").val();
 		var divPosicao = '#imgGroupName';
-		var users	   = $("#groupMembers").val();
+		var users	   = jsGroup.membersSelected;
 		var myData     = {'groupName' : groupName,
 					      'users'	  : users 	};
-		var pageurl    = $("saveNewGroupPath").val();
+		var pageurl    = $("#saveNewGroupPath").val();
 		
 		/* Check if fields is ok! */
 		if (! jsGroup.hasGroupName(groupName, divPosicao)) return;
@@ -124,7 +128,24 @@ $( function() {
 			}
 		});
 	};			
+	
+	jsGroup.membersSelected = new Array();
+	
+	jsGroup.controlData = function(action,data){
+		var totalRegistros = 0
+		if (jsGroup.INCLUDE == action){
+			var totalRegistros = jsGroup.membersSelected.push(data);
 		
+		} else {
+		     jsGroup.membersSelected = $.grep(jsGroup.membersSelected,function(item){
+			             return (item.id !== data.id);
+		     });
+			 totalRegistros = jsGroup.membersSelected.length;            
+	    }
+		
+		$("#total-de-membros").html(totalRegistros);
+	};
+	
 	jsGroup.loadAllUsers = function() {
 		/**
 		 * Execute call to load all users
@@ -153,11 +174,23 @@ $( function() {
 			            format: '%realName% · %nickname%',
 			            multiple: true,
 			            multiField: 'realName',
+			            dropdownBtn: true,
 			            multiStyle: {
 			                space: 5,
 			                width: 80
-			            }
+			            },
+			            success:function($imput,data){
+			            	jsGroup.controlData(jsGroup.INCLUDE,data);
+			            	return true;
+			            },
+			            afterDelete: function($input, data) {
+			            	jsGroup.controlData(jsGroup.DELETE,data);
+			            	return true;
+			            },
+
 					});
+					
+					
 					return;
 				}
 			},

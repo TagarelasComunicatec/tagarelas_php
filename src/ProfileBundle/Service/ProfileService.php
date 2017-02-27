@@ -85,12 +85,10 @@ class ProfileService {
 		return $return;
 	}
 	
-	private function moveUserToSession($user){
-		$session = new Session();
-		$session->start();
-		$session->set('name' , $user["realName"]);
-		$session->set('email', $user["email"]);
-		$session->set('nickname', $user["nickname"]);
+	private function moveUserToSession(Array $user){
+		$this->container->get('session')->set('userId', $user['id']);
+		$this->container->get('session')->set('userName', $user['realName']);
+		$this->container->get('session')->set('nickName', $user['nickname']);
 	}
 	
 
