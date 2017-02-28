@@ -48,23 +48,12 @@ class Group
 	 */
 	protected $lastUpdate;
 	
-	/**
-	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\GroupUser", mappedBy="groupUsers", cascade={"all"})
-	 */
-	protected $groupUsers;
-	
-	/**
-	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\SessionGroup", mappedBy="groupSessions", cascade={"all"})
-	 */
-	protected $groupSessions;
+
 	
 	
 	public function __construct()
 	{
-		$this->groupUsers    = new ArrayCollection();
-		$this->groupSessions =  new ArrayCollection();
+	
 	}
 	
 	/**
@@ -199,49 +188,6 @@ class Group
 	 */
 	public function setLastUpdate($lastUpdate){
 		$this->lastUpdate = $lastUpdate;
-		return $this;
-	}
-
-
-
-
-	/**
-	 * groupUsers
-	 * @return string
-	 */
-	public function getGroupUsers(){
-		return $this->groupUsers;
-	}
-
-	/**
-	 * groupUsers
-	 * @param string $groupUsers
-	 * @return Group
-	 */
-	public function setGroupUsers($groupUsers){
-		$this->groupUsers = $groupUsers;
-		return $this;
-	}
-
-	public function addUser(User $user){
- 		$this->groupUsers[]=$user;
-	}
-	
-	/**
-	 * groupSessions
-	 * @return string
-	 */
-	public function getGroupSessions(){
-		return $this->groupSessions;
-	}
-
-	/**
-	 * groupSessions
-	 * @param string $groupSessions
-	 * @return Group
-	 */
-	public function setGroupSessions($groupSessions){
-		$this->groupSessions = $groupSessions;
 		return $this;
 	}
 

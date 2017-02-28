@@ -20,20 +20,13 @@ class SessionGroup
 	protected $id;
 
 	/**
-	 *
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group", inversedBy="groupSessions")
-	 * @ORM\JoinColumn(name="id_grupo", referencedColumnName="id")
-	 * @var AppBundle\Entity\Group
-	 **/
-	protected $groupSessions;
+	 * @ORM\Column(name="id_grupo", type="integer", nullable=false)
+	 */
+	protected $groupSession;
 
 	/**
-	 *
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Session", inversedBy="sessionGroups")
-	 * @ORM\JoinColumn(name="id_sessao", referencedColumnName="id")
-	 * @var AppBundle\Entity\User
-	 **/
-	protected $sessionGroups;
+	 * @ORM\Column(name="id_sessao", type="integer", nullable=false)
+	 */protected $sessionGroup;
 	
 	/**
 	 * @ORM\Column(name="id_usuario_criador", type="integer", nullable=false)
@@ -147,43 +140,27 @@ class SessionGroup
 		$this->lastUpdate = $lastUpdate;
 		return $this;
 	}
-
-
-
-	/**
-	 * groupSessions
-	 * @return string
-	 */
-	public function getGroupSessions(){
-		return $this->groupSessions;
+	
+	public function getGroupSession() {
+		return $this->groupSession;
 	}
-
-	/**
-	 * groupSessions
-	 * @param string $groupSessions
-	 * @return SessionGroup
-	 */
-	public function setGroupSessions($groupSessions){
-		$this->groupSessions = $groupSessions;
+	
+	public function setGroupSession($groupSession) {
+		$this->groupSession = $groupSession;
 		return $this;
 	}
-
-	/**
-	 * sessionGroups
-	 * @return string
-	 */
-	public function getSessionGroups(){
-		return $this->sessionGroups;
+	
+	public function getSessionGroup() {
+		return $this->sessionGroup;
 	}
-
-	/**
-	 * sessionGroups
-	 * @param string $sessionGroups
-	 * @return SessionGroup
-	 */
-	public function setSessionGroups($sessionGroups){
-		$this->sessionGroups = $sessionGroups;
+	
+	public function setSessionGroup($sessionGroup) {
+		$this->sessionGroup = $sessionGroup;
 		return $this;
 	}
+	
+
+
+
 
 }

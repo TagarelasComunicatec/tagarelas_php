@@ -19,32 +19,28 @@ class GroupUser
 	 */
 	protected $id;
 
+
 	/**
-	 *
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group", inversedBy="groupUsers")
-	 * @ORM\JoinColumn(name="id_grupo", referencedColumnName="id")
-	 * @var AppBundle\Entity\Group
-	 **/
-	protected $groupUsers;
+	 * @ORM\Column(name="id_grupo", type="integer", nullable=false)
+	 */
+	protected $idGrupo;
 	
 
 	/**
-	 *
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="userGroups")
-	 * @ORM\JoinColumn(name="id_usuario", referencedColumnName="id")
-	 * @var AppBundle\Entity\User
-	 **/
-	protected $userGroups;
+	 * @ORM\Column(name="id_usuario", type="integer", nullable=false)
+	 */
+	protected $idUser;
+
+	/**
+	 * @ORM\Column(name="regras", type="string", length=255, nullable=false)
+	 */
+
+	protected $rules;
 	
 	/**
 	 * @ORM\Column(name="id_usuario_criador", type="integer", nullable=false)
 	 */
 	protected $createdBy;
-	
-	/**
-	 * @ORM\Column(name="administrador", type="integer", nullable=true)
-	 */
-	protected $isAdministrator;
 	
 	/**
 	 * @ORM\Column(name="data_criacao", type="datetime", nullable=true)
@@ -153,45 +149,31 @@ class GroupUser
 		$this->lastUpdate = $lastUpdate;
 		return $this;
 	}
-
-
-
-
-
-	/**
-	 * groupUsers
-	 * @return string
-	 */
-	public function getGroupUsers(){
-		return $this->groupUsers;
+	
+	public function getIdGrupo() {
+		return $this->idGrupo;
 	}
-
-	/**
-	 * groupUsers
-	 * @param string $groupUsers
-	 * @return Group
-	 */
-	public function setGroupUsers($groupUsers){
-		$this->groupUsers = $groupUsers;
+	
+	public function setIdGrupo($idGrupo) {
+		$this->idGrupo = $idGrupo;
 		return $this;
 	}
-
-	/**
-	 * userGroups
-	 * @return string
-	 */
-	public function getUserGroups(){
-		return $this->userGroups;
+	
+	public function getIdUser() {
+		return $this->idUser;
 	}
-
-	/**
-	 * userGroups
-	 * @param string $userGroups
-	 * @return Group
-	 */
-	public function setUserGroups($userGroups){
-		$this->userGroups = $userGroups;
+	
+	public function setIdUser($idUser) {
+		$this->idUser = $idUser;
 		return $this;
 	}
-
+	
+	public function getRules() {
+		return $this->rules;
+	}
+	
+	public function setRules($rules) {
+		$this->rules = $rules;
+		return $this;
+	}
 }

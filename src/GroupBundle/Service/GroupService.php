@@ -8,6 +8,8 @@ use Doctrine\ORM\EntityManager;
 use Monolog\Logger;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Session\Session;
+use AppBundle\Entity\GroupUser;
+use AppBundle\Entity\Rule;
 
 class GroupService {
 	const NAME_FOUND     = 1;
@@ -59,15 +61,42 @@ class GroupService {
 		
 		$group->loadByRequest($request)
 			   ->setCreatedBy($userId);
-		
-		foreach ($usersGroup as $userGroup){
-			$user = $this->em->getReference("AppBundle:User", $userGroup["id"]);
-			$group->addUser($user);
-		
+	    $this->em->getConnection()->beginTransaction(); // manipulacao de tabelas
+		try{
+		    $this->em->persist($group);
+		    /* Persist the administrator */
+		    $this->persistAdministrator($group,$userId);
+		    /* Persist the groups elements */
+		    $this->persistGroupMembers($group,$userId, $usersGroup);
+		    $this->em->flush();
+		    $this->em->getConnection()->commit();
+		} catch(Exception $e){
+			$this->em->getConnection()->rollBack();
+			$this->logger->error("Conteudo de user by reference " . $e->__toString());
 		}
-		
-		$this->em->persist($group);
-		$this->em->flush();
 
+	}
+	
+	private function persistAdministrator(Group $group,  $userId){
+		/*
+		 * Persist the groupAdministrator
+		 */
+		$groupUsers = new GroupUser();
+		$groupUsers->setIdGrupo($group->getId())
+					->setIdUser($userId)
+					->setCreatedBy($userId)
+					->setRules(Rule::ADMIN);
+		$this->em->persist($groupUsers);
+	}
+	private function persistGroupMembers(Group $group, $userId, $userGroups){
+
+		foreach($userGroups as $userGroup){
+			$groupUsers = new GroupUser();
+			$groupUsers->setIdGrupo($group->getId())
+					   ->setIdUser($userGroup["id"])
+					   ->setCreatedBy($userId)
+					   ->setRules(Rule::USER);
+			$this->em->persist($groupUsers);
+		}
 	}
 }

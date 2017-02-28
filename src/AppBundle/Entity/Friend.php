@@ -20,29 +20,30 @@ class Friend
 	protected $id;
 
 	/**
-	 *
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="userFriends")
-	 * @ORM\JoinColumn(name="id_usuario", referencedColumnName="id")
-	 * @var AppBundle\Entity\User
-	 **/
-	protected $userFriends;
+	 * @ORM\Column(name="usuario_amigo", type="integer", nullable=false)
+	 */
+	protected $userFriend;
 	
+	/**
+	 * @ORM\Column(name="ativo", type="boolean", nullable=true)
+	 */
+	protected $active;
 
 	/**
-	 *
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="friendUsers")
-	 * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
-	 * @var AppBundle\Entity\User
-	 **/
-	protected $friendUsers;
+	 * @ORM\Column(name="aceito", type="boolean", nullable=true)
+	 */
+	protected $accept;
+	
+	/**
+	 * @ORM\Column(name="amigo_usuario", type="integer", nullable=false)
+	 */
+	protected $friendUser;
+
 
 	/**
-	 *
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Relationship", inversedBy="relationships")
-	 * @ORM\JoinColumn(name="id_tipo_relacao", referencedColumnName="id")
-	 * @var AppBundle\Entity\RelationShip
-	 **/
-	protected $relationships;
+	 * @ORM\Column(name="id_relacao", type="integer", nullable=false)
+	 */
+	protected $relationship;
 	
 	
 	/**
@@ -55,6 +56,8 @@ class Friend
 	 * @ORM\Column(name="ultima_atualizacao", type="datetime", nullable=true)
 	 */
 	protected $lastUpdate;
+	
+	
 	
 	
 	/**
@@ -146,106 +149,99 @@ class Friend
 	/**
 	 * lastUpdate
 	 * @param string $lastUpdate
-	 * @return Group
+	 * @return 
 	 */
 	public function setLastUpdate($lastUpdate){
 		$this->lastUpdate = $lastUpdate;
 		return $this;
 	}
-
-
-
-
-
+	
 	/**
-	 * groupUsers
-	 * @return string
+	 * userFriend
+	 * @return integer
 	 */
-	public function getGroupUsers(){
-		return $this->groupUsers;
+	public function getUserFriend() {
+		return $this->userFriend;
 	}
-
+	
 	/**
-	 * groupUsers
-	 * @param string $groupUsers
-	 * @return Group
+	 * userFriend
+	 * @param integer      	
 	 */
-	public function setGroupUsers($groupUsers){
-		$this->groupUsers = $groupUsers;
+	public function setUserFriend($userFriend) {
+		$this->userFriend = $userFriend;
 		return $this;
 	}
-
+	
 	/**
-	 * userGroups
-	 * @return string
+	 * friendUser
+	 * @return integer
 	 */
-	public function getUserGroups(){
-		return $this->userGroups;
+	public function getFriendUsers() {
+		return $this->friendUser;
 	}
-
+	
 	/**
-	 * userGroups
-	 * @param string $userGroups
-	 * @return Group
+	 * friendUser
+	 * @param integer        	
 	 */
-	public function setUserGroups($userGroups){
-		$this->userGroups = $userGroups;
+	public function setFriendUser($friendUser) {
+		$this->friendUser = $friendUser;
 		return $this;
 	}
-
-
+	
 	/**
-	 * userFriends
-	 * @return string
+	 * relationship
+	 * @return the integer
 	 */
-	public function getUserFriends(){
-		return $this->userFriends;
+	public function getRelationship() {
+		return $this->relationship;
 	}
-
+	
 	/**
-	 * userFriends
-	 * @param string $userFriends
-	 * @return Friend
+	 * relationship
+	 * @param integer $relationship        	
 	 */
-	public function setUserFriends($userFriends){
-		$this->userFriends = $userFriends;
+	public function setRelationship($relationship) {
+		$this->relationship = $relationship;
 		return $this;
 	}
-
+	
 	/**
-	 * friendUsers
-	 * @return string
+	 * active
+	 * @return boolean
 	 */
-	public function getFriendUsers(){
-		return $this->friendUsers;
+	public function getActive() {
+		return $this->active;
 	}
-
+	
 	/**
-	 * friendUsers
-	 * @param string $friendUsers
-	 * @return Friend
+	 * active
+	 * @param boolean   	
 	 */
-	public function setFriendUsers($friendUsers){
-		$this->friendUsers = $friendUsers;
+	public function setActive($active) {
+		$this->active = $active;
 		return $this;
 	}
-
+	
 	/**
-	 * relationships
-	 * @return string
+	 * accept
+	 * @return the unknown_type
 	 */
-	public function getRelationships(){
-		return $this->relationships;
+	public function getAccept() {
+		return $this->accept;
 	}
-
+	
 	/**
-	 * relationships
-	 * @param string $relationships
-	 * @return Friend
+	 * accept
+	 * @param boolean       	
 	 */
-	public function setRelationships($relationships){
-		$this->relationships = $relationships;
+	public function setAccept($accept) {
+		$this->accept = $accept;
 		return $this;
 	}
+	
+	
+
 
 }

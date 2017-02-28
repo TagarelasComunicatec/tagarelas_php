@@ -33,8 +33,12 @@ class ProfileService {
 	
 	public function loadAllUsers(){
 		$qb = $this->em->createQueryBuilder();
+		$userId = $this->container->get('session')->get('userId');
 		$qb->select('u.id,u.realName,u.nickname')
-			->from('AppBundle:User', 'u');
+			->from('AppBundle:User', 'u')
+		    ->where('u.id != :id')
+		    ->setParameter("id", $userId);
+		
 		$myReturn =  $qb->getQuery()->getResult();
 		
 		return $myReturn;

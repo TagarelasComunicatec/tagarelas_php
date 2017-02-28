@@ -70,20 +70,6 @@ class Session
 	 */
 	protected $isDeleted;
 	
-	
-	/**
-	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\SessionGroup", mappedBy="sessionGroups")
-	 */
-	protected $sessionGroups;
-
-	/**
-	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\SessionUser", mappedBy="sessionUsers")
-	 */
-	protected $sessionUsers;
-	
-	
 	/**
 	 * @ORM\PrePersist
 	 */
@@ -277,42 +263,19 @@ class Session
 		$this->isDeleted = $isDeleted;
 		return $this;
 	}
-
-
-	/**
-	 * sessionGroups
-	 * @return string
-	 */
-	public function getSessionGroups(){
-		return $this->sessionGroups;
+	
+	public function getFileMessage() {
+		return $this->fileMessage;
 	}
-
-	/**
-	 * sessionGroups
-	 * @param string $sessionGroups
-	 * @return Session
-	 */
-	public function setSessionGroups($sessionGroups){
-		$this->sessionGroups = $sessionGroups;
+	
+	public function setFileMessage($fileMessage) {
+		$this->fileMessage = $fileMessage;
 		return $this;
 	}
-
-	/**
-	 * sessionUsers
-	 * @return string
-	 */
-	public function getSessionUsers(){
-		return $this->sessionUsers;
+	
+	public function getIsDeleted() {
+		return $this->isDeleted;
 	}
-
-	/**
-	 * sessionUsers
-	 * @param string $sessionUsers
-	 * @return Session
-	 */
-	public function setSessionUsers($sessionUsers){
-		$this->sessionUsers = $sessionUsers;
-		return $this;
-	}
+	
 
 }

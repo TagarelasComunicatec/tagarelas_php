@@ -40,12 +40,6 @@ class Relationship
 	protected $isDeleted;
 	
 	/**
-	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Friend", mappedBy="relationships")
-	 */
-	protected $relationships;
-	
-	/**
 	 * @ORM\PrePersist
 	 */
 	public function onPrePersist()

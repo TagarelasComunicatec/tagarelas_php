@@ -65,30 +65,6 @@ class User extends BaseUser
 	protected $isDeleted;
 	
 	/**
-	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\GroupUser", mappedBy="userGroups")
-	 */
-	protected $userGroups;
-	
-	/**
-	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\SessionUser", mappedBy="userSessions")
-	 */
-	protected $userSessions;
-
-	/**
-	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Relationship", mappedBy="userFriends")
-	 */
-	protected $userFriends;
-
-	/**
-	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Relationship", mappedBy="friendUsers")
-	 */
-	protected $friendUsers;
-	
-	/**
 	 * Carrega o objeto com as variaveis de tela padronizadas
 	 * @param Request $request
 	 */
