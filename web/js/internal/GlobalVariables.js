@@ -102,7 +102,10 @@ $( function() {
 	global.error.groupMemberNotFound = "Insira pelo menos 1 nome como membro do grupo";
 	
 	global.error.connection     = "Falha na conexao. Problemas ao executar o navegador. <BR /> Código Suporte: " ;
-	global.error.tryagain       = "Tente novamente.";
+	global.error.tryagain       = "Tente novamente."
+		
+	global.saveOk				= "Informação foi salva com sucesso";
+	global.saveError			= "A informação não foi salva. Tente mais tarde";
 	
 	/*
 	 * Variaveis de Ambiente Mobile

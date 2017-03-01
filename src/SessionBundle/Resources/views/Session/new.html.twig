@@ -24,7 +24,8 @@ Tagarelas - Minhas Sessões
 						
 						<div class="form-group">
 							<label>Data e Hora</label>
-							<input type="datetime-local" class="form-control">
+							<input id='dataHoraSessao'  class="form-control" type="text" data-field="datetime" readonly>
+							<div id="dtBox"></div>
 						</div>
 						
 						<div class="form-group">
@@ -45,10 +46,8 @@ Tagarelas - Minhas Sessões
 								
 						<div class="form-group">
 							<label>Convidar Grupos</label>
-							<select class="form-control">
-								<option>Grupo 1</option>
-								<option>Grupo 2</option>
-							</select>
+							<input class="magicsearch"   style='width:100% !important'   
+							 		   id="sessionGroups" placeholder="Adicionar / Procurar grupos...">
 						</div>
 				
 					</div>
@@ -57,21 +56,19 @@ Tagarelas - Minhas Sessões
 						<div class="form-group">
 							<label for="pesquisarContatos">Convidar Amigos</label>
 							<p>Convide amigos individualmente ou que não fazem parte de algum grupo</p>
-							<input type="text" class="form-control" placeholder="Nome da pessoa" id="pesquisar-contatos" name="pesquisar-contatos">
+							<input class="magicsearch"   style='width:100% !important'   
+							 		   id="sessionMembers" placeholder="Adicionar / Procurar membros...">
 						</div>
-						<div class="pull-right">
-								<span id="total-de-membros">0</span> <span id="mensagem-total-de-membros"> Amigo adicionado</span>
-							</div>
 						<div class="previa-membros-adicionados col-xs-12">
 							<ul>
 							</ul>
 						</div>
 						<div class="form-group">
-							<p><b>Total de Participantes: 11</b></p>
+							<p><b>Total de Participantes Convidados:<span id='totalParticipantes'>0</span></b></p>
 							<p>
-								Todos os membros do grupo: 10
+								Todos os membros do(s) grupo(s):     <span id='totalMembrosGrupos'>0</span>
 								<br>
-								Todos os amigos convidados: 1
+								Todos os amigos convidados:          <span id='totalMembrosConvidados'>0</span>
 							</p>
 						</div>
 					</div>

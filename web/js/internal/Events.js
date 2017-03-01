@@ -38,5 +38,11 @@ $( function() {
 		jsGroup.saveNewGroup();
 	});
 	
+	/**
+	 * Configure the datetime field of session bundle
+	 */
+	
+	$("#dtBox").DateTimePicker();
+	
 });	
 

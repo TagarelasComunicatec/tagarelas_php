@@ -53,7 +53,7 @@ class GroupController extends Controller
 	}
 	
 	public function saveNewGroupAction(){
-		$groupService = $this->get("group.services");
+		 $groupService = $this->get("group.services");
 	     $returnCode  =	$groupService->saveGroup();
 		 $myReturn    = array (
 							"responseCode" => 200,

@@ -8,6 +8,7 @@ $( function() {
 	
 	jsGroup.INCLUDE = 0;
 	jsGroup.DELETE  = 1;
+	jsGroup.CHECKOK = true;
 	
 	jsGroup.hasGroupName = function (groupName,divPosicao){
 		if (groupName) return true;
@@ -16,14 +17,16 @@ $( function() {
 				   + " title='"	
 				   + global.error.groupEmpty + "'" 
 				   + fimImgHtmlTag;
-	    $(divPosicao).append(imgError);
-		
+		$(divPosicao).empty();
+		$(divPosicao).append(imgError);
+		global.msgbox.data('messageBox').danger(window.important, 
+				global.error.groupEmpty);
 	    return false;	
 	}
 	
 	
 	jsGroup.hasMembers = function(){
-		if (jsGroup.membersSelected.length > 0) return true;	
+		if ((jsGroup.membersSelected).length > 0) return true;	
 		
 		global.msgbox.data('messageBox').danger(window.important, 
 												global.error.groupMemberNotFound);
@@ -40,8 +43,10 @@ $( function() {
 		
 		/* Check if fields is ok! */
 		if (! jsGroup.hasGroupName(groupName, divPosicao)) return;
-		if (! jsGroup.hasMembers) return;
+		if (! jsGroup.hasMembers()) return;
 		
+		jsGroup.checkGroupName(true);
+		if (! jsGroup.CHECKOK ) return;
 	    $.ajax({
 			
 			url: pageurl,
@@ -58,10 +63,12 @@ $( function() {
 			success: function(returned){ 
 				//debugger;
 				var dataout = $.parseJSON(returned);
-				if($.trim(dataout.result) === global.recordNotFound){
-					
+				if($.trim(dataout.result) === global.recordSavedWithSuccess){
+					global.msgbox.data('messageBox').info(window.important, 
+							 global.saveOk);
 				} else  
-					
+					global.msgbox.data('messageBox').error(window.important, 
+							global.saveError);
 				return;
 			},
 			statusCode: {
@@ -74,7 +81,7 @@ $( function() {
 		
 	}
 	
-	jsGroup.checkGroupName = function(){
+	jsGroup.checkGroupName = function(showMessage){
 		
 		var groupName= $("#groupName").val();
 		var pageurl  = $('#checkGroupNamePath').val();
@@ -114,10 +121,18 @@ $( function() {
 							 + fimImgHtmlTag;
 				
 				var dataout = $.parseJSON(returned);
+				jsGroup.CHECKOK = false;
 				if($.trim(dataout.result) === global.recordNotFound){
 					$(divPosicao).append(imgOk);
-				} else  
+					jsGroup.CHECKOK = true;
+				} else  { 
 					$(divPosicao).append(imgError);
+					if (showMessage) {
+						global.msgbox.data('messageBox').danger(window.important, 
+								global.error.groupNameFound);
+					}
+					
+				}
 				return;
 			},
 			statusCode: {

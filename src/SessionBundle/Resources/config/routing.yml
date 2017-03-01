@@ -6,6 +6,6 @@ session_mysessions:
     path:     /session/mine
     defaults: { _controller: 'SessionBundle:Session:mySessions' }
     
-session_createsession:
-    path:     /session/create
-    defaults: { _controller: 'SessionBundle:Session:createSession' }
+session_new:
+    path:     /session/new
+    defaults: { _controller: 'SessionBundle:Session:newSession' }
