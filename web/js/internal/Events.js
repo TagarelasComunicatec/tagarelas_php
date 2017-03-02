@@ -38,6 +38,10 @@ $( function() {
 		jsGroup.saveNewGroup();
 	});
 	
+	$("#sessionName").focusout(function(){
+		jsSession.checkSessionName();
+	});
+	
 	$("#insertNewSession").click(function() {
 		jsSession.saveNewSession();
 	});

@@ -9,3 +9,7 @@ session_mysessions:
 session_new:
     path:     /session/new
     defaults: { _controller: 'SessionBundle:Session:newSession' }
+
+session_checkSessionName:
+    path:     /session/checkname
+    defaults: { _controller: 'SessionBundle:Session:checkSessionByName' }     

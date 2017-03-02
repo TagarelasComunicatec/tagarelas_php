@@ -5,7 +5,10 @@
 
 $( function() {
 	jsProfile = {};
-	jsProfile.emailFound = false;
+
+	jsProfile.EMAIL_FOUND = false;
+	jsProfile.INCLUDE = 0;
+	jsProfile.DELETE  = 1;
 	
 	jsProfile.checkEmail = function() {
 		var email 	   = $("#email").val();
@@ -51,9 +54,9 @@ $( function() {
 							 + fimImgHtmlTag;
 				
 				var dataout = $.parseJSON(returned);
-				jsProfile.emailFound = false;
+				jsProfile.EMAIL_FOUND = false;
 				if($.trim(dataout.result) === global.recordFound){
-					jsProfile.emailFound = true;
+					jsProfile.EMAIL_FOUND = true;
 					$(divPosicao).append(imgOk);
 				} else  
 					$(divPosicao).append(imgError);
@@ -180,6 +183,100 @@ $( function() {
 			}
 		});
 	};
+
+	jsProfile.membersSelected = new Array();
+	
+	jsProfile.controlData = function(action,data){
+		var totalRegistros = 0
+		if (jsProfile.INCLUDE == action){
+			var totalRegistros = jsProfile.membersSelected.push(data);
+		
+		} else {
+			jsProfile.membersSelected = $.grep(jsProfile.membersSelected,function(item){
+			             return (item.id !== data.id);
+		     });
+			 totalRegistros = jsProfile.membersSelected.length;            
+	    }
+		
+		$("#totalDeMembros").html(totalRegistros);
+		$("#totalDeMembrosHidden").val(totalRegistros)
+		jsProfile.controlTotals();
+	};
+	
+	jsProfile.controlTotals = function (){
+		var membros=$("#totalDeMembrosHidden").val()-0;
+		var membrosGrupos=$("#totalMembrosGruposHidden").val()-0;
+		$("#totalParticipantes").html(membros+membrosGrupos);
+	};
+	
+	jsProfile.loadAllUsers = function() {
+		/**
+		 * Execute call to load all users
+		 */
+		window.ajaxLoading("show");
+		var urlLoadAllUsers = $("#loadAllUsersPath").val();
+		$.ajax({
+			url:  urlLoadAllUsers,
+			data: [],
+			type: 'POST',
+			cache: true,
+			
+			error: function(){
+				window.ajaxLoading("hide");
+				
+			},
+			
+			success: function(returned){ 
+				window.ajaxLoading("hide");
+				var dataout = $.parseJSON(returned);
+				if(global.usersFound  ==$.trim(dataout.result)){
+					$('#allMembers').magicsearch({
+			            dataSource: dataout.users,
+			            fields: ['realName', 'nickname'],
+			            id: 'id',
+			            format: '%realName% · %nickname%',
+			            multiple: true,
+			            multiField: 'realName',
+			            dropdownBtn: true,
+			            multiStyle: {
+			                space: 5,
+			                width: 80
+			            },
+			            success:function($imput,data){
+			            	jsProfile.controlData(jsProfile.INCLUDE,data);
+			            	return true;
+			            },
+			            afterDelete: function($input, data) {
+			            	jsProfile.controlData(jsProfile.DELETE,data);
+			            	return true;
+			            },
+
+					});
+					
+					
+					return;
+				}
+			},
+			statusCode: {
+				404: function() {
+					window.ajaxLoading("hide");
+					global.msgbox.data('messageBox').danger(window.important, 
+							global.error.connection + pageurl + ". "+ global.error.tryagain);
+				}
+			},
+			
+		});
+	
+	};
+	
+	
+	
+	/**
+	 * If exists $("#loadAllUsersDiv") - I'm in Group page then load all users.
+	 */
+	if ($("#pageNeedsAllUsers").length)
+		jsProfile.loadAllUsers();
+	
 	
 });
 

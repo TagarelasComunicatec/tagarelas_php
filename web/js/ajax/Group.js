@@ -5,9 +5,7 @@
 
 $( function() {
 	jsGroup = {};
-	
-	jsGroup.INCLUDE = 0;
-	jsGroup.DELETE  = 1;
+
 	jsGroup.CHECKOK = true;
 	
 	jsGroup.hasGroupName = function (groupName,divPosicao){
@@ -143,89 +141,6 @@ $( function() {
 			}
 		});
 	};			
-	
-	jsGroup.membersSelected = new Array();
-	
-	jsGroup.controlData = function(action,data){
-		var totalRegistros = 0
-		if (jsGroup.INCLUDE == action){
-			var totalRegistros = jsGroup.membersSelected.push(data);
-		
-		} else {
-		     jsGroup.membersSelected = $.grep(jsGroup.membersSelected,function(item){
-			             return (item.id !== data.id);
-		     });
-			 totalRegistros = jsGroup.membersSelected.length;            
-	    }
-		
-		$("#total-de-membros").html(totalRegistros);
-	};
-	
-	jsGroup.loadAllUsers = function() {
-		/**
-		 * Execute call to load all users
-		 */
-		window.ajaxLoading("show");
-		var urlLoadAllUsers = $("#loadAllUsersPath").val();
-		$.ajax({
-			url:  urlLoadAllUsers,
-			data: [],
-			type: 'POST',
-			cache: true,
-			
-			error: function(){
-				window.ajaxLoading("hide");
-				
-			},
-			
-			success: function(returned){ 
-				window.ajaxLoading("hide");
-				var dataout = $.parseJSON(returned);
-				if(global.usersFound  ==$.trim(dataout.result)){
-					$('#groupMembers').magicsearch({
-			            dataSource: dataout.users,
-			            fields: ['realName', 'nickname'],
-			            id: 'id',
-			            format: '%realName% · %nickname%',
-			            multiple: true,
-			            multiField: 'realName',
-			            dropdownBtn: true,
-			            multiStyle: {
-			                space: 5,
-			                width: 80
-			            },
-			            success:function($imput,data){
-			            	jsGroup.controlData(jsGroup.INCLUDE,data);
-			            	return true;
-			            },
-			            afterDelete: function($input, data) {
-			            	jsGroup.controlData(jsGroup.DELETE,data);
-			            	return true;
-			            },
-
-					});
-					
-					
-					return;
-				}
-			},
-			statusCode: {
-				404: function() {
-					window.ajaxLoading("hide");
-					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + pageurl + ". "+ global.error.tryagain);
-				}
-			},
-			
-		});
-	
-	};
-	
-	/**
-	 * If exists $("#newGroupLoadDiv") - I'm in Group page then load all users.
-	 */
-	if ($("#newGroupLoadDiv").length)
-		jsGroup.loadAllUsers();
 	
 	
 });	

@@ -5,12 +5,14 @@ Tagarelas - Criar Grupo
 {% endblock %}
 {% block content %}
 		<section id="conteudo-principal">
-			<div class="container" id="newGroupLoadDiv">
+			<div class="container" id="pageNeedsAllUsers">
 			
 			    <input type='hidden' id="loadAllUsersPath" value="{{path('profile_loadallusers')}}">
 			    <input type='hidden' id="checkGroupNamePath" value="{{path('group_checkGroupName')}}">
 			    <input type='hidden' id="saveNewGroupPath" value="{{path('group_savenewgroup')}}">
-                <input type='hidden' id="id"  value="{{ app.session.get('userId') }}" />
+				<input type='hidden' id='totalDeMembrosHidden'       value=0 />
+				<input type='hidden' id='totalMembrosGruposHidden'   value=0 />
+            
             	<div id="conteudo-cabecalho">
                 	<div id="conteudo-titulo">
                         <h1>
@@ -24,7 +26,8 @@ Tagarelas - Criar Grupo
 					<div class="col-xs-12 col-sm-6"> 
 						<div class="form-group" >
 							  <input type="text" id= "groupName" style='width:90% !important'  placeholder= "Nome do grupo"/>
- 						      <span id="imgGroupName" style='width:10% !important' style="valign: left !important; align: left; !important"></span>
+ 						      <span id="imgGroupName" 
+ 						      style='width:10% !important; valign: left !important; align: left; !important'></span>
 						</div>
 						
 						<div class="form-group">
@@ -46,10 +49,10 @@ Tagarelas - Criar Grupo
 					<div class="col-xs-12 col-sm-6"> 
 						<div class="form-group"  >
 							 <input class="magicsearch"   style='width:100% !important'   
-							 		   id="groupMembers" placeholder="Adicionar / Procurar membros...">
+							 		   id="allMembers" placeholder="Adicionar / Procurar membros...">
 						</div>
 						<div class="pull-right">
-								<span id="total-de-membros">0</span> <span id="mensagem-total-de-membros"> Membro(s) adicionado(s)</span>
+								<span id="totalDeMembros">0</span> <span id="mensagem-total-de-membros"> Membro(s) adicionado(s)</span>
 							</div>
 						<div class="previa-membros-adicionados col-xs-12">
 							<ul>
