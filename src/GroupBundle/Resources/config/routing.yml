@@ -18,6 +18,10 @@ group_sessions:
     path:     /group/sessions
     defaults: { _controller: 'GroupBundle:Group:sessionsGroup' }   
     
-group_checkGroupName:
+group_checkgroupname:
     path:     /group/checkname
     defaults: { _controller: 'GroupBundle:Group:checkGroupByName' }            
+
+group_loadallgroups:
+    path:     /group/loadallgroups
+    defaults: { _controller: 'GroupBundle:Group:loadAllGroups' }     

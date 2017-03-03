@@ -160,6 +160,19 @@
 		</footer>
 {% endblock %}
 
+{% block links %}
+        <div id='divLoadAllUsers'           ajaxurl="{{ path('profile_loadallusers') }}"></div>
+	    <div id='divLoadAllGroups'          ajaxurl="{{ path('group_loadallgroups') }}"></div>
+		<div id='divCheckSessionName'       ajaxurl="{{ path("session_checksessionname") }}"></div>
+		<div id='divSaveNewSession'         ajaxurl="{{ path('session_save') }}"></div>
+		<div id='divCheckGroupName'         ajaxurl="{{ path('group_checkgroupname') }}"></div>
+		<div id='divSaveNewGroup'           ajaxurl="{{ path('group_savenewgroup') }}"></div>
+		<div id='divCheckEmailPath'         ajaxurl="{{ path('profile_checkemail') }}"></div>
+		<div id='divSaveNewProfile'         ajaxurl="{{ path('profile_new') }}"></div>
+		<div id='divloginPath'              ajaxurl="{{ path('login') }}"></div>
+		<div id='divFeedPath'               ajaxurl="{{ path('feed_homepage') }}"></div>
+		<div id='divCheckLoginPath'         ajaxurl="{{ path('profile_loginUser') }}"></div>
+{% endblock %}
 
 </body>
 </html>

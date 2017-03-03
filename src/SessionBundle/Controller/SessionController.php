@@ -22,6 +22,19 @@ class SessionController extends Controller
     	return $this->render('SessionBundle:Session:new.html.twig');
     }
     
+    public function saveSessionAction()
+    {
+    	$sessionService = $this->get("session.services");
+    	$returnCode  =	$sessionService->save();
+    	$myReturn    = array (
+    			"responseCode" => 200,
+    			"result" => $returnCode,
+    	);
+    	$returnJson = json_encode ( $myReturn );
+    	return new Response ( $returnJson, 200, array (
+    	) );
+    }
+    
     public function checkSessionByNameAction(){
     	
     	$request = $this->container->get('request_stack')->getCurrentRequest();

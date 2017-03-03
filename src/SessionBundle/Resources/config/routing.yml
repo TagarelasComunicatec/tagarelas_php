@@ -10,6 +10,10 @@ session_new:
     path:     /session/new
     defaults: { _controller: 'SessionBundle:Session:newSession' }
 
-session_checkSessionName:
+session_checksessionname:
     path:     /session/checkname
-    defaults: { _controller: 'SessionBundle:Session:checkSessionByName' }     
+    defaults: { _controller: 'SessionBundle:Session:checkSessionByName' }   
+    
+session_save:
+    path:     /session/save
+    defaults: { _controller: 'SessionBundle:Session:saveSession' }         

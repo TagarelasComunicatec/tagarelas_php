@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityManager;
 use Monolog\Logger;
 use AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Session\Session;
+use AppBundle\Entity\Rule;
+use AppBundle\Entity\SessionUser;
 
 class SessionService {
 	const SESSION_FOUND = 1;
@@ -55,45 +57,50 @@ class SessionService {
 		return $myReturn;
 	}
 	
-	
-	/*public function saveUser(){
+	public function save(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
-		$email   = $request->get("email");
-		if (count($this->findUserByEmail($email)) >0){
-			throw new \Exception('Email já está cadastrado. ' .
-								 'Não foi possível cadastrar usuário. '.
-					             'Entre em contato com o Suporte Tagarelas');
+		$sessionName   = $request->get("sessionName");
+		if (count($this-> findSessionByName($sessionName)) >0){
+			throw new \Exception('Nome da Sessão já está cadastrada. ' .
+					'Não foi possível cadastrar a sessão. ');
 		}
-		$user = new User();
-		$user->loadByRequest($request);
-		$this->em->persist($user);
-		$this->em->flush();
-	}
-
-	public function loginUser(){
-		$request     = $this->container->get('request_stack')->getCurrentRequest();
-		$return		 = SessionService::LOGIN_UNCORRECT;
-		$users       = $this->findUserByEmail($request->get('email'));
-		foreach ($users as $user){
-			$return = $this->verifyUser($request, $user);
+		
+		$userId        = $this->container->get('session')->get('userId');
+		$usersGroup	   = $request->get("users");
+		$groups        =  $request->get("groups");
+		
+		$session        = new \AppBundle\Entity\Session();
+		$session->loadByRequest($request)
+		        ->setCreatedBy($userId);
+		
+		$this->em->getConnection()->beginTransaction(); // manipulacao de tabelas
+		try{
+			$this->em->persist($session);
+			/* Persist the administrator */
+			$this->persisSessionGroups($session,$groups,$userId);
+			/* Persist the groups elements */
+			$this->persistUserMembers($session,$userId, $usersGroup);
+			$this->em->flush();
+			$this->em->getConnection()->commit();
+			return Rule::SUCCESS_SAVE;
+		} catch(Exception $e){
+			$this->em->getConnection()->rollBack();
+			$this->logger->error("Sessao nao foi salva " . $e->__toString());
+			return Rule::FAIL_SAVE;
 		}
-		return $return;
-	}
-
-	private function verifyUser($request,$user){
-		$return	= SessionService::LOGIN_UNCORRECT;
-		if( $request->get('password') === $user["password"]){
-			$this->moveUserToSession($user);
-			$return = SessionService::LOGIN_CORRECT;
+		
 		}
-		return $return;
-	}
+		
 	
-	private function moveUserToSession(Array $user){
-		$this->container->get('session')->set('userId', $user['id']);
-		$this->container->get('session')->set('userName', $user['realName']);
-		$this->container->get('session')->set('nickName', $user['nickname']);
-	}
-	*/
-
+		private function persistUserMembers(Session $session, $userId, $userGroups){
+		
+			foreach($userGroups as $userGroup){
+				$sessionUsers = new SessionUser();
+				$sessionUsers->setIdSession($group->getId())
+				->setIdUser($userGroup["id"])
+				->setCreatedBy($userId)
+				->setRules(Rule::USER);
+				$this->em->persist($groupUsers);
+			}
+		}
 }

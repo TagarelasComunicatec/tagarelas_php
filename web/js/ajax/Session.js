@@ -23,7 +23,7 @@ $( function() {
 		} else if (!$("input[name='visibility']:checked").val()){
 			theMessage = global.error.sessionVisibility;
 			
-        } else if ( (jsSession.groups.length + jsSession.members.length) === 0){
+        } else if ( (jsGroup.totalMembersGroups + jsProfile.totalMembers) === 0){
 			theMessage = global.error.sessionGroups
 			
 		} else {
@@ -41,20 +41,65 @@ $( function() {
 		if ( !jsSession.checkFields()) {
 			return false;
 		}
+		var sessionName     = $("#sessionName").val();
+		var divPosicao      = '#imgSessionName';
+		var datetimeSession = $('#datetimeSession').val();
+		var users	        = jsProfile.membersSelected;
+		var groups		    = jsGroup.membersSelected;
+		var visibility		= $("input[name='visibility']:checked").val();
+		var description		= $("#description").val();
+		var myData          = {'sessionName' 			: sessionName,
+					           'datetimeSession'	   	: datetimeSession,
+					           'users'					: users,
+					           'groups'					: groups,
+					           'visibility'				: visibility,
+					           'description'			: description,	
+					           };
+		var saveNewSessionUrl =  $("#divSaveNewSession").attr("ajaxurl");
+		
+		  $.ajax({
+				
+				url: saveNewSessionUrl,
+				data: myData,
+				type: 'POST',
+				cache: true,
+		
+				beforeSend: function( ) {
+				},
+			
+				error: function(){
+				},
+
+				success: function(returned){ 
+					//debugger;
+					var dataout = $.parseJSON(returned);
+					if($.trim(dataout.result) === global.recordSavedWithSuccess){
+						global.msgbox.data('messageBox').info(window.important, 
+								 global.saveOk);
+					} else  
+						global.msgbox.data('messageBox').error(window.important, 
+								global.saveError);
+					return;
+				},
+				statusCode: {
+					404: function() {
+						global.msgbox.data('messageBox').danger(window.important, 
+								global.error.connection + saveNewSessionUrl + ". "+ global.error.tryagain);
+					}
+				}
+			});
 		
 		return true;
 	};
 	
 	jsSession.checkSessionName = function() {
-		var sessionName = $("#sessionName").val();
-		var divPosicao  = '#imgSessionName';
-		var pageurl     = $('#checkSessionNamePath').val();
-
-		//debugger;
-		
+		var sessionName         = $("#sessionName").val();
+		var divPosicao          = '#imgSessionName';
+		var pageUrlSession      = $("#divCheckSessionName").attr("ajaxurl");
+	
 		var myData = {'sessionName' : sessionName};
 		$.ajax({
-			url: pageurl,
+			url: pageUrlSession,
 			data: myData,
 			type: 'POST',
 			cache: true,
@@ -95,7 +140,7 @@ $( function() {
 			statusCode: {
 				404: function() {
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + pageurl + ". "+ global.error.tryagain);
+							global.error.connection + pageUrlSession + ". "+ global.error.tryagain);
 				}
 			}
 		});

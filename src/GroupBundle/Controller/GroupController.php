@@ -20,10 +20,25 @@ class GroupController extends Controller
 	{
 		return $this->render('GroupBundle:Group:edit.html.twig');
 	}
+	
 	public function sessionsGroupAction()
 	{
 		return $this->render('GroupBundle:Group:sessionsgroup.html.twig');
 	}
+	
+	public function loadAllGroupsAction(){
+		$groupService = $this->get("group.services");
+		$returnCode  =	$groupService->loadAllGroups();
+		$myReturn    = array (
+				"responseCode" => 200,
+				"result" => $returnCode,
+		);
+		$returnJson = json_encode ( $myReturn );
+		return new Response ( $returnJson, 200, array (
+				'Content-Type' => 'application/text'
+		) );
+	}
+	
 	public function checkGroupByNameAction(){
 		$request  = $this->container->get('request_stack')->getCurrentRequest();
 		$groupName = $request->get("groupName");
@@ -54,7 +69,7 @@ class GroupController extends Controller
 	
 	public function saveNewGroupAction(){
 		 $groupService = $this->get("group.services");
-	     $returnCode  =	$groupService->saveGroup();
+	     $returnCode  =	$groupService->save();
 		 $myReturn    = array (
 							"responseCode" => 200,
 							"result" => $returnCode,

@@ -34,6 +34,12 @@ class SessionGroup
 	protected $createdBy;
 	
 	/**
+	 * @ORM\Column(name="regras", type="string", length=255, nullable=false)
+	 */
+	
+	protected $rules;
+	
+	/**
 	 * @ORM\Column(name="data_criacao", type="datetime", nullable=true)
 	 */
 	protected $created;
@@ -43,7 +49,6 @@ class SessionGroup
 	 * @ORM\Column(name="ultima_atualizacao", type="datetime", nullable=true)
 	 */
 	protected $lastUpdate;
-	
 	
 	/**
 	 * @ORM\PrePersist
@@ -158,9 +163,12 @@ class SessionGroup
 		$this->sessionGroup = $sessionGroup;
 		return $this;
 	}
-	
-
-
-
+	public function getRules() {
+		return $this->rules;
+	}
+	public function setRules($rules) {
+		$this->rules = $rules;
+		return $this;
+	}
 
 }

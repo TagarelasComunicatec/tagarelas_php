@@ -5,6 +5,7 @@ namespace GroupBundle\Service;
 use AppBundle\Entity\Group;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\Expr\Join;
 use Monolog\Logger;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -28,6 +29,19 @@ class GroupService {
 		$this->logger = $log;
 	}
 	
+	public function loadAllGroups(){
+		$qb = $this->em->createQueryBuilder();
+		$qb->select('g.id,g.groupName,count(gu.id) as totalMembers')
+		   ->from('AppBundle:Group', 'g')
+		   ->join('AppBundle:GroupUser', 'gu', Join::WITH,'gu.idGroup = g.id')
+		   ->groupBy('g.id,g.groupName')
+		   ->orderBy('g.groupName');
+		 $this->logger->info("Query de total de elementos -> " . $qb->__toString());
+		 $myReturn =  $qb->getQuery()->getResult();
+		 return $myReturn;
+	}
+	
+	
 	public function findGroupByKey($key,$value){
 		$qb = $this->em->createQueryBuilder();
 		$qb->select('g.id,g.groupName,g.avatar,g.createdBy')
@@ -47,7 +61,7 @@ class GroupService {
 	}
 	
 	
-	public function saveGroup(){
+	public function save(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$groupName   = $request->get("groupName");
 		if (count($this->findGroupByKey(GroupService::FIND_BY_NAME,$groupName)) >0){
@@ -84,7 +98,7 @@ class GroupService {
 		 * Persist the groupAdministrator
 		 */
 		$groupUsers = new GroupUser();
-		$groupUsers->setIdGrupo($group->getId())
+		$groupUsers->setIdGroup($group->getId())
 					->setIdUser($userId)
 					->setCreatedBy($userId)
 					->setRules(Rule::ADMIN);
@@ -94,7 +108,7 @@ class GroupService {
 
 		foreach($userGroups as $userGroup){
 			$groupUsers = new GroupUser();
-			$groupUsers->setIdGrupo($group->getId())
+			$groupUsers->setIdGroup($group->getId())
 					   ->setIdUser($userGroup["id"])
 					   ->setCreatedBy($userId)
 					   ->setRules(Rule::USER);

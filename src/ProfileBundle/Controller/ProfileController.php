@@ -90,7 +90,7 @@ class ProfileController extends Controller
     {
     	$profileService = $this->get('profile.services');
     	try{
-    		$profileService->saveUser();
+    		$profileService->save();
     		$myReturn = array (
     				"responseCode" => 200,
     				"result" => ProfileService::SUCCESS_SAVE,

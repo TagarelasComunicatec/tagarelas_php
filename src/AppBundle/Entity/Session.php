@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Id\UuidGenerator;
 
 /**
  * @ORM\Entity
@@ -98,6 +99,15 @@ class Session
 	{
 		
 	}
+	public function loadByRequest($request,$userId){
+		$this->visibility = ($request->get("visibility")===Visibility::PUBLIC);
+		$this->setSessionName($request->get('sessionName'))
+			 ->setDateTime($request->get('datetimeSession'))
+		     ->setIdMediator($userId)
+		     ->setDescription($request->get('description'))
+		 	 ->setFileMessage(md5(uniqid(rand(), true)));
+	}
+	
 	
 	/**
 	 * id

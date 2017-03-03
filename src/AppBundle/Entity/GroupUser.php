@@ -23,7 +23,7 @@ class GroupUser
 	/**
 	 * @ORM\Column(name="id_grupo", type="integer", nullable=false)
 	 */
-	protected $idGrupo;
+	protected $idGroup;
 	
 
 	/**
@@ -150,12 +150,12 @@ class GroupUser
 		return $this;
 	}
 	
-	public function getIdGrupo() {
-		return $this->idGrupo;
+	public function getIdGroup() {
+		return $this->idGroup;
 	}
 	
-	public function setIdGrupo($idGrupo) {
-		$this->idGrupo = $idGrupo;
+	public function setIdGroup($idGroup) {
+		$this->idGroup = $idGroup;
 		return $this;
 	}
 	

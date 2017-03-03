@@ -56,7 +56,7 @@ class ProfileService {
 		return $myReturn;
 	}
 	
-	public function saveUser(){
+	public function save(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$email   = $request->get("email");
 		if (count($this->findUserByEmail($email)) >0){

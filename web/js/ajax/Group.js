@@ -7,6 +7,8 @@ $( function() {
 	jsGroup = {};
 
 	jsGroup.CHECKOK = true;
+	jsGroup.totalMembersGroups = 0;
+	
 	
 	jsGroup.hasGroupName = function (groupName,divPosicao){
 		if (groupName) return true;
@@ -34,20 +36,20 @@ $( function() {
 	jsGroup.saveNewGroup = function(){
 		var groupName  = $("#groupName").val();
 		var divPosicao = '#imgGroupName';
-		var users	   = jsGroup.membersSelected;
+		var users	   = jsProfile.membersSelected;
 		var myData     = {'groupName' : groupName,
 					      'users'	  : users 	};
-		var pageurl    = $("#saveNewGroupPath").val();
+		var saveNewGroupUrl = $("#divSaveNewGroup").attr("ajaxurl");
 		
 		/* Check if fields is ok! */
 		if (! jsGroup.hasGroupName(groupName, divPosicao)) return;
-		if (! jsGroup.hasMembers()) return;
+		if (! jsProfile.hasMembers()) return;
 		
 		jsGroup.checkGroupName(true);
 		if (! jsGroup.CHECKOK ) return;
 	    $.ajax({
 			
-			url: pageurl,
+			url: saveNewGroupUrl,
 			data: myData,
 			type: 'POST',
 			cache: true,
@@ -72,17 +74,94 @@ $( function() {
 			statusCode: {
 				404: function() {
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + pageurl + ". "+ global.error.tryagain);
+							global.error.connection + saveNewGroupUrl + ". "+ global.error.tryagain);
 				}
 			}
 		});
 		
-	}
+	};
+	
+	jsGroup.membersSelected = [ ];
+	
+	jsGroup.controlData = function(action,data){
+		var totalMembros = data.totalMembers-0;
+		if (jsProfile.INCLUDE == action){
+			jsGroup.membersSelected.push(data);
+			jsGroup.totalMembersGroups += totalMembros;
+		
+		} else {
+			jsGroup.membersSelected = $.grep(jsGroup.membersSelected,function(item){
+			             return (item.id !== data.id);
+		     });
+			jsGroup.totalMembersGroups -= totalMembros;         
+	    }
+		$("#totalMembrosGrupos").html(jsGroup.totalMembersGroups);
+		$("#totalGruposHidden").val(jsGroup.totalMembersGroups);
+		
+		jsProfile.controlTotals();
+	};
+	
+	jsGroup.loadAllGroups = function(){
+		/**
+		 * Execute call to load all groups
+		 */
+		window.ajaxLoading("show");
+		var loadAllGroupsPath = $("#divLoadAllGroups").attr("ajaxurl");
+
+		$.ajax({
+			url:loadAllGroupsPath,
+			data: [],
+			type: 'POST',
+			cache: false,
+			
+			error: function(){
+				window.ajaxLoading("hide");
+				
+			},
+			
+			success: function(returned){ 
+				window.ajaxLoading("hide");
+				jsGroup.totalMembersGroups = 0;
+				var dataout = $.parseJSON(returned);
+				$('#sessionGroups').magicsearch({
+		            dataSource: dataout.result,
+		            fields: ['groupName', 'totalMembers'],
+		            id: 'id',
+		            format: '%groupName% · %totalMembers% ',
+		            multiple: true,
+		            multiField: 'groupName',
+		            dropdownBtn: true,
+		            multiStyle: {
+		                space: 5,
+		                width: 80
+		            },
+		            success:function($imput,data){
+		            	jsGroup.controlData(jsProfile.INCLUDE,data);
+		            	return true;
+		            },
+		            afterDelete: function($input, data) {
+		            	jsGroup.controlData(jsProfile.DELETE,data);
+		            	return true;
+		            },
+
+				});
+				return;
+			},
+			statusCode: {
+				404: function() {
+					window.ajaxLoading("hide");
+					global.msgbox.data('messageBox').danger(window.important, 
+							global.error.connection + loadAllGroupsPath + ". "+ global.error.tryagain);
+				}
+			},
+			
+		});
+	};
 	
 	jsGroup.checkGroupName = function(showMessage){
 		
 		var groupName= $("#groupName").val();
-		var pageurl  = $('#checkGroupNamePath').val();
+		var checkGroupNameUrl = $("#divCheckGroupName").attr("ajaxurl");
 		var divPosicao = '#imgGroupName';
 		var myData = {'groupName' : groupName};
 		
@@ -90,7 +169,7 @@ $( function() {
 	
 		$.ajax({
 			
-			url: pageurl,
+			url: checkGroupNameUrl,
 			data: myData,
 			type: 'POST',
 			cache: true,
@@ -136,11 +215,13 @@ $( function() {
 			statusCode: {
 				404: function() {
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + pageurl + ". "+ global.error.tryagain);
+							global.error.connection +checkGroupNameUrl + ". "+ global.error.tryagain);
 				}
 			}
 		});
 	};			
 	
-	
+	if ($('#pageSession').length)
+		jsGroup.loadAllGroups();
+
 });	

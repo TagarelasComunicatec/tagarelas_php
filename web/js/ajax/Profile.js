@@ -9,23 +9,42 @@ $( function() {
 	jsProfile.EMAIL_FOUND = false;
 	jsProfile.INCLUDE = 0;
 	jsProfile.DELETE  = 1;
+
+	
+	jsProfile.checkFields= function() {
+		
+		if (window.doCheckIsEmptyField("name", global.error.nameFormat)){
+        	$("#name").focus();
+        	return false;
+        } else if (window.doCheckIsEmptyField("shortName", global.error.shortNameFormat)){
+        	$("#shortName").focus();
+        	return false;
+        } else if (! window.docheckEmail(jsProfile.screenData.email,
+        								 jsProfile.screenData.confirmEmail) ){
+			$("#email").focus();
+			return false;
+		} else if (! pass.doVerifyPassword(jsProfile.screenData.password,
+										   jsProfile.screenData.confirmPassword)){
+			$("#password").focus();
+			return false;
+		} else if (!jsProfile.screenData.agree) {
+			global.msgbox.data('messageBox').danger(window.important, global.error.confirmTerm);
+			return false;
+		}
+		return true;
+	};
+	
 	
 	jsProfile.checkEmail = function() {
 		var email 	   = $("#email").val();
 		var divPosicao = '#imgEmail';
-		var url        = $('#checkEmailPath').val();
+		var checkEmailPath = $("#divCheckEmailPath").attr("ajaxurl");
 
 		//debugger;
 
-		//========================================================
-		var	pageurl = url;			// Executa atrav�s de AJAX a p�gina informada
-		//========================================================
-		//	Para consultar mais opcoes possiveis numa chamada ajax
-		// 		http://api.jquery.com/jQuery.ajax/
-		//=========================================================
 		var myData = {'email' : email};
 		$.ajax({
-			url: pageurl,
+			url: checkEmailPath,
 			data: myData,
 			type: 'POST',
 			cache: true,
@@ -66,34 +85,12 @@ $( function() {
 			statusCode: {
 				404: function() {
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + pageurl + ". "+ global.error.tryagain);
+							global.error.connection + checkEmailPath + ". "+ global.error.tryagain);
 				}
 			}
 		});
 	};		
-	
-	jsProfile.checkFields= function() {
-		
-		if (window.doCheckIsEmptyField("name", global.error.nameFormat)){
-        	$("#name").focus();
-        	return false;
-        } else if (window.doCheckIsEmptyField("shortName", global.error.shortNameFormat)){
-        	$("#shortName").focus();
-        	return false;
-        } else if (! window.docheckEmail(jsProfile.screenData.email,
-        								 jsProfile.screenData.confirmEmail) ){
-			$("#email").focus();
-			return false;
-		} else if (! pass.doVerifyPassword(jsProfile.screenData.password,
-										   jsProfile.screenData.confirmPassword)){
-			$("#password").focus();
-			return false;
-		} else if (!jsProfile.screenData.agree) {
-			global.msgbox.data('messageBox').danger(window.important, global.error.confirmTerm);
-			return false;
-		}
-		return true;
-	};
+
 	
 	jsProfile.saveNewUser = function() {
 		jsProfile.checkEmail();
@@ -108,8 +105,8 @@ $( function() {
 								 'email'          : $("#email").val(),
 								 'confirmEmail'   : $("#confirmEmail").val(),
 								 'agree'          : $('#agree').is(":checked"),
-								 'path'           : $("#newPath").val(),
-								 'login'          : $("#loginPath").val(),
+								 'path'           : $("#divSaveNewProfile").attr("ajaxurl"),
+								 'login'          : $("#divloginPath").attr("ajaxurl"),
 				     			};
 		if  (! jsProfile.checkFields())
 			return false;
@@ -138,7 +135,7 @@ $( function() {
 				404: function() {
 					window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + pageurl + ". "+ global.error.tryagain);
+							global.error.connection + jsProfile.screenData.path + ". "+ global.error.tryagain);
 				}
 			}
 		});
@@ -152,13 +149,13 @@ $( function() {
 		//------------------------------------------
 		jsProfile.screenData = { 'password'       : passMD5,
 								 'email'          : $("#email").val(),
-								 'checkLoginPath' : $("#checkLoginPath").val(),
-								 'feedPath'       : $("#feedPath").val(),
+								 'checkLoginPath' : $("#divCheckLoginPath").attr("ajaxurl"),
+								 'feedPath'       : $("#divFeedPath").attr("ajaxurl"),
 				     			};
 		/**
 		 * Execute the call of save record
 		 */
-		window.ajaxLoading("show");
+		window.ajaxLoading("show"); d
 		$.ajax({
 			url: jsProfile.screenData.checkLoginPath,
 			data: jsProfile.screenData,
@@ -178,35 +175,41 @@ $( function() {
 				404: function() {
 					window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + pageurl + ". "+ global.error.tryagain);
+							global.error.connection + jsProfile.screenData.checkLoginPath + ". "+ global.error.tryagain);
 				}
 			}
 		});
 	};
 
 	jsProfile.membersSelected = new Array();
+	jsProfile.totalMembers = 0;
+	
+	jsProfile.hasMembers = function(){
+		if ((jsProfile.membersSelected).length > 0) return true;	
+		global.msgbox.data('messageBox').danger(window.important, 
+												global.error.groupMemberNotFound);
+		return false;
+	}
 	
 	jsProfile.controlData = function(action,data){
 		var totalRegistros = 0
 		if (jsProfile.INCLUDE == action){
-			var totalRegistros = jsProfile.membersSelected.push(data);
+			jsProfile.totalMembers = jsProfile.membersSelected.push(data);
 		
 		} else {
 			jsProfile.membersSelected = $.grep(jsProfile.membersSelected,function(item){
 			             return (item.id !== data.id);
 		     });
-			 totalRegistros = jsProfile.membersSelected.length;            
+			jsProfile.totalMembers = jsProfile.membersSelected.length;            
 	    }
 		
-		$("#totalDeMembros").html(totalRegistros);
-		$("#totalDeMembrosHidden").val(totalRegistros)
+		$("#totalDeMembros").html(jsProfile.totalMembers);
+		$("#totalDeMembrosHidden").val(jsProfile.totalMembers)
 		jsProfile.controlTotals();
 	};
 	
 	jsProfile.controlTotals = function (){
-		var membros=$("#totalDeMembrosHidden").val()-0;
-		var membrosGrupos=$("#totalMembrosGruposHidden").val()-0;
-		$("#totalParticipantes").html(membros+membrosGrupos);
+		$("#totalParticipantes").html(jsProfile.totalMembers+jsGroup.totalMembersGroups);
 	};
 	
 	jsProfile.loadAllUsers = function() {
@@ -214,12 +217,12 @@ $( function() {
 		 * Execute call to load all users
 		 */
 		window.ajaxLoading("show");
-		var urlLoadAllUsers = $("#loadAllUsersPath").val();
+		var urlLoadAllUsers =  $("#divLoadAllUsers").attr("ajaxurl");
 		$.ajax({
 			url:  urlLoadAllUsers,
 			data: [],
 			type: 'POST',
-			cache: true,
+			cache: false,
 			
 			error: function(){
 				window.ajaxLoading("hide");
@@ -261,7 +264,7 @@ $( function() {
 				404: function() {
 					window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + pageurl + ". "+ global.error.tryagain);
+							global.error.connection + urlLoadAllUsers + ". "+ global.error.tryagain);
 				}
 			},
 			
@@ -274,7 +277,7 @@ $( function() {
 	/**
 	 * If exists $("#loadAllUsersDiv") - I'm in Group page then load all users.
 	 */
-	if ($("#pageNeedsAllUsers").length)
+	if ($("#pageGroup").length || $("#pageSession").length)
 		jsProfile.loadAllUsers();
 	
 	
