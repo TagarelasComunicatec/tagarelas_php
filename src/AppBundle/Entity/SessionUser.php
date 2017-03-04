@@ -22,14 +22,14 @@ class SessionUser
 	/**
 	 * @ORM\Column(name="id_sessao", type="integer", nullable=false)
 	 */
-	protected $sessionUser;
+	protected $idSession;
 	
 
 	/**
 	 * @ORM\Column(name="id_usuario", type="integer", nullable=false)
 	 */
 	
-	protected $userSessions;
+	protected $idUser;
 	
 	/**
 	 * @ORM\Column(name="id_usuario_criador", type="integer", nullable=false)
@@ -150,28 +150,31 @@ class SessionUser
 		return $this;
 	}
 	
-	public function getSessionUser() {
-		return $this->sessionUser;
+	public function getIdSession() {
+		return $this->idSession;
 	}
 	
-	public function setSessionUser($sessionUser) {
-		$this->sessionUser = $sessionUser;
+	public function setIdSession($idSession) {
+		$this->idSession = $idSession;
 		return $this;
 	}
-	public function getUserSessions() {
-		return $this->userSessions;
+	
+	public function getIdUser() {
+		return $this->idUser;
 	}
-	public function setUserSessions($userSessions) {
-		$this->userSessions = $userSessions;
+	
+	public function setIdUser($idUser) {
+		$this->idUser = $idUser;
 		return $this;
 	}
+	
 	public function getRules() {
 		return $this->rules;
 	}
+	
 	public function setRules($rules) {
 		$this->rules = $rules;
 		return $this;
 	}
 	
-
 }

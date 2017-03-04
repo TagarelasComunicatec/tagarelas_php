@@ -1,7 +1,7 @@
 <?php
 namespace AppBundle\Entity;
 
-interface Visibility {
-	const PUBLIC  = "PUBLIC";
-	const PRIVATE = "PRIVATE";
+class Visibility {
+	const IS_PUBLIC  = "PUBLIC";
+	const IS_PRIVATE = "PRIVATE";
 }

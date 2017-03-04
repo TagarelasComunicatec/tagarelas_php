@@ -41,6 +41,11 @@ class Session
 	protected $description;
 	
 	/**
+	 * @ORM\Column(name="id_usuario_criador", type="integer", nullable=true)
+	 */
+	protected $createdBy;
+	
+	/**
 	 * @ORM\Column(name="visibilidade", type="boolean", length=255, nullable=false)
 	 */
 	protected $visibility;
@@ -99,13 +104,13 @@ class Session
 	{
 		
 	}
-	public function loadByRequest($request,$userId){
-		$this->visibility = ($request->get("visibility")===Visibility::PUBLIC);
+	public function loadByRequest($request){
+		$this->visibility = ($request->get("visibility")=== Visibility::IS_PUBLIC);
 		$this->setSessionName($request->get('sessionName'))
 			 ->setDateTime($request->get('datetimeSession'))
-		     ->setIdMediator($userId)
-		     ->setDescription($request->get('description'))
-		 	 ->setFileMessage(md5(uniqid(rand(), true)));
+		     ->setDescription($request->get('description'));
+		
+		return $this;
 	}
 	
 	
@@ -161,7 +166,7 @@ class Session
 	 * @return Session
 	 */
 	public function setDateTime($dateTime){
-		$this->dateTime = $dateTime;
+		$this->dateTime = \DateTime::createFromFormat("d-m-Y H:i", $dateTime);
 		return $this;
 	}
 
@@ -286,6 +291,14 @@ class Session
 	public function getIsDeleted() {
 		return $this->isDeleted;
 	}
+	public function getCreatedBy() {
+		return $this->createdBy;
+	}
+	public function setCreatedBy($createdBy) {
+		$this->createdBy = $createdBy;
+		return $this;
+	}
+	
 	
 
 }

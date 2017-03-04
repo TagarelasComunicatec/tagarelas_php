@@ -22,11 +22,11 @@ class SessionGroup
 	/**
 	 * @ORM\Column(name="id_grupo", type="integer", nullable=false)
 	 */
-	protected $groupSession;
+	protected $idGroup;
 
 	/**
 	 * @ORM\Column(name="id_sessao", type="integer", nullable=false)
-	 */protected $sessionGroup;
+	 */protected $idSession;
 	
 	/**
 	 * @ORM\Column(name="id_usuario_criador", type="integer", nullable=false)
@@ -127,48 +127,41 @@ class SessionGroup
 		$this->created = $created;
 		return $this;
 	}
-
-	/**
-	 * lastUpdate
-	 * @return string
-	 */
-	public function getLastUpdate(){
-		return $this->lastUpdate;
+	
+	public function getIdGroup() {
+		return $this->idGroup;
 	}
-
-	/**
-	 * lastUpdate
-	 * @param string $lastUpdate
-	 * @return Group
-	 */
-	public function setLastUpdate($lastUpdate){
-		$this->lastUpdate = $lastUpdate;
+	
+	public function setIdGroup($idGroup) {
+		$this->idGroup = $idGroup;
 		return $this;
 	}
 	
-	public function getGroupSession() {
-		return $this->groupSession;
+	public function getIdSession() {
+		return $this->idSession;
 	}
 	
-	public function setGroupSession($groupSession) {
-		$this->groupSession = $groupSession;
+	public function setIdSession($idSession) {
+		$this->idSession = $idSession;
 		return $this;
 	}
 	
-	public function getSessionGroup() {
-		return $this->sessionGroup;
-	}
-	
-	public function setSessionGroup($sessionGroup) {
-		$this->sessionGroup = $sessionGroup;
-		return $this;
-	}
 	public function getRules() {
 		return $this->rules;
 	}
+	
 	public function setRules($rules) {
 		$this->rules = $rules;
 		return $this;
 	}
-
+	
+	public function getLastUpdate() {
+		return $this->lastUpdate;
+	}
+	
+	public function setLastUpdate($lastUpdate) {
+		$this->lastUpdate = $lastUpdate;
+		return $this;
+	}
+	
 }
