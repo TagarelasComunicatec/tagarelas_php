@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Entity\GroupUser;
 use AppBundle\Entity\Rule;
+use AppBundle\Entity\StatusUser;
+use AppBundle\AppBundle;
 
 class GroupService {
 	const NAME_FOUND     = 1;
@@ -40,7 +42,54 @@ class GroupService {
 		 $myReturn =  $qb->getQuery()->getResult();
 		 return $myReturn;
 	}
+	/**
+	 * Load user groups by status and user
+	 * @param int $user
+	 * @param int $status 
+	 * @see AppBundle\Entity\StatusUser
+	 */
+	public function loadGroupByStatus($user,$status){
+		$groups = $this->loadAllGroups();
+		$qb = $this->em->createQueryBuilder();
+		$myReturn = array();
+		foreach ($groups as $group){
+			$this->loadGroupUserInformation($qb, $group, $user, $status, $myReturn);
+		}
+		return $myReturn;
+	}
 	
+	/**
+	 * @param QueryBuilder $qb
+	 * @param Group        $group
+	 * @param int		   $user
+	 * @param int		   $status
+	 * @param array		   $myReturn
+	 */
+	private function loadGroupUserInformation($qb,$group,$user,$status, &$myReturn){
+		$this->generateQueryGroupUser($qb, $group, $user, $status);
+		$groupsuser = $qb->getQuery()->getResult();
+		foreach($groupsuser as $gu){
+			$group["userStatus"] = $gu["userStatus"];
+			$myReturn[ ] = $group;
+		}
+	}
+	/**
+	 * @param QueryBuilder $qb
+	 * @param Group        $group
+	 * @param int		   $user
+	 * @param int		   $status
+	 */
+	private function generateQueryGroupUser(&$qb,$group,$user,$status){
+		$qb->select('gu.id,gu.userId,gu.userStatus')
+			->from('AppBundle:GroupUser', 'gu')
+			->where('gu.idGroup = :group')
+			->andwhere('gu.idUser = :user')
+			->andWhere('gu.userStatus = :status')
+			->setParameter("group", $group["id"])
+			->setParameter('user', $user)
+			->setParameter('status', $status)
+			->orderBy('gu.created DESC');
+	}
 	
 	public function findGroupByKey($key,$value){
 		$qb = $this->em->createQueryBuilder();
@@ -92,7 +141,7 @@ class GroupService {
 		}
 
 	}
-	
+
 	private function persistAdministrator(Group $group,  $userId){
 		/*
 		 * Persist the groupAdministrator
@@ -101,7 +150,9 @@ class GroupService {
 		$groupUsers->setIdGroup($group->getId())
 					->setIdUser($userId)
 					->setCreatedBy($userId)
+					->setUserStatus(StatusUser::ACTIVE)
 					->setRules(Rule::ADMIN);
+					
 		$this->em->persist($groupUsers);
 	}
 	private function persistGroupMembers(Group $group, $userId, $userGroups){
@@ -111,6 +162,7 @@ class GroupService {
 			$groupUsers->setIdGroup($group->getId())
 					   ->setIdUser($userGroup["id"])
 					   ->setCreatedBy($userId)
+					   ->setUserStatus(StatusUser::PENDING)
 					   ->setRules(Rule::USER);
 			$this->em->persist($groupUsers);
 		}

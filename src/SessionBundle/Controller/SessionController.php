@@ -4,6 +4,7 @@ namespace SessionBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use SessionBundle\Service\SessionService;
 
 class SessionController extends Controller
 {
@@ -44,8 +45,8 @@ class SessionController extends Controller
     	
     	try {
     		$result    = $sessionService->findSessionByName($email);
-    		$returnCode = (count($result) > 0 )? $sessionService::SESSION_NOT_FOUND:
-    											 $sessionService::SESSION_FOUND;
+    		$returnCode = (count($result) > 0 )? SessionService::SESSION_NOT_FOUND:
+    											 SessionService::SESSION_FOUND;
     		$myReturn = array (
     				"responseCode" => 200,
     				"result" => $returnCode,

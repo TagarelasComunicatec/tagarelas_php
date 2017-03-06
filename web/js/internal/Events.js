@@ -45,7 +45,6 @@ $( function() {
 	$("#insertNewSession").click(function() {
 		jsSession.saveNewSession();
 	});
-	 
 	
 	/**
 	 * Configure the datetime field of session bundle

@@ -53,6 +53,11 @@ class GroupUser
 	 */
 	protected $lastUpdate;
 	
+	/**
+	 * @ORM\Column(name="status_usuario", type="integer", nullable=false)
+	 */
+	protected $userStatus;
+	
 	
 	/**
 	 * @ORM\PrePersist
@@ -176,4 +181,14 @@ class GroupUser
 		$this->rules = $rules;
 		return $this;
 	}
+	
+	public function getUserStatus() {
+		return $this->userStatus;
+	}
+	
+	public function setUserStatus($userStatus) {
+		$this->userStatus = $userStatus;
+		return $this;
+	}
+	
 }

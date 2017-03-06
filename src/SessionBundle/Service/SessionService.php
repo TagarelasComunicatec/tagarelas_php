@@ -13,6 +13,9 @@ use AppBundle\Entity\SessionGroup;
 
 class SessionService {
 
+	const SESSION_FOUND     = 1;
+	const SESSION_NOT_FOUND = 2;
+	
 	protected $em;
 	private $container;
 	private $logger;

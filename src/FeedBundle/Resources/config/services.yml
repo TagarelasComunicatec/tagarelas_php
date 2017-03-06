@@ -1,4 +1,4 @@
 services:
-#    feed.example:
-#        class: FeedBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+     feed.services:
+        class: FeedBundle\Service\FeedService
+        arguments: [ "@doctrine.orm.entity_manager" , "@service_container", "@logger" ]  
