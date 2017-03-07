@@ -119,8 +119,9 @@ class GroupService {
 		$userId        = $this->container->get('session')->get('userId');
 		$usersGroup	   = $request->get("users");
 		$group         = new Group();
-		
+		$avatar		   = $this->persistImage();
 		$group->loadByRequest($request)
+			   ->setAvatar($avatar)
 			   ->setCreatedBy($userId);
 	    $this->em->getConnection()->beginTransaction(); // manipulacao de tabelas
 		try{
@@ -140,6 +141,21 @@ class GroupService {
 
 	}
 
+	public function persistImage(){
+		$request = $this->container->get('request_stack')->getCurrentRequest();
+		$file = $request->files->get("imageGroup");
+		$path = $this->container->getParameter('group_images_directory') .'/';
+		if (is_null($file)) {
+			return $path .'default.png';
+		}
+		$filename = md5(uniqid()).'.'.$file->getClientOriginalExtension();
+		$this->logger->info("arquivo de imagem salvo:" .
+				$this->container->getParameter('group_images_directory') .'/'. $filename);
+		
+		$file->move( $path, $filename);
+		return $path.$filename;
+	}
+	
 	private function persistAdministrator(Group $group,  $userId){
 		/*
 		 * Persist the groupAdministrator

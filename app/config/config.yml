@@ -14,7 +14,11 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: pt_br
-
+    
+    group_images_directory: '%kernel.root_dir%/../web/uploads/groupimages'
+    profile_images_directory: '%kernel.root_dir%/../web/uploads/profileimages'
+    session_images_directory: '%kernel.root_dir%/../web/uploads/sessionimages'
+    
 framework:
     #esi:             ~
     #translator:      { fallbacks: ["%locale%"] }

@@ -39,6 +39,24 @@ class GroupController extends Controller
 		) );
 	}
 	
+	public function loadImageGroupAction(){
+
+		$groupService = $this->get('group.services');
+		$filename = $groupService->persistImage();
+		
+		$myReturn = array (
+				     'status' => "success",
+				     'fileUploaded' => true,
+					 'responseCode' => 200,
+					 'result' => $filename,
+					);              
+		$returnJson = json_encode ( $myReturn );
+		return new Response ( $returnJson, 200, array (
+				'Content-Type' => 'application/text'
+				) );
+		
+	}
+	
 	public function checkGroupByNameAction(){
 		$request  = $this->container->get('request_stack')->getCurrentRequest();
 		$groupName = $request->get("groupName");

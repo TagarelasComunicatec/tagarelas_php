@@ -179,16 +179,121 @@ $( function() {
 			}
 		});
 		
-	/*
-	 *  ===========================
-	 *  Constantes do Sistema.
-	 *  ===========================
-	 *  
+	/**
+	 * ========================================================
+	 * Verifica as condições necessárias para aprovar uma senha
+	 * ========================================================
 	 */
-	window.constants = {};
-	window.constants.titulo = {};
 	
+	pass.doVerifyPassword = function (password,confirmPassword){
+	    var result 			= {};
+	    var p 				= password;
+	    var cp 				= confirmPassword;
+	    
+	    result.status = true;
 
+	    if(p.length < pass.minimalLength){
+	        result.status   =false;
+	        global.msgbox.data('messageBox').danger(window.important, global.error.length);
+	        return result.status;
+	    }  else  if (p != cp) {
+	        result.status   =false;
+	        global.msgbox.data('messageBox').danger(window.important,global.error.confirm);
+	        return result.status;
+	    }
 
+	    var numUpper = 0;
+	    var numLower = 0;
+	    var numNums = 0;
+	    var numSpecials = 0;
+	    
+	    for(var i=0; i<p.length; i++){
+	        if(global.regex.anUpperCase.test(p[i]))
+	            numUpper++;
+	        else if(global.regex.aLowerCase.test(p[i]))
+	            numLower++;
+	        else if(global.regex.aNumber.test(p[i]))
+	            numNums++;
+	        else if(global.regex.aSpecial.test(p[i]))
+	            numSpecials++;
+	    }
+
+	    if(numUpper    < pass.minimalUpper  || 
+	       numLower    < pass.minimalLower  || 
+	       numNums     < pass.minimalNumber || 
+	       numSpecials < pass.minimalEspChar){
+	        result.status  = false;
+	        global.msgbox.data('messageBox').danger(window.important,global.error.format);
+	        return result.status;
+	    }
+	    return result.status;
+	}
+	
+	window.fullUrl = function(){
+		var myurl = $("#divHost").attr("url");
+		myurl = myurl.replace("app_dev.php","");
+		return myurl;
+	}
+
+	/**
+	 * Verifica a validade do Email
+	 * @param email 
+	 * @param confirmeEmail
+	 * @returns {Boolean} true - emails ok, false - não ok
+	 */
+
+	window.docheckEmail = function (email, confirmeEmail){
+		if (! global.isValidEmailAddress(email)){
+			global.msgbox.data('messageBox').danger(window.important,global.error.emailFormat + email);
+			return false;
+		}
+
+		if (email != confirmeEmail){
+			global.msgbox.data('messageBox').danger(window.important,global.error.confirmEmail);
+			return false;
+		}	
+		
+		return true;
+	};
+	
+	
+	window.doCheckIsEmptyField = function(field,msgError){
+		var field = $('#'+field).val()+'';
+		if (! field){
+			global.msgbox.data('messageBox').danger(window.important,msgError);
+			return true;
+		}
+		return false;
+	};
+	
+	
+	window.ajaxLoading = function(show){
+		$.LoadingOverlay(show, {
+			  // background color
+			  color           : "rgba(255, 255, 255, 0.8)",
+			  // additonal CSS classes
+			  custom          : "",
+			  // fade out the loading overlay
+			  fade            : true,
+			  // use Font Awesome 4 icons for the loading spinner
+			  fontawesome     : "",
+			  // default loading spinner
+			  image           : window.fullUrl()  + "img/loading.gif",
+			  // postion of the spinner
+			  imagePosition   : "center center",
+			  // min/max size of the spinner
+			  maxSize         : "100px",
+			  minSize         : "20px",
+			  // Specifies an interval in milliseconds to resize the Loading Overlay accoring to its container.
+			  // Use this when the DOM element is supposed to change size while the Loading Overlay is shown.
+			  resizeInterval  : 0,
+			  // size of the spinner
+			  size            : "50%",
+			  // z-index property
+			  zIndex          : undefined
+			});
+	};
+	
+	window.ajaxLoading("hide");
 	
 });

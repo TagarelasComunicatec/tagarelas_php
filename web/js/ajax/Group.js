@@ -16,7 +16,7 @@ $( function() {
 		/**
 		 * Execute call to load all groups
 		 */
-		window.ajaxLoading("show");
+		if (window.ajaxLoading)  window.ajaxLoading("show");
 		var loadStatusGroupsPath = $("#divLoadGroupsByStatus").attr("ajaxurl");
 		var myData     = {'status' : status,};
 		$.ajax({
@@ -31,7 +31,7 @@ $( function() {
 			},
 			
 			success: function(returned){ 
-				window.ajaxLoading("hide");
+				if (window.ajaxLoading)  window.ajaxLoading("hide");
 				areaHtml.empty();
 				var dataout = $.parseJSON(returned);
 
@@ -52,7 +52,7 @@ $( function() {
 			
 			statusCode: {
 				404: function() {
-					window.ajaxLoading("hide");
+					if (window.ajaxLoading)  window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
 							global.error.connection + loadAllGroupsPath + ". "+ global.error.tryagain);
 				}
@@ -170,7 +170,7 @@ $( function() {
 		/**
 		 * Execute call to load all groups
 		 */
-		window.ajaxLoading("show");
+		if (window.ajaxLoading) window.ajaxLoading("show");
 		var loadAllGroupsPath = $("#divLoadAllGroups").attr("ajaxurl");
 
 		$.ajax({
@@ -185,7 +185,7 @@ $( function() {
 			},
 			
 			success: function(returned){ 
-				window.ajaxLoading("hide");
+				if (window.ajaxLoading) window.ajaxLoading("hide");
 				jsGroup.totalMembersGroups = 0;
 				var dataout = $.parseJSON(returned);
 				$('#sessionGroups').magicsearch({
@@ -214,7 +214,7 @@ $( function() {
 			},
 			statusCode: {
 				404: function() {
-					window.ajaxLoading("hide");
+					if (window.ajaxLoading) window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
 							global.error.connection + loadAllGroupsPath + ". "+ global.error.tryagain);
 				}

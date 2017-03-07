@@ -29,5 +29,8 @@ group_loadallgroups:
 group_loadgroupsbystatus:
     path:     /group/loadgroupsbystatus
     defaults: { _controller: 'GroupBundle:Group:loadGroupsByStatus' }  
-    
+
+group_uploadimage:    
+    path:     /group/loadimagegroup
+    defaults: { _controller: 'GroupBundle:Group:loadImageGroup' }  
        

@@ -17,6 +17,8 @@
 	<link rel="stylesheet" type="text/css" href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('css/messageBox.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('css/jquery.magicsearch.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('css/DateTimePicker.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('css/loading.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('css/ssi-uploader.css') }}" />	
 	
 	<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -44,6 +46,7 @@
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/jquery.messagebox.min.js') }}"></script>  
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/jquery.magicsearch.js') }}"></script>  
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/DateTimePicker.js') }}"></script>  
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/ssi-uploader.js') }}"></script>  
  
  	<!--  Bibliotecas para chamadas AJAX -->
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Profile.js') }}"></script>    
@@ -176,6 +179,8 @@
 		<div id='divFeedPath'               ajaxurl="{{ path('feed_homepage') }}"></div>
 		<div id='divCheckLoginPath'         ajaxurl="{{ path('profile_loginUser') }}"></div>
 		<div id='divLoadGroupsByStatus'     ajaxurl="{{ path('group_loadgroupsbystatus') }}"></div>
+		<div id='divGroupUploadImage' 		ajaxurl="{{ path('group_uploadimage') }}"></div>
+		<div id='divHost' 				    url="{{   app.request.scheme ~'://' ~ app.request.httpHost ~ app.request.getBaseURL() }}"></div>
 {% endblock %}
 
 </body>

@@ -216,7 +216,7 @@ $( function() {
 		/**
 		 * Execute call to load all users
 		 */
-		window.ajaxLoading("show");
+		if (window.ajaxLoading) window.ajaxLoading("show");
 		var urlLoadAllUsers =  $("#divLoadAllUsers").attr("ajaxurl");
 		$.ajax({
 			url:  urlLoadAllUsers,
@@ -225,12 +225,13 @@ $( function() {
 			cache: false,
 			
 			error: function(){
-				window.ajaxLoading("hide");
+				if (window.ajaxLoading)
+					window.ajaxLoading("hide");
 				
 			},
 			
 			success: function(returned){ 
-				window.ajaxLoading("hide");
+				if (window.ajaxLoading) window.ajaxLoading("hide");
 				var dataout = $.parseJSON(returned);
 				if(global.usersFound  ==$.trim(dataout.result)){
 					$('#allMembers').magicsearch({
@@ -262,7 +263,7 @@ $( function() {
 			},
 			statusCode: {
 				404: function() {
-					window.ajaxLoading("hide");
+					if (window.ajaxLoading) window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
 							global.error.connection + urlLoadAllUsers + ". "+ global.error.tryagain);
 				}
