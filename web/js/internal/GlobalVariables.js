@@ -133,6 +133,21 @@ $( function() {
 	global.usersFound 				= 	"7";
 	global.usersNotFound 			=   "8";
 
+	global.statusUser = { };
+	global.statusUser.PENDING  = 0;
+	global.statusUser.ACTIVE   = 1;
+	global.statusUser.REJECTED = 2;
+	global.statusUser.CANCELED = 3;
+	global.statusUser.BANNED   = 4;
+	
+	
+	global.statusUser.title  = [
+								 "Grupos Pendentes de Confirmação",
+								 "Meus Grupos",
+								 "Grupos Rejeitados",
+								 "Grupos Cancelados pelo Administrador",
+								 "Grupos que fui banido",
+								 ];
 	
 	
 	global.isValidEmailAddress= function(emailAddress) {

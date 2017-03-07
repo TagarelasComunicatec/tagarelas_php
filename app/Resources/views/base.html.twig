@@ -44,23 +44,26 @@
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/jquery.messagebox.min.js') }}"></script>  
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/jquery.magicsearch.js') }}"></script>  
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/DateTimePicker.js') }}"></script>  
-   
-    <!--  Bibliotecas desenvolvidas para o projeto -->
-	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/GlobalVariables.js') }}"></script>
-    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/md5.js') }}"></script>    
-    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/ScreenTools.js') }}"></script>   
-    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/Events.js') }}"></script>  
  
  	<!--  Bibliotecas para chamadas AJAX -->
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Profile.js') }}"></script>    
  	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Group.js') }}"></script>    
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Session.js') }}"></script>    
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Feed.js') }}"></script> 
+      
+    <!--  Bibliotecas desenvolvidas para o projeto -->
+	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/GlobalVariables.js') }}"></script>
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/md5.js') }}"></script>    
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/ScreenTools.js') }}"></script>   
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/ScreenElements.js') }}"></script> 
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/Events.js') }}"></script>  
+ 
  
 {% endblock %} 
 
 {% block noJavaScript %}
 	<noscript>
-		<meta http-equiv="Refresh" content="0; url=erroJavascript.php">
+		<meta http-equiv="Refresh" content="0; url={{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('error/erronojavascript.html.twig') }}">
 	</noscript>
 {% endblock %}
 
@@ -172,6 +175,7 @@
 		<div id='divloginPath'              ajaxurl="{{ path('login') }}"></div>
 		<div id='divFeedPath'               ajaxurl="{{ path('feed_homepage') }}"></div>
 		<div id='divCheckLoginPath'         ajaxurl="{{ path('profile_loginUser') }}"></div>
+		<div id='divLoadGroupsByStatus'     ajaxurl="{{ path('group_loadgroupsbystatus') }}"></div>
 {% endblock %}
 
 </body>

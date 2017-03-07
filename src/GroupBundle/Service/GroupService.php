@@ -38,22 +38,20 @@ class GroupService {
 		   ->join('AppBundle:GroupUser', 'gu', Join::WITH,'gu.idGroup = g.id')
 		   ->groupBy('g.id,g.groupName')
 		   ->orderBy('g.groupName');
-		 $this->logger->info("Query de total de elementos -> " . $qb->__toString());
 		 $myReturn =  $qb->getQuery()->getResult();
 		 return $myReturn;
 	}
 	/**
 	 * Load user groups by status and user
-	 * @param int $user
-	 * @param int $status 
-	 * @see AppBundle\Entity\StatusUser
 	 */
-	public function loadGroupByStatus($user,$status){
+	public function loadGroupByStatus(){
+		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$groups = $this->loadAllGroups();
-		$qb = $this->em->createQueryBuilder();
+		$userId =  $this->container->get('session')->get('userId');
+		$status =  $request->get("status");
 		$myReturn = array();
 		foreach ($groups as $group){
-			$this->loadGroupUserInformation($qb, $group, $user, $status, $myReturn);
+			$myReturn = $this->loadGroupUserInformation($group, $userId, $status, $myReturn);
 		}
 		return $myReturn;
 	}
@@ -61,34 +59,34 @@ class GroupService {
 	/**
 	 * @param QueryBuilder $qb
 	 * @param Group        $group
-	 * @param int		   $user
+	 * @param int		   $userId
 	 * @param int		   $status
 	 * @param array		   $myReturn
 	 */
-	private function loadGroupUserInformation($qb,$group,$user,$status, &$myReturn){
-		$this->generateQueryGroupUser($qb, $group, $user, $status);
-		$groupsuser = $qb->getQuery()->getResult();
+	private function loadGroupUserInformation($group,$userId,$status, &$myReturn){
+		$groupsuser = $this->generateQueryGroupUser($group, $userId, $status);
 		foreach($groupsuser as $gu){
 			$group["userStatus"] = $gu["userStatus"];
 			$myReturn[ ] = $group;
 		}
+		return $myReturn;
 	}
 	/**
-	 * @param QueryBuilder $qb
 	 * @param Group        $group
 	 * @param int		   $user
 	 * @param int		   $status
 	 */
-	private function generateQueryGroupUser(&$qb,$group,$user,$status){
-		$qb->select('gu.id,gu.userId,gu.userStatus')
+	private function generateQueryGroupUser($group,$userId,$status){
+		$qb = $this->em->createQueryBuilder();
+		$qb->select('gu.id,gu.idUser, gu.idGroup ,gu.userStatus')
 			->from('AppBundle:GroupUser', 'gu')
-			->where('gu.idGroup = :group')
-			->andwhere('gu.idUser = :user')
+			->where('gu.idGroup = :idGroup')
+			->andwhere('gu.idUser = :idUser')
 			->andWhere('gu.userStatus = :status')
-			->setParameter("group", $group["id"])
-			->setParameter('user', $user)
-			->setParameter('status', $status)
-			->orderBy('gu.created DESC');
+			->setParameter("idGroup", $group["id"])
+			->setParameter('idUser', $userId)
+			->setParameter('status', $status);
+		return  $qb->getQuery()->getResult();
 	}
 	
 	public function findGroupByKey($key,$value){

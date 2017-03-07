@@ -69,15 +69,30 @@ class GroupController extends Controller
 	
 	public function saveNewGroupAction(){
 		 $groupService = $this->get("group.services");
-	     $returnCode  =	$groupService->save();
+		 $myResult  =	$groupService->save();
 		 $myReturn    = array (
 							"responseCode" => 200,
-							"result" => $returnCode,
+							"result" => $myResult,
 					);
 		 $returnJson = json_encode ( $myReturn );
 		 return new Response ( $returnJson, 200, array (
 		 		'Content-Type' => 'application/text'
 		 ) );
 	}
+	
+	public function loadGroupsByStatusAction() {
+		$groupService = $this->get("group.services");
+		$logger = $this->get('logger');
+		$myResult     =	$groupService->loadGroupByStatus($logger);
+		$myReturn    = array (
+				"responseCode" => 200,
+				"result" => $myResult,
+		);
+		$returnJson = json_encode ( $myReturn );
+		return new Response ( $returnJson, 200, array (
+				'Content-Type' => 'application/text'
+		) );
+	}
+	
 	
 }

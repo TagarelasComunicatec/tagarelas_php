@@ -24,4 +24,10 @@ group_checkgroupname:
 
 group_loadallgroups:
     path:     /group/loadallgroups
-    defaults: { _controller: 'GroupBundle:Group:loadAllGroups' }     
+    defaults: { _controller: 'GroupBundle:Group:loadAllGroups' }  
+
+group_loadgroupsbystatus:
+    path:     /group/loadgroupsbystatus
+    defaults: { _controller: 'GroupBundle:Group:loadGroupsByStatus' }  
+    
+       

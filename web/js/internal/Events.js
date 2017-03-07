@@ -52,5 +52,12 @@ $( function() {
 	
 	$("#dtBox").DateTimePicker();
 	
+	/**
+	 * Load events em feed page
+	 */
+	
+	if ($("#pendingGroup").length){
+		jsGroup.loadGroupsByStatus(global.statusUser.PENDING,$("#pendingGroup"));
+	}
 });	
 

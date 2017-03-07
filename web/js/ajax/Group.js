@@ -5,11 +5,65 @@
 
 $( function() {
 	jsGroup = {};
-
+	
 	jsGroup.CHECKOK = true;
 	jsGroup.totalMembersGroups = 0;
 	
+	/**
+	 * Load Group by Status
+	 */
+	jsGroup.loadGroupsByStatus = function(status,areaHtml){
+		/**
+		 * Execute call to load all groups
+		 */
+		window.ajaxLoading("show");
+		var loadStatusGroupsPath = $("#divLoadGroupsByStatus").attr("ajaxurl");
+		var myData     = {'status' : status,};
+		$.ajax({
+			url:loadStatusGroupsPath,
+			data: myData,
+			type: 'POST',
+			cache: false,
+			
+			error: function(){
+				window.ajaxLoading("hide");
+				
+			},
+			
+			success: function(returned){ 
+				window.ajaxLoading("hide");
+				areaHtml.empty();
+				var dataout = $.parseJSON(returned);
+
+				if (dataout.result.length == 0) return;
+				myStatus = global.statusUser.title[status];
+				areaHtml.append("<h1><small >"+myStatus+"</small></h1>");
+
+				for(var index=0, len = dataout.result.length; index < len; index++ ){
+				    var myData = dataout.result[index];
+				    var myText = jsScreenElements.divGroupByStatus;
+				    myText = myText.replace("$groupName$"   , myData.groupName );
+				    myText = myText.replace("$totalMembers$", myData.totalMembers );
+				    areaHtml.append(myText);
+				}
+				
+				return;
+			},
+			
+			statusCode: {
+				404: function() {
+					window.ajaxLoading("hide");
+					global.msgbox.data('messageBox').danger(window.important, 
+							global.error.connection + loadAllGroupsPath + ". "+ global.error.tryagain);
+				}
+			},
+			
+		});	
+	};
 	
+	/**
+	 * Verify if group exists
+	 */
 	jsGroup.hasGroupName = function (groupName,divPosicao){
 		if (groupName) return true;
 		
@@ -22,17 +76,22 @@ $( function() {
 		global.msgbox.data('messageBox').danger(window.important, 
 				global.error.groupEmpty);
 	    return false;	
-	}
+	};
 	
-	
+	/**
+	 * Verify if group has members to save
+	 */
 	jsGroup.hasMembers = function(){
 		if ((jsGroup.membersSelected).length > 0) return true;	
 		
 		global.msgbox.data('messageBox').danger(window.important, 
 												global.error.groupMemberNotFound);
 		return false;
-	}
+	};
 	
+	/**
+	 * Save the group
+	 */
 	jsGroup.saveNewGroup = function(){
 		var groupName  = $("#groupName").val();
 		var divPosicao = '#imgGroupName';
@@ -83,6 +142,9 @@ $( function() {
 	
 	jsGroup.membersSelected = [ ];
 	
+	/**
+	 * Verify the count of members
+	 */
 	jsGroup.controlData = function(action,data){
 		var totalMembros = data.totalMembers-0;
 		if (jsProfile.INCLUDE == action){
@@ -101,6 +163,9 @@ $( function() {
 		jsProfile.controlTotals();
 	};
 	
+	/**
+	 * Load All groups
+	 */
 	jsGroup.loadAllGroups = function(){
 		/**
 		 * Execute call to load all groups
@@ -158,6 +223,9 @@ $( function() {
 		});
 	};
 	
+	/**
+	 * Verify if group exists and show information to user
+	 */
 	jsGroup.checkGroupName = function(showMessage){
 		
 		var groupName= $("#groupName").val();
