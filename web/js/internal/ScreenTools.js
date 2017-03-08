@@ -296,7 +296,14 @@ $( function() {
 		}
 	}
 	
-
-
+	$('.imageupload').imageupload( {
+			allowedFormats: ['jpg', 'jpeg', 'png', 'gif'],
+		    maxFileSizeKb: 2048
+	});
+	
+	
+	
+	
+	
 });	
 
