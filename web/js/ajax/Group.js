@@ -92,52 +92,72 @@ $( function() {
 	/**
 	 * Save the group
 	 */
-	jsGroup.saveNewGroup = function(){
-		var groupName  = $("#groupName").val();
-		var divPosicao = '#imgGroupName';
-		var users	   = jsProfile.membersSelected;
-		var myData     = {'groupName' : groupName,
-					      'users'	  : users 	};
-		var saveNewGroupUrl = $("#divSaveNewGroup").attr("ajaxurl");
-		
-		/* Check if fields is ok! */
-		if (! jsGroup.hasGroupName(groupName, divPosicao)) return;
-		if (! jsProfile.hasMembers()) return;
-		
-		jsGroup.checkGroupName(true);
-		if (! jsGroup.CHECKOK ) return;
-	    $.ajax({
+	jsGroup.saveNewGroup = function(myForm,event){
+		 
+		if(window.FormData === undefined) return; // for HTML5 browsers
 			
-			url: saveNewGroupUrl,
-			data: myData,
-			type: 'POST',
-			cache: true,
-	
-			beforeSend: function( ) {
-			},
+		 var groupName   = $("#groupName").val();
+		 var divPosicao  = '#imgGroupName';
+		 var users	     = jsProfile.membersSelected;
+         var usersString ='';
+		 
+		 for(var index = 0, len = users.length; index < len; ++index  ){
+			 usersString += users[index].id;
+			 if (index < len -1) usersString +="|";
+		 }
+		 
+		 /* Check if fields is ok! */
+		 if (! jsGroup.hasGroupName(groupName, divPosicao)) return false;
+		 if (! jsProfile.hasMembers()) return false;
+			
+		 jsGroup.checkGroupName(true);
+		 if (! jsGroup.CHECKOK ) return false;
+		 
+		 var filedata = $("#avatar").prop("files")[0];
+		 
+		 var formObj = $(myForm);
+		 var formURL = formObj.attr("action");
+		 
+		 var formData = new FormData();
 		
-			error: function(){
-			},
+		 
+		 formData.append("groupName", groupName); 
+		 formData.append("users", usersString);
+		 formData.append("file", filedata) ;
+		 
+		 var myData = { 
+				 'groupName' : groupName,
+				 'users'     : users,
+		 };
+		 
+		 $.ajax({
+		        url: formURL,
+		        type: 'post',
+		        data:  formData,
+		        //mimeType:"multipart/form-data",
+		        contentType: false,
+		        cache: false,
+		        processData:false,
+		        success: function(returned, textStatus, jqXHR)
+		        {
+		          //debugger;
+					var dataout = $.parseJSON(returned);
+					if($.trim(dataout.result) === global.recordSavedWithSuccess){
+						global.msgbox.data('messageBox').info(window.important, 
+								 global.saveOk . textStatus);
+					} else  
+						global.msgbox.data('messageBox').error(window.important, 
+								global.saveError);
+					return;
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) 
+		        {
+		        	 $.notify(errorThrown+ ' '+ textStatus, true);
+		         }          
+		    });
+		 event.preventDefault(); //Prevent Default action. 
+		 event.unbind();
 
-			success: function(returned){ 
-				//debugger;
-				var dataout = $.parseJSON(returned);
-				if($.trim(dataout.result) === global.recordSavedWithSuccess){
-					global.msgbox.data('messageBox').info(window.important, 
-							 global.saveOk);
-				} else  
-					global.msgbox.data('messageBox').error(window.important, 
-							global.saveError);
-				return;
-			},
-			statusCode: {
-				404: function() {
-					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + saveNewGroupUrl + ". "+ global.error.tryagain);
-				}
-			}
-		});
-		
 	};
 	
 	jsGroup.membersSelected = [ ];

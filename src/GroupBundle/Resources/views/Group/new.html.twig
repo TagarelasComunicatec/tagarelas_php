@@ -15,11 +15,12 @@ Tagarelas - Criar Grupo
                         </h1>
                     </div> <!-- conteudo-titulo !-->
                 </div> <!-- conteudo-cabecalho !--> 
-				<form class="row" id='newGroup'>
+				<form class="row" id='newGroupForm' method="POST" action="{{ path('group_savenewgroup') }}"  enctype="multipart/form-data">
 					<div class="col-xs-12 col-sm-6"> 
-						<div class="form-group" >
+						<div class="form-group" method='post' action= "{{ path('group_savenewgroup') }}">
 							  <input type="text" id= "groupName" style='width:90% !important'  placeholder= "Nome do grupo"/>
- 						      <!-- Mostra se o nome já existe ou não -->
+							  <input type='hidden' id='users' value='';
+  						      <!-- Mostra se o nome já existe ou não -->
  						      <span id="imgGroupName" 
  						      style='width:10% !important; valign: left !important; align: left; !important'></span>
 						</div>
@@ -38,7 +39,7 @@ Tagarelas - Criar Grupo
                                             <label class="btn btn-default btn-file">
                                                 <span>Browse</span>
                                                 <!-- The file is stored here. -->
-                                                <input type="file" id='imgGroup' name="image-file">
+                                                <input type="file" id='avatar'  name="avatar">
                                             </label>
                                             <button type="button" class="btn btn-default">Remove</button>
                                         </div>
@@ -62,7 +63,7 @@ Tagarelas - Criar Grupo
 						</div>
 					</div>
 					<div class="col-xs-12 form-group">
-						<button type="button" id="insertNewGroup" class="clearfix btn btn-success">Salvar</button>
+						<button type="submit" id="insertNewGroup" class="clearfix btn btn-success">Salvar</button>
 					</div>
 				   </div>
 				</form>

@@ -117,7 +117,8 @@ class GroupService {
 		}
 		
 		$userId        = $this->container->get('session')->get('userId');
-		$usersGroup	   = $request->get("users");
+		$usersGroup	   = explode("|",$request->get("users"));
+
 		$group         = new Group();
 		$avatar		   = $this->persistImage();
 		$group->loadByRequest($request)
@@ -143,7 +144,7 @@ class GroupService {
 
 	public function persistImage(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
-		$file = $request->files->get("imageGroup");
+		$file = $request->files->get("file");
 		$path = $this->container->getParameter('group_images_directory') .'/';
 		if (is_null($file)) {
 			return $path .'default.png';
@@ -171,10 +172,10 @@ class GroupService {
 	}
 	private function persistGroupMembers(Group $group, $userId, $userGroups){
 
-		foreach($userGroups as $userGroup){
+		foreach($userGroups as $idUserGroup){
 			$groupUsers = new GroupUser();
 			$groupUsers->setIdGroup($group->getId())
-					   ->setIdUser($userGroup["id"])
+					   ->setIdUser($idUserGroup)
 					   ->setCreatedBy($userId)
 					   ->setUserStatus(StatusUser::PENDING)
 					   ->setRules(Rule::USER);
