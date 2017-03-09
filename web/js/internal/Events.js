@@ -50,7 +50,10 @@ $( function() {
 	 */
 	
 	if ($("#pendingGroup").length){
-		jsGroup.loadGroupsByStatus(global.statusUser.PENDING,$("#pendingGroup"));
+		jsGroup.loadGroupsByStatus(global.statusUser.PENDING,0,$("#pendingGroup"));
+	}
+	if ($("#activeGroup").length){
+		jsGroup.loadGroupsByStatus(global.statusUser.ACTIVE,4,$("#activeGroup"));
 	}
 	
 	 $("#newGroupForm").submit(function(event){

@@ -12,18 +12,18 @@ $( function() {
 	/**
 	 * Load Group by Status
 	 */
-	jsGroup.loadGroupsByStatus = function(status,areaHtml){
+	jsGroup.loadGroupsByStatus = function(status,limit,areaHtml){
 		/**
 		 * Execute call to load all groups
 		 */
 		if (window.ajaxLoading)  window.ajaxLoading("show");
 		var loadStatusGroupsPath = $("#divLoadGroupsByStatus").attr("ajaxurl");
-		var myData     = {'status' : status,};
+		var myData     = {'status' : status,'limit' : limit};
 		$.ajax({
 			url:loadStatusGroupsPath,
 			data: myData,
 			type: 'POST',
-			cache: false,
+			cache: true,
 			
 			error: function(){
 				window.ajaxLoading("hide");
@@ -36,14 +36,17 @@ $( function() {
 				var dataout = $.parseJSON(returned);
 
 				if (dataout.result.length == 0) return;
-				myStatus = global.statusUser.title[status];
-				areaHtml.append("<h1><small >"+myStatus+"</small></h1>");
+				myStatus = jsScreenElements.divTitleGroupByStatus(status) ;
+				areaHtml.append(myStatus);
 
 				for(var index=0, len = dataout.result.length; index < len; index++ ){
 				    var myData = dataout.result[index];
-				    var myText = jsScreenElements.divGroupByStatus;
+				    var myText = jsScreenElements.divGroupByStatus(status-0);
 				    myText = myText.replace("$groupName$"   , myData.groupName );
 				    myText = myText.replace("$totalMembers$", myData.totalMembers );
+				    myText = myText.replace("$avatar$",
+				    		 window.fullUrl()  + 
+				    		 "uploads/groupimages/" + myData.avatar)
 				    areaHtml.append(myText);
 				}
 				
@@ -144,10 +147,14 @@ $( function() {
 					var dataout = $.parseJSON(returned);
 					if($.trim(dataout.result) === global.recordSavedWithSuccess){
 						global.msgbox.data('messageBox').info(window.important, 
-								 global.saveOk . textStatus);
-					} else  
+								 global.saveOk)
+						$("#groupName").val('');		 
+						location.reload();// clear the form.
+						return;
+					} else  {
 						global.msgbox.data('messageBox').error(window.important, 
 								global.saveError);
+					}
 					return;
 		        },
 		        error: function(jqXHR, textStatus, errorThrown) 

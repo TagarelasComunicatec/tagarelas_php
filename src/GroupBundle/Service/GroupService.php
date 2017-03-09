@@ -31,13 +31,17 @@ class GroupService {
 		$this->logger = $log;
 	}
 	
-	public function loadAllGroups(){
+	public function loadAllGroups($limit = 0){
 		$qb = $this->em->createQueryBuilder();
-		$qb->select('g.id,g.groupName,count(gu.id) as totalMembers')
+		$qb->select('g.id,g.groupName,g.avatar, count(gu.id) as totalMembers')
 		   ->from('AppBundle:Group', 'g')
 		   ->join('AppBundle:GroupUser', 'gu', Join::WITH,'gu.idGroup = g.id')
 		   ->groupBy('g.id,g.groupName')
 		   ->orderBy('g.groupName');
+		
+		 if (0 != $limit)
+		   	$qb->setMaxResults($limit);
+		
 		 $myReturn =  $qb->getQuery()->getResult();
 		 return $myReturn;
 	}
@@ -46,7 +50,8 @@ class GroupService {
 	 */
 	public function loadGroupByStatus(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
-		$groups = $this->loadAllGroups();
+		$limit = intval($request->get("limit"));
+		$groups = $this->loadAllGroups($limit);
 		$userId =  $this->container->get('session')->get('userId');
 		$status =  $request->get("status");
 		$myReturn = array();
@@ -147,14 +152,13 @@ class GroupService {
 		$file = $request->files->get("file");
 		$path = $this->container->getParameter('group_images_directory') .'/';
 		if (is_null($file)) {
-			return $path .'default.png';
+			return 'default.png';
 		}
 		$filename = md5(uniqid()).'.'.$file->getClientOriginalExtension();
-		$this->logger->info("arquivo de imagem salvo:" .
-				$this->container->getParameter('group_images_directory') .'/'. $filename);
+		$this->logger->info("arquivo de imagem salvo:" . $filename);
 		
 		$file->move( $path, $filename);
-		return $path.$filename;
+		return $filename;
 	}
 	
 	private function persistAdministrator(Group $group,  $userId){
