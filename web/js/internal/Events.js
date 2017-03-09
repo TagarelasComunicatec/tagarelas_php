@@ -53,19 +53,8 @@ $( function() {
 		jsGroup.loadGroupsByStatus(global.statusUser.PENDING,$("#pendingGroup"));
 	}
 	
-	 $("#newGroupForm").submit(function(event)
-	 {
+	 $("#newGroupForm").submit(function(event){
 	    jsGroup.saveNewGroup(this,event);
-/*		 
-		    var formData = new FormData(this);
-
-		    $.post($(this).attr("action"), formData, function(data) {
-		        alert(data);
-		    });*/
-
-		 //e.preventDefault(); //Prevent Default action. 
-		 //e.unbind();
- 
 	 }); 
 
 	; 
