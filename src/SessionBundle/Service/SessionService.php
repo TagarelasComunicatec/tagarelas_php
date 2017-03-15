@@ -25,16 +25,83 @@ class SessionService {
 		$this->container = $cont;
 		$this->logger = $log;
 	}
-	public function loadAllSession() {
+	/**
+	 * Load All Sessions 
+	 * @param number $limit
+	 */
+	public function loadAllSession($limit = 0) {
 		$qb = $this->em->createQueryBuilder ();
-		$qb->select ( 's.id,s.sessionName,s.description' )->from ( 'AppBundle:Session', 's' );
+		$qb->select ( 's.id,s.sessionName,s.description' )->from ( 'AppBundle:Session', 's' )
+		   ->where ('s.dateTime >= ');
+		
+		if (0 != $limit)
+			$qb->setMaxResults($limit);
+		
 		$myReturn = $qb->getQuery ()->getResult ();
 		
 		return $myReturn;
 	}
+	
+	/**
+	 * Load Sessions by status and user
+	 */
+	public function loadSessionByStatus(){
+		$request = $this->container->get('request_stack')->getCurrentRequest();
+		$limit = intval($request->get("limit"));
+		$Sessions = $this->loadAllSession($limit);
+		$status =  $request->get("status");
+		$userId =  $this->container->get('session')->get('userId');
+		$myReturn = array();
+		foreach ($Sessions as $Session){
+			$myReturn = $this->loadSessionGroupInformation($Session, $userId, $status, $myReturn);
+			$myReturn = $this->loadSessionUserInformation($Session, $userId, $status, $myReturn);
+		}
+		return $myReturn;
+	}
+	
+	/**
+	 * @param Session      $session
+	 * @param int		   $user
+	 * @param int		   $status
+	 */
+	private function generateQuerySessionGroup($Session,$userId,$status){
+		$qb = $this->em->createQueryBuilder();
+		$qb->select('gu.id,gu.idUser, gu.idGroup ,gu.userStatus')
+		->from('AppBundle:GroupUser', 'gu')
+		->where('gu.idGroup = :idGroup')
+		->andwhere('gu.idUser = :idUser')
+		->andWhere('gu.userStatus = :status')
+		->setParameter("idGroup", $group["id"])
+		->setParameter('idUser', $userId)
+		->setParameter('status', $status);
+		return  $qb->getQuery()->getResult();
+	}
+
+	/**
+	 * @param Session      $session
+	 * @param int		   $user
+	 * @param int		   $status
+	 */
+	private function generateQuerySessionUser($Session,$userId,$status){
+		$qb = $this->em->createQueryBuilder();
+		$qb->select('gu.id,gu.idUser, gu.idGroup ,gu.userStatus')
+		->from('AppBundle:GroupUser', 'gu')
+		->where('gu.idGroup = :idGroup')
+		->andwhere('gu.idUser = :idUser')
+		->andWhere('gu.userStatus = :status')
+		->setParameter("idGroup", $group["id"])
+		->setParameter('idUser', $userId)
+		->setParameter('status', $status);
+		return  $qb->getQuery()->getResult();
+	}
+	
+	
 	public function findSessionByName($sessionName) {
 		$qb = $this->em->createQueryBuilder ();
-		$qb->select ( 's.id,s.sessionName,s.description' )->from ( 'AppBundle:Session', 's' )->where ( 's.sessionName LIKE :sessionName' )->setParameter ( 'sessionName', $sessionName );
+		$qb->select ( 's.id,s.sessionName,s.description' )
+		   ->from ( 'AppBundle:Session', 's' )
+		   ->where ( 's.sessionName LIKE :sessionName' )
+		   ->setParameter ( 'sessionName', $sessionName );
 		
 		$myReturn = $qb->getQuery ()->getResult ();
 		
