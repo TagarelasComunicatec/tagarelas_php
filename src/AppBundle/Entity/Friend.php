@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="amizade")
+ * @ORM\Table(name="tg_amizade")
  * @ORM\HasLifecycleCallbacks()
  */
 class Friend

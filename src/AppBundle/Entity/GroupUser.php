@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="grupo_usuario")
+ * @ORM\Table(name="tg_grupousuario")
  * @ORM\HasLifecycleCallbacks()
  */
 class GroupUser

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="sessao_grupo")
+ * @ORM\Table(name="tg_sessaogrupo")
  * @ORM\HasLifecycleCallbacks()
  */
 class SessionGroup

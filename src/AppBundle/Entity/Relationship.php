@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tipo_amizade")
+ * @ORM\Table(name="tg tipoamizade")
  * @ORM\HasLifecycleCallbacks()
  */
 class Relationship

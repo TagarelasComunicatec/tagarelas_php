@@ -9,7 +9,7 @@ use Doctrine\ORM\Id\UuidGenerator;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="sessao")
+ * @ORM\Table(name="tg_sessao")
  * @ORM\HasLifecycleCallbacks()
  */
 class Session

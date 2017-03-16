@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="grupo")
+ * @ORM\Table(name="tg_grupo")
  * @ORM\HasLifecycleCallbacks()
  */
 class Group

@@ -8,7 +8,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="usuario")
+ * @ORM\Table(name="tg_usuario")
  * @ORM\HasLifecycleCallbacks()
  */
 class User extends BaseUser 
