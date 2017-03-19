@@ -1,11 +1,20 @@
 # This file is auto-generated during the composer install
 parameters:
-    database_driver: pdo_pgsql
-    database_host: 127.0.0.1
-    database_port: 5432
-    database_name: tagarelas
-    database_user: postgres
-    database_password: 123456
+    #Database tagarelas - default
+    database_driver_tagarelas: pdo_pgsql
+    database_host_tagarelas: 127.0.0.1
+    database_port_tagarelas: 5432
+    database_name_tagarelas: tagarelas
+    database_user_tagarelas: postgres
+    database_password_tagarelas: 123456
+   
+   #Database openfire - protocolo XMPP
+    database_driver_openfire: pdo_pgsql
+    database_host_openfire: 127.0.0.1
+    database_port_openfire: 5432
+    database_name_openfire: openfire
+    database_user_openfire: postgres
+    database_password_openfire: 123456
    
    # database_driver: pdo_mysql
    # database_host: tagarelas.db.9155816.hostedresource.com

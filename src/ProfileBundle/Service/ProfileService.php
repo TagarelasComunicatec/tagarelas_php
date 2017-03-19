@@ -6,7 +6,9 @@ use Symfony\Component\DependencyInjection\Container;
 use Doctrine\ORM\EntityManager;
 use Monolog\Logger;
 use AppBundle\Entity\User;
+
 use Symfony\Component\HttpFoundation\Session\Session;
+use AppBundle\Openfire\Ofuser;
 
 class ProfileService {
 	const EMAIL_FOUND = 1;
@@ -22,13 +24,15 @@ class ProfileService {
 	const USERS_NOT_FOUND = 8;
 	
 	protected $em;
+	protected $emo;
 	private   $container;
 	private   $logger;
 	
 	public function __construct(EntityManager $entityManager, Container $cont, Logger $log){
-		$this->em = $entityManager;
 		$this->container = $cont;
-		$this->logger = $log;
+		$this->logger    = $log;
+		$this->em        = $entityManager;
+		$this->emo       = $this->container->get('doctrine')->getManager('openfire');
 	}
 	
 	public function loadAllUsers(){
@@ -64,10 +68,18 @@ class ProfileService {
 								 'Não foi possível cadastrar usuário. '.
 					             'Entre em contato com o Suporte Tagarelas');
 		}
-		$user = new User();
-		$user->loadByRequest($request);
-		$this->em->persist($user);
-		$this->em->flush();
+		try{
+			$user = new User();
+			$ofUser = new Ofuser();
+			$user->loadByRequest($request);
+			$ofUser->loadByRequest($request);
+			$this->em->persist($user);
+			$this->em->flush();
+			$this->emo->persist($ofUser);
+			$this->emo->flush();
+		} catch (Exception $e) {
+		    throw $e;
+	    }
 	}
 
 	public function loginUser(){

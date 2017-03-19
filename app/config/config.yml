@@ -51,13 +51,27 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   "%database_driver%"
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
+        default_connection: tagarelas
+        connections:
+          
+          tagarelas:
+            driver:   "%database_driver_tagarelas%"
+            host:     "%database_host_tagarelas%"
+            port:     "%database_port_tagarelas%"
+            dbname:   "%database_name_tagarelas%"
+            user:     "%database_user_tagarelas%"
+            password: "%database_password_tagarelas%"
+            charset:  UTF8
+          
+          openfire:
+            driver:   "%database_driver_openfire%"
+            host:     "%database_host_openfire%"
+            port:     "%database_port_openfire%"
+            dbname:   "%database_name_openfire%"
+            user:     "%database_user_openfire%"
+            password: "%database_password_openfire%"
+            charset:  UTF8 
+             
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -67,9 +81,28 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
-
+        #naming_strategy: doctrine.orm.naming_strategy.underscore
+        #auto_mapping: true
+        default_entity_manager: tagarelas
+        
+        entity_managers:
+          tagarelas:
+            connection: tagarelas
+            mappings:
+              AppBundle:
+                  type: annotation
+                  prefix: AppBundle\Entity
+                  dir: "%kernel.root_dir%/../src/AppBundle/Openfire"
+              
+          openfire:    
+            connection: openfire
+            mappings:
+              AppBundle:                     
+                  type: annotation
+                  prefix: AppBundle\Openfire
+                  dir: "%kernel.root_dir%/../src/AppBundle/Openfire"
+        
+        
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
