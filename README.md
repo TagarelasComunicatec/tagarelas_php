@@ -60,9 +60,15 @@ It comes pre-configured with the following bundles:
   
   * [**HWIOauthBundle**] [15] - Use with FOSUserBundle from IntelligentBee. 
 
+  * [**XMPP Server**] [16] - XMPP Server in 9000/9090 port. More information on the Vendor Site
+  
+  * [**XMPP Database Structure**] [17] - XMPP Database Structure. 
 
-All libraries and bundles included in the Symfony Standard Edition are
+
+All libraries and  bundles  included in the Symfony Standard Edition are
 released under the MIT or BSD license.
+
+The OpenFire XMPP Server Version 4.1.3 is under Open Source Apache License.
 
 Enjoy!
 
@@ -75,7 +81,9 @@ Enjoy!
 [11]: https://symfony.com/doc/3.1/logging.html
 [13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
 [14]: https://github.com/FriendsOfSymfony/FOSUserBundle
-[15]: http://intelligentbee.com/blog/2015/11/13/symfony2-facebook-google-login.
+[15]: http://intelligentbee.com/blog/2015/11/13/symfony2-facebook-google-login
+[16]: https://www.igniterealtime.org/projects/openfire/documentation.jsp
+[17]: http://download.igniterealtime.org/openfire/docs/latest/documentation/database-guide.html#ofMucRoom
 
 # The ComunicaTec Team
 
