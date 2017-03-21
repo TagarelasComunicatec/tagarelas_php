@@ -1,5 +1,5 @@
-Social Network Tagarelas (SNT)
-========================
+Social Network Tagarelas (RST - Rede Social Tagarelas)
+======================================================
 
 Welcome to Social Network Tagarelas - a fully-functional Symfony
 application that you can use as Social Network for Educcational issues.
@@ -66,7 +66,7 @@ It comes pre-configured with the following bundles:
 
 
 All libraries and  bundles  included in the Symfony Standard Edition are
-released under the MIT or BSD license.
+released under the MIT / BSD license.
 
 The OpenFire XMPP Server Version 4.1.3 is under Open Source Apache License.
 

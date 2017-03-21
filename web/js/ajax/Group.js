@@ -35,10 +35,10 @@ $( function() {
 				areaHtml.empty();
 				var dataout = $.parseJSON(returned);
 
-				if (dataout.result.length == 0) return;
+				
 				myStatus = jsScreenElements.divTitleGroupByStatus(status) ;
 				areaHtml.append(myStatus);
-
+				if (dataout.result.length == 0) return;
 				for(var index=0, len = dataout.result.length; index < len; index++ ){
 				    var myData = dataout.result[index];
 				    var myText = jsScreenElements.divGroupByStatus(status-0);
