@@ -92,7 +92,7 @@ doctrine:
               AppBundle:
                   type: annotation
                   prefix: AppBundle\Entity
-                  dir: "%kernel.root_dir%/../src/AppBundle/Openfire"
+                  dir: "%kernel.root_dir%/../src/AppBundle/Entity"
               
           openfire:    
             connection: openfire
@@ -116,7 +116,9 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: "AppBundle/Entity/User"
-  
+    from_email:
+        address: tagarelas.comunicatec@gmail.com
+        sender_name: "Equipe Tagarelas" 
     
 hwi_oauth:
     firewall_names: [secured_area] 

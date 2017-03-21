@@ -31,7 +31,8 @@
 		"incenteev/composer-parameter-handler" : "^2.0",
 		"facebook/graph-sdk" : "^5.4",
 		"hwi/oauth-bundle" : "^0.5.2",
-		"friendsofsymfony/user-bundle" : "~2.0@dev"
+		"friendsofsymfony/user-bundle" : "~2.0@dev",
+		"doctrine/doctrine-migrations-bundle": "^1.0"
 	},
 	"require-dev" : {
 		"sensio/generator-bundle" : "^3.0",

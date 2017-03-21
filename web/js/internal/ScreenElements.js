@@ -8,26 +8,26 @@ $( function() {
 
 	jsScreenElements.divGroupByStatus = function(status){
 		if (status === global.statusUser.PENDING) {
-			return jsScreenElements.divPending;
+			return jsScreenElements.divGroupPending;
 		} else if(status === global.statusUser.ACTIVE )
-			return jsScreenElements.divActive;
+			return jsScreenElements.divGroupActive;
 		
     }
 	
 	jsScreenElements.divTitleGroupByStatus = function(status){
 		if (status === global.statusUser.PENDING) {
-			return jsScreenElements.divPendingTitle;
+			return jsScreenElements.divGroupPendingTitle;
 		} else 
-			return jsScreenElements.divActiveTitle;
+			return jsScreenElements.divGroupActiveTitle;
 	}
 	
 	/**
 	 * Grupos Pendentes
 	 */
-	jsScreenElements.divPendingTitle =
+	jsScreenElements.divGroupPendingTitle =
 		'<h1><small >Grupos Pendentes de Confirmação</small></h1>';
 	
-	jsScreenElements.divPending = 
+	jsScreenElements.divGroupPending = 
 
 		"<div class='col-xs-12 col-sm-6 col-md-3'> "+
 		"   <div class='caixa-de-apresentacao'>" +
@@ -52,7 +52,7 @@ $( function() {
 	/**
 	 * Grupos Ativos
 	 */
-	jsScreenElements.divActiveTitle = 
+	jsScreenElements.divGroupActiveTitle = 
 		'<h1>'+
 	     '    <small>Grupos que faço parte'+
 		 '           <span class="opcoes-feed"><small>'+
@@ -63,7 +63,7 @@ $( function() {
 	     ' </small>'+ 
         '</h1>';
 	
-	jsScreenElements.divActive = 	 
+	jsScreenElements.divGroupActive = 	 
 		'<div class="col-xs-12 col-sm-6 col-md-3">'+
 	    '    <div class="caixa-de-apresentacao"' +
 		'        <a href="#">' +
@@ -76,4 +76,9 @@ $( function() {
 	    '     </div>'+
         '</div>';
 
+	jsScreenElements.divSession
+	
+	
+	
+	
 });
