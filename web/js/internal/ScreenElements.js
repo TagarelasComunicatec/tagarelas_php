@@ -17,7 +17,7 @@ $( function() {
 	jsScreenElements.divTitleGroupByStatus = function(status){
 		if (status === global.statusUser.PENDING) {
 			return jsScreenElements.divGroupPendingTitle;
-		} else 
+		} else if(status === global.statusUser.ACTIVE ) 
 			return jsScreenElements.divGroupActiveTitle;
 	}
 	
@@ -76,7 +76,8 @@ $( function() {
 	    '     </div>'+
         '</div>';
 
-	jsScreenElements.divSession
+	jsScreenElements.divSession =
+		' ';
 	
 	
 	
