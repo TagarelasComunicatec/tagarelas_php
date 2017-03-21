@@ -55,14 +55,14 @@ It comes pre-configured with the following bundles:
   * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
     integration
 
-  * [**FriendsOfSymfony/FOSUserBundle**] [14]  - Adds (Facebook / Google) Login component
+  * [**FriendsOfSymfony/FOSUserBundle**][14]  - Adds (Facebook / Google) Login component
     integration. 
   
-  * [**HWIOauthBundle**] [15] - Use with FOSUserBundle from IntelligentBee. 
+  * [**HWIOauthBundle**][15] - Use with FOSUserBundle from IntelligentBee. 
 
-  * [**XMPP Server**] [16] - XMPP Server in 9000/9090 port. More information on the Vendor Site
+  * [**XMPP Server**][16] - XMPP Server in 9000/9090 port. More information on the Vendor Site
   
-  * [**XMPP Database Structure**] [17] - XMPP Database Structure. 
+  * [**XMPP Database Structure**][17] - XMPP Database Structure. 
 
 
 All libraries and  bundles  included in the Symfony Standard Edition are
