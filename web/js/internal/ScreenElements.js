@@ -58,7 +58,7 @@ $( function() {
 		 '           <span class="opcoes-feed"><small>'+
 		 '          <a href="#">Ver Todos</a> |' +
 		 '               <button id="newGroup"' +
-		 '                onclick="location.href=\'' + $("divSaveNewGroup").attr("ajaxurl") + '\';"' +
+		 '                onclick="location.href=\'' + $("#divNewGroup").attr("url") + '\';"' +
 		 '                class="btn btn-success btn-xs">Criar Grupo</button></small><span>'
 	     ' </small>'+ 
         '</h1>';
@@ -76,10 +76,183 @@ $( function() {
 	    '     </div>'+
         '</div>';
 
-	jsScreenElements.divSession =
-		' ';
+	jsScreenElements.divSessionScheduleTitle =
+		'<h1>' +
+		'     <small> '+
+	    '       Sessões agendadas'+
+        '     </small>' +
+        '</h1> ';
+	
+	jsScreenElements.divSessionSchedule = 
+		'<div class="col-xs-12 col-sm-4 col-md-3">' +
+	    '     <div class="thumbnail clearfix">'+
+		'          <a href="#" class="titulo-da-sessao titulo-sessao-agendada">'+
+		'	               $sessionTitle$'+
+		'          </a>'+
+		'          <div class="caption">'+
+		' 	            <div class="data-e-hora-da-sessao">'
+		' 	             	<i class="material-icons">&#xE192;</i> $sessionDateTime$'+
+		'           	</div>' +
+		'        	    <div class="sessao-info-adicional">'+	
+		'          		    <small>'+
+		'  			            <a href="#">'
+		'        				    <img src="$avatar$" width="18px" height="18px" style="background-color: #ccc"> $groupName$'+
+		' 			             </a>'+
+		' 		            </small>'+
+		'	             </div> <!-- sessao-info-adicional -->'+
+		' 	             <div class="link-de-acoes-da-sessao clearfix">'+
+		'		              <div class="text-uppercase pull-left">'+
+		'          			       <a href="#">Ler Mais</a>'+
+		'	           	      </div>'+
+		'   	      	      <div class="text-uppercase pull-right">'+
+		' 			                <a href="#">Participar</a>'+
+		'  		               </div>'+
+		'        	     </div>'+
+		'          </div> <!-- caption !-->'+
+	    '       </div> <!-- thumbnail !-->'+
+        '</div> <!-- col !-->'
 	
 	
+	jsScreenElements.divSessionActiveTitle =
+		'<h1>'+
+		'  <small>'+
+	    '     Sessões que irei participar '+
+	    '     <span class="opcoes-feed">' +
+		'         <small>'+
+		'  	          <a href=\'location.href="#";\'>Ver todas</a> |' + 
+		'     	           <button id="btnNewSession" '+  
+		'                        onclick=\'location.href="'+ $('#divNewSession').attr('url') +'";\''+
+		'	                     class="btn btn-success btn-xs">Criar Sessão'+
+		'                   </button>'+
+		'         </small>' +
+		'      </span>' +
+        ' </small>'+
+        '</h1> ';
 	
+	jsScreenElements.divSessionActive = 
+		'<div class="col-xs-12 col-sm-4 col-md-3">' +
+		'   <div class="thumbnail clearfix">'
+	    '        <a href="#" class="titulo-da-sessao titulo-sessao-que-irei-participar">'
+		'             $sessionTitle$'+
+	    '        </a>'+
+	    '        <div class="caption">'+ 
+		'             <div class="data-e-hora-da-sessao">'+
+		'	               <i class="material-icons">&#xE192;</i> $datetimeSession'+
+		'             </div>'+
+		'             <div class="sessao-info-adicional">'+	
+		' 	               <small>'+
+		'                		<a href="#">'+ 
+		' 			                  <img src="$avatar$" width="18px" height="18px" style="background-color: #ccc">'+
+		'                                  $groupName$'+
+		' 		                </a>'+
+		'	               </small>'+
+		'             </div> <!-- sessao-info-adicional -->'+
+		'             <div class="link-de-acoes-da-sessao clearfix">'+
+		' 	               <div class="text-uppercase pull-left">'+
+		'	   	                <a href="#">Ler Mais</a>'+
+		' 	               </div>'+
+		'             </div>'+
+	    '        </div> <!-- caption !-->'+
+        '   </div> <!-- thumbnail !-->'+
+        '</div> <!-- col !-->';
+	
+	jsScreenElements.divSessionPendingTitle = 
+		'<h1>'+
+		'   <small>'+
+	    '       Sessões que não confirmei presença '+
+	    '       <span class="opcoes-feed">'+
+	    '             <small><a href="#">Ver todas</a></small>' +
+	    '       </span>' +
+        '   </small>' +
+        '</h1>';
+	
+	jsScreenElements.divSessionPending = 
+		'<div class="col-xs-12 col-sm-4 col-md-3">'+
+		'    <div class="thumbnail clearfix">'+
+	    '          <a href="#" class="titulo-da-sessao titulo-sessao-que-nao-confirmei-presenca">'+
+		'              $sessionTitle$'+
+	    '          </a>'+
+	    '          <div class="caption">'+
+		'              <div class="data-e-hora-da-sessao">'+
+		'   	            <i class="material-icons">&#xE192;</i> $datetimeSession'+
+		'               </div>'+
+		'               <div class="sessao-info-adicional">'+	
+		' 	                 <small>'+
+		' 		                <a href="#">'+
+		' 			               <img src="" width="18px" height="18px" style="background-color: #ccc">'+
+		'                              $groupName$'+
+		'		                </a>'+
+		'	                 </small>'+
+		'               </div> <!-- sessao-info-adicional -->'+
+		'               <div class="link-de-acoes-da-sessao clearfix">'+
+		' 	                 <div class="text-uppercase pull-left">'+
+		' 		                  <a href="#">Ler Mais</a>'+
+		' 	                 </div>'+
+		'               </div>'+
+	    '          </div> <!-- caption !-->'+
+        '    </div> <!-- thumbnail !-->'+
+        '</div> <!-- col !-->  ';
+	
+	jsScreenElements.divSessionPublicTitle = 
+		'<h1>'+
+		'   <small>'+
+	    '       Sessões públicas '+
+	    '       <span class="opcoes-feed">' + 
+	    '            <small>'+
+	    '               <a href="#">Ver todas</a>'+
+	    '            </small>'+
+	    '       </span>'+
+        '   </small>'+
+        '</h1>';
+	
+	jsScreenElements.divSessionPublic = 
+		'<div class="col-xs-12 col-sm-4 col-md-3">'+
+		'     <div class="thumbnail clearfix">'
+	    '         <a href="#" class="titulo-da-sessao titulo-sessao-publica">'+
+		'            sessionTitle'+
+	    '         </a>'+
+	    '         <div class="caption">'+
+		'             <div class="data-e-hora-da-sessao">'+
+		'               	<i class="material-icons">&#xE192;</i> $datetimeSession$'+
+		'             </div>'+
+		'             <div class="sessao-info-adicional">'+	
+		'  	                <small>'+
+		' 		               <a href="#">'+
+		'						   <img src="" width="18px" height="18px" style="background-color: #ccc">'+
+		'							   $groupName$'+
+		' 					   </a>'+
+		'	                </small>'+
+		' 			  </div> <!-- sessao-info-adicional -->'+
+		'			  <div class="link-de-acoes-da-sessao clearfix">'+
+		'			  <div class="text-uppercase pull-left">'+
+		'					<a href="#">Ler Mais</a>'+
+		'			  </div>'+
+		'		  	  <div class="text-uppercase pull-right">'+
+		'					<a href="#">Participar</a>'+
+		'		   	  </div>'+
+		'		   </div>'+
+		'		 </div> <!-- caption !-->'+
+		' 	</div> <!-- thumbnail !-->'+
+		'</div> <!-- col !--> '; 
+	
+	jsScreenElements.divLastActivitiesTitle = 
+		'<h2>'+
+		'    <small>Últimas Atividades Da Rede</small>'+
+		'</h2>';
+	
+	jsScreenElements.divLastActivities = 
+		'<div class="panel panel-default atividade-recente-da-rede">'+
+		'     <div class="panel-heading">'+
+	    '          <span class="glyphicon $activityIcon$" aria-hidden="true"></span> $activityType$'+
+        '     </div>'+
+        '     <div class="panel-body">'+
+	    '        <p>'+
+		'          <a href="">'+
+		'    	        <img src="$profileImage" class="avatar-img avatar-pequeno"> $subTitle$'+
+		'          </a>'+
+	    '        </p>'+
+	    '        $activeMessage$'+
+        '    </div>'+
+        '</div> ';
 	
 });
