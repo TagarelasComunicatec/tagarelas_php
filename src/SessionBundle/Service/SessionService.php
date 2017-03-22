@@ -32,7 +32,8 @@ class SessionService {
 	public function loadAllSession($limit = 0) {
 		$qb = $this->em->createQueryBuilder ();
 		$qb->select ( 's.id,s.sessionName,s.description' )->from ( 'AppBundle:Session', 's' )
-		   ->where ('s.dateTime >= ');
+		   ->where ('s.dateTime >= :now')
+		   ->setParameter('now', new \DateTime('now'));
 		
 		if (0 != $limit)
 			$qb->setMaxResults($limit);
@@ -54,10 +55,31 @@ class SessionService {
 		$myReturn = array();
 		foreach ($Sessions as $Session){
 			$myReturn = $this->loadSessionGroupInformation($Session, $userId, $status, $myReturn);
-			$myReturn = $this->loadSessionUserInformation($Session, $userId, $status, $myReturn);
 		}
 		return $myReturn;
 	}
+	
+	/**
+	 * Load Groups linked to Session
+	 * 
+	 * @param \AppBundle\Entity\Session $Session
+	 * @param string $userId
+	 * @param string $status
+	 * @param string $myReturn
+	 * @return array selected
+	 */
+	private function loadSessionGroupInformation($Session, $userId, $status, $myReturn){
+		
+		//$results = generateQuerySessionGroup($Session, $userId, $status);
+		
+		//foreach ($results as $result){
+			
+		//}
+				
+		
+		return $myReturn;
+	}
+	
 	
 	/**
 	 * @param Session      $session
@@ -71,7 +93,7 @@ class SessionService {
 		->where('gu.idGroup = :idGroup')
 		->andwhere('gu.idUser = :idUser')
 		->andWhere('gu.userStatus = :status')
-		->setParameter("idGroup", $group["id"])
+		->setParameter("idSession", $group["id"])
 		->setParameter('idUser', $userId)
 		->setParameter('status', $status);
 		return  $qb->getQuery()->getResult();

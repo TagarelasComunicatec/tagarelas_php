@@ -17,3 +17,7 @@ session_checksessionname:
 session_save:
     path:     /session/save
     defaults: { _controller: 'SessionBundle:Session:saveSession' }         
+    
+session_loadsessionbystatus:
+    path:     /session/loadsessionbystatus
+    defaults: { _controller: 'SessionBundle:Session:loadSessionByStatus' }        

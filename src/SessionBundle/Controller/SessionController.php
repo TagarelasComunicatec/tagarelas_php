@@ -65,4 +65,19 @@ class SessionController extends Controller
     			'Content-Type' => 'application/text'
     	) );
     }
+    
+    public function loadSessionByStatusAction() {
+    	$sessionService = $this->get("Session.services");
+    	$myResult     =	$sessionService->loadSessionByStatus();
+    	$myReturn    = array (
+    			"responseCode" => 200,
+    			"result" => $myResult,
+    	);
+    	$returnJson = json_encode ( $myReturn );
+    	return new Response ( $returnJson, 200, array (
+    			'Content-Type' => 'application/text'
+    	) );
+    }
+    
+    
 }

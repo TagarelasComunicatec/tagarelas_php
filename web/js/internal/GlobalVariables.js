@@ -140,6 +140,12 @@ $( function() {
 	global.statusUser.CANCELED = 3;
 	global.statusUser.BANNED   = 4;
 	
+	global.statusSession = { };
+	global.statusSession.SCHEDULED=0;
+	global.statusSession.ACTIVE=1;
+	global.statusSession.PENDING=2;
+	global.statusSession.PUBLIC=3;
+	
 	
 	global.statusUser.title  = [
 								 "Grupos Pendentes de Confirmação",

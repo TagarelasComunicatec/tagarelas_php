@@ -39,6 +39,10 @@ $( function() {
 		jsSession.saveNewSession();
 	});
 	
+	$("#newGroupForm").submit(function(event){
+	    jsGroup.saveNewGroup(this,event);
+	}); 
+	
 	/**
 	 * Configure the datetime field of session bundle
 	 */
@@ -46,20 +50,31 @@ $( function() {
 	$("#dtBox").DateTimePicker();
 	
 	/**
-	 * Load events em feed page
+	 * Load events in feed page
 	 */
 	
 	if ($("#pendingGroup").length){
 		jsGroup.loadGroupsByStatus(global.statusUser.PENDING,0,$("#pendingGroup"));
 	}
+	
 	if ($("#activeGroup").length){
 		jsGroup.loadGroupsByStatus(global.statusUser.ACTIVE,4,$("#activeGroup"));
 	}
 	
-	 $("#newGroupForm").submit(function(event){
-	    jsGroup.saveNewGroup(this,event);
-	 }); 
-
-	; 
+	if ($("#scheduledSession").length){
+		jsSession.loadSessionsByStatus(global.statusSession.SCHEDULED,4,$("#scheduledSession"));
+	};
+	
+	if ($("#activeSession").length){
+		jsSession.loadSessionsByStatus(global.statusSession.ACTIVE,4,$("#activeSession"));
+	};
+	
+	if ($("#pendingSession").length){
+		jsSession.loadSessionsByStatus(global.statusSession.PENDING,4,$("#pendingSession"));
+	};
+	
+	if ($("#publicSession").length){
+		jsSession.loadSessionsByStatus(global.statusSession.PUBLIC,4,$("#publicSession"));
+	}; 
 });	
 

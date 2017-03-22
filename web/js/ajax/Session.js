@@ -6,7 +6,7 @@ $( function() {
 	jsSession 					= {};
 	jsSession.members			= [ ];
 	jsSession.groups			= [ ];
-	jsSession.sessionNameFound 	= false
+	jsSession.sessionNameFound 	= false;
 	
 	/**
 	 * Load Group by Status
@@ -16,10 +16,10 @@ $( function() {
 		 * Execute call to load all groups
 		 */
 		if (window.ajaxLoading)  window.ajaxLoading("show");
-		var loadStatusSessionPath = $("#divLoadSessionByStatus").attr("ajaxurl");
+		var loadStatusSessionPath = $("#divLoadSessionsByStatus").attr("ajaxurl");
 		var myData     = {'status' : status,'limit' : limit};
 		$.ajax({
-			url:loadStatusGroupsPath,
+			url:loadStatusSessionPath,
 			data: myData,
 			type: 'POST',
 			cache: true,
@@ -34,15 +34,16 @@ $( function() {
 				areaHtml.empty();
 				var dataout = $.parseJSON(returned);
 
-				if (dataout.result.length == 0) return;
-				myStatus = jsScreenElements.divTitleGroupByStatus(status) ;
+				myStatus = jsScreenElements.divTitleSessionByStatus(status) ;
 				areaHtml.append(myStatus);
 
+				if (dataout.result.length == 0) return;
+				
 				for(var index=0, len = dataout.result.length; index < len; index++ ){
 				    var myData = dataout.result[index];
 				    var myText = jsScreenElements.divSessionByStatus(status-0);
 				    myText = myText.replace("$sessionName$"   , myData.sessionName );
-				    myText = myText.replace("$sessionDate$"   , myData,sessionDate );
+				    myText = myText.replace("$datatimeSession$"   , myData,sessionDate );
 				    myText = myText.replace("$groupName$", myData.groupName );
 				    areaHtml.append(myText);
 				}

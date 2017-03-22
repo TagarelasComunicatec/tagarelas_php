@@ -6,6 +6,9 @@ $( function() {
 	
 	jsScreenElements = { }; 
 
+	/*
+	 * Prepare div group
+	 */
 	jsScreenElements.divGroupByStatus = function(status){
 		if (status === global.statusUser.PENDING) {
 			return jsScreenElements.divGroupPending;
@@ -15,14 +18,48 @@ $( function() {
     }
 	
 	jsScreenElements.divTitleGroupByStatus = function(status){
-		if (status === global.statusUser.PENDING) {
+		if (status === global.statusUser.PENDING) 
 			return jsScreenElements.divGroupPendingTitle;
-		} else if(status === global.statusUser.ACTIVE ) 
+		else if(status === global.statusUser.ACTIVE ) 
 			return jsScreenElements.divGroupActiveTitle;
 	}
 	
+	
+	/*
+	 * Prepare div Session
+	 */
+	jsScreenElements.divSessionByStatus = function(status){
+		if (status === global.statuSession.SCHEDULED) 
+			return jsScreenElements.divSessionScheduled;
+	    
+		else if(status === global.statusSession.ACTIVE ) 
+			return jsScreenElements.divSessionActive;
+	    
+	    else if(status === global.statusSession.PENDING ) 
+			return jsScreenElements.divSessionPending;
+		
+	    else if(status === global.statusSession.PUBLIC ) 
+			return jsScreenElements.divSessionPublic;
+	};
+	
+	jsScreenElements.divTitleSessionByStatus = function(status){
+		if (status === global.statuSession.SCHEDULED) 
+			return jsScreenElements.divSessionScheduledTitle;
+	    
+		else if(status === global.statusSession.ACTIVE ) 
+			return jsScreenElements.divSessionActiveTitle;
+	    
+	    else if(status === global.statusSession.PENDING ) 
+			return jsScreenElements.divSessionPendingTitle;
+		
+	    else if(status === global.statusSession.PUBLIC ) 
+			return jsScreenElements.divSessionPublicTitle;
+	};
+	
+	
+	
 	/**
-	 * Grupos Pendentes
+	 * Pending Groups
 	 */
 	jsScreenElements.divGroupPendingTitle =
 		'<h1><small >Grupos Pendentes de Confirmação</small></h1>';
@@ -76,18 +113,18 @@ $( function() {
 	    '     </div>'+
         '</div>';
 
-	jsScreenElements.divSessionScheduleTitle =
+	jsScreenElements.divSessionScheduledTitle =
 		'<h1>' +
 		'     <small> '+
 	    '       Sessões agendadas'+
         '     </small>' +
         '</h1> ';
 	
-	jsScreenElements.divSessionSchedule = 
+	jsScreenElements.divSessionScheduled = 
 		'<div class="col-xs-12 col-sm-4 col-md-3">' +
 	    '     <div class="thumbnail clearfix">'+
 		'          <a href="#" class="titulo-da-sessao titulo-sessao-agendada">'+
-		'	               $sessionTitle$'+
+		'	               $sessionName$'+
 		'          </a>'+
 		'          <div class="caption">'+
 		' 	            <div class="data-e-hora-da-sessao">'
@@ -133,7 +170,7 @@ $( function() {
 		'<div class="col-xs-12 col-sm-4 col-md-3">' +
 		'   <div class="thumbnail clearfix">'
 	    '        <a href="#" class="titulo-da-sessao titulo-sessao-que-irei-participar">'
-		'             $sessionTitle$'+
+		'             $sessionName$'+
 	    '        </a>'+
 	    '        <div class="caption">'+ 
 		'             <div class="data-e-hora-da-sessao">'+
@@ -170,7 +207,7 @@ $( function() {
 		'<div class="col-xs-12 col-sm-4 col-md-3">'+
 		'    <div class="thumbnail clearfix">'+
 	    '          <a href="#" class="titulo-da-sessao titulo-sessao-que-nao-confirmei-presenca">'+
-		'              $sessionTitle$'+
+		'              $sessionName$'+
 	    '          </a>'+
 	    '          <div class="caption">'+
 		'              <div class="data-e-hora-da-sessao">'+
@@ -209,7 +246,7 @@ $( function() {
 		'<div class="col-xs-12 col-sm-4 col-md-3">'+
 		'     <div class="thumbnail clearfix">'
 	    '         <a href="#" class="titulo-da-sessao titulo-sessao-publica">'+
-		'            sessionTitle'+
+		'            $sessionName$'+
 	    '         </a>'+
 	    '         <div class="caption">'+
 		'             <div class="data-e-hora-da-sessao">'+
