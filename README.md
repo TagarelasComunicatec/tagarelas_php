@@ -2,7 +2,7 @@ Social Network Tagarelas (RST - Rede Social Tagarelas)
 ======================================================
 
 Welcome to Social Network Tagarelas - a fully-functional Symfony
-application that you can use as Social Network for Educcational issues.
+application that you can use as Social Network for Educational Virtual Meetings and issues.
 
 For details on how to download and get started with Symfony, see the
 [Installation][1] chapter of the Symfony Documentation.
@@ -65,16 +65,24 @@ It comes pre-configured with the following bundles:
   
   * [**HWIOauthBundle**][15] - Use with FOSUserBundle from IntelligentBee. 
 
-  * [**XMPP Server**][16] - XMPP Server in 9000/9090 port. More information on the Vendor Site
+The Social Network Tagarelas needs also:
   
+  * [**XMPP Server**][16] - XMPP Server in 9000/9090 port. More information on the Vendor Site
+    
   * [**XMPP Database Structure**][17] - XMPP Database Structure. 
 
   * [**Composer Setup**][18] - Program to install all vendor packages.
-  
-All libraries and  bundles  included in the Symfony Standard Edition are
+ 
+
+Licenses
+--------
+ 
+All libraries and  bundles (in the vendor directory) included in the Symfony Standard Edition are
 released under the MIT / BSD license.
 
 The OpenFire XMPP Server Version 4.1.3 is under Open Source Apache License.
+
+The Social Network Tagarelas is under the GNU Open Source License.
 
 Enjoy!
 
