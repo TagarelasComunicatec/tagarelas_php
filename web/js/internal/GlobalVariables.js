@@ -85,6 +85,7 @@ $( function() {
 	global.error.confirmPass    = "Emails Digitados não conferem !!"
 	global.error.nameFormat		= "Preencha corretamente o nome";
 	global.error.shortNameFormat= "Preencha corretamente o nome curto" ;
+	global.error.shortNameFound = "Nome curto já está cadastrado. Tente outro !!";
 	global.error.format 		= "A senha necessita conter no mínimo 1 letra maiúscula, 1 minúscula e 1 algarismo"; 
 	global.error.length 		= "O tamanho mínimo para senha são " + pass.minimalLength +  " caracteres";
 	global.error.confirm    	= "Senhas não conferem. Tente de novo";

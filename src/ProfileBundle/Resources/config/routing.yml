@@ -13,6 +13,10 @@ profile_edit:
 profile_checkemail:
     path: /profile/checkemail
     defaults: { _controller: 'ProfileBundle:Profile:checkEmail' }
+
+profile_checkshortname:
+    path: /profile/checkshortname
+    defaults: { _controller: 'ProfileBundle:Profile:checkShortName' }
     
 profile_loginUser:
     path:     /checkLoginUser

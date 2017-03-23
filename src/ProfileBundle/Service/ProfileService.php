@@ -23,6 +23,10 @@ class ProfileService {
 	const USERS_FOUND = 7;
 	const USERS_NOT_FOUND = 8;
 	
+	const SHORTNAME_FOUND = 1;
+	const SHORTNAME_NOT_FOUND = 2;
+	
+	
 	protected $em;
 	protected $emo;
 	private   $container;
@@ -57,6 +61,18 @@ class ProfileService {
 		
 		$myReturn =  $qb->getQuery()->getResult();
 
+		return $myReturn;
+	}
+
+	public function findUserByShortName($shortName){
+		$qb = $this->em->createQueryBuilder();
+		$qb->select('u.id,u.password,u.realName,u.nickname')
+		->from('AppBundle:User', 'u')
+		->where('u.nickname LIKE :nickname')
+		->setParameter('nickname', $shortName );
+	
+		$myReturn =  $qb->getQuery()->getResult();
+	
 		return $myReturn;
 	}
 	

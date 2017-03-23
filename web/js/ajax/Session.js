@@ -34,7 +34,7 @@ $( function() {
 				areaHtml.empty();
 				var dataout = $.parseJSON(returned);
 
-				myStatus = jsScreenElements.divTitleSessionByStatus(status) ;
+				myStatus = jsScreenElements.divTitleSessionByStatus(status-0) ;
 				areaHtml.append(myStatus);
 
 				if (dataout.result.length == 0) return;

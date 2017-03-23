@@ -14,6 +14,10 @@ $( function() {
 		jsProfile.checkEmail();
 	});
 
+	$("#shortName").focusout(function(){
+		jsProfile.checkShortName();
+	});
+	
 	/**
 	 * Clique do botão de novo cadastro
 	 */

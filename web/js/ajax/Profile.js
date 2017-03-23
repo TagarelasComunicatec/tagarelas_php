@@ -7,6 +7,8 @@ $( function() {
 	jsProfile = {};
 
 	jsProfile.EMAIL_FOUND = false;
+	jsProfile.SHORTNAME_FOUND = false;
+	
 	jsProfile.INCLUDE = 0;
 	jsProfile.DELETE  = 1;
 
@@ -18,8 +20,8 @@ $( function() {
         	return false;
         } else if (window.doCheckIsEmptyField("shortName", global.error.shortNameFormat)){
         	$("#shortName").focus();
-        	return false;
-        } else if (! window.docheckEmail(jsProfile.screenData.email,
+        	return false;	
+        } else if (!window.docheckEmail(jsProfile.screenData.email,
         								 jsProfile.screenData.confirmEmail) ){
 			$("#email").focus();
 			return false;
@@ -34,15 +36,59 @@ $( function() {
 		return true;
 	};
 	
+	jsProfile.checkShortName = function() { 
+		// debugger
+		
+		var shortName = $("#shortName").val();
+		var checkShortNamePath = $("#divCheckShortNamePath").attr("ajaxurl");
+		var myData = {'shortName' : shortName};
+		
+		$.ajax({
+			url: checkShortNamePath,
+			data: myData,
+			type: 'POST',
+			cache: true,
 	
+			beforeSend: function( ) {
+				 $("#shortName").css({'background-color' : '#fff'});
+			},
+		
+			error: function(){
+
+			},
+
+			success: function(returned){ 
+				//debugger;
+				$(divPosicao).empty();
+				var dataout = $.parseJSON(returned);
+				jsProfile.SHORTNAME_FOUND = false;
+				if($.trim(dataout.result) === global.recordFound){
+					jsProfile.SHORTNAME_FOUND = true;
+					 $("#shortName").css({'background-color' : '#fff'});
+				} else  
+					 $("#shortName").css({'background-color' : '#5B1762'});
+				 
+				return;
+			},
+			statusCode: {
+				404: function() {
+					global.msgbox.data('messageBox').danger(window.important, 
+							global.error.connection + checkShortNamePath + ". "+ global.error.tryagain);
+				}
+			}
+		});
+		
+		
+		
+	};
 	jsProfile.checkEmail = function() {
 		var email 	   = $("#email").val();
-		var divPosicao = '#imgEmail';
 		var checkEmailPath = $("#divCheckEmailPath").attr("ajaxurl");
 
 		//debugger;
 
 		var myData = {'email' : email};
+		
 		$.ajax({
 			url: checkEmailPath,
 			data: myData,
@@ -50,35 +96,21 @@ $( function() {
 			cache: true,
 	
 			beforeSend: function( ) {
-				$(divPosicao).empty();
-				$(divPosicao).append(imgLoading);
-			},
+				$("#email").css({'background-color' : '#ffffff'});			},
 		
 			error: function(){
-				imgError = inicioImgHtmlTag +  closing  +
-						  + " alt='"	
-						  + global.error.ln001 + "'" + fimImgHtmlTag;
-			    $(divPosicao).empty();
-			    $(divPosicao).append(imgError);
-
 
 			},
 
 			success: function(returned){ 
 				//debugger;
-				$(divPosicao).empty();
-				imgError = inicioImgHtmlTag +  closing  
-				 			 + " title='"	
-				 			 +	global.error.emailFound + "'" 
-							 + fimImgHtmlTag;
-				
 				var dataout = $.parseJSON(returned);
 				jsProfile.EMAIL_FOUND = false;
 				if($.trim(dataout.result) === global.recordFound){
 					jsProfile.EMAIL_FOUND = true;
-					$(divPosicao).append(imgOk);
+					$("#email").css({'background-color' : '#5B1762'});
 				} else  
-					$(divPosicao).append(imgError);
+					$("#email").css({'background-color' : '#ffffff'});
 				 
 				return;
 			},
@@ -93,6 +125,7 @@ $( function() {
 
 	
 	jsProfile.saveNewUser = function() {
+		jsProfile.checkShortName();
 		jsProfile.checkEmail();
 		//------------------------------------------
 		var passMD5   = calcMD5($("#password").val());

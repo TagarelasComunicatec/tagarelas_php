@@ -86,6 +86,36 @@ class ProfileController extends Controller
     	 
     } 
     
+    public function checkShortNameAction(){
+    	$request = $this->container->get('request_stack')->getCurrentRequest();
+    	$shortName  = $request->get("shortName");
+    	$profileService = $this->get('profile.services');
+    	$myReturn = [ ];
+    	try {
+    		$result    = $profileService->findUserByShortName($shortName);
+    		$returnCode = (count($result) > 0 )? ProfileService::SHORTNAME_NOT_FOUND:
+    		ProfileService::SHORTNAME_FOUND;
+    		$myReturn = array (
+    				"responseCode" => 200,
+    				"result" => $returnCode,
+    		);
+    		 
+    	} catch( \Exception $e){
+    		$myReturn = array (
+    				"responseCode" => 400,
+    				"result" => $e->getTraceAsString(),
+    				"method" => $request->getMethod()
+    		);
+    	}
+    	 
+    	$returnJson = json_encode ( $myReturn );
+    	return new Response ( $returnJson, 200, array (
+    			'Content-Type' => 'application/text'
+    	) );
+    
+    }
+    
+    
     public function newAction()
     {
     	$profileService = $this->get('profile.services');

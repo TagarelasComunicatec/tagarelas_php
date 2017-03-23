@@ -57,7 +57,6 @@
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/jquery.magicsearch.js') }}"></script>  
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/DateTimePicker.js') }}"></script>  
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/bootstrap-imageupload.min.js') }}"></script>  
-
  
  	<!--  Bibliotecas para chamadas AJAX -->
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Profile.js') }}"></script>    
@@ -65,7 +64,7 @@
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Session.js') }}"></script>    
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Feed.js') }}"></script> 
       
-    <!--  Bibliotecas desenvolvidas para o projeto -->
+    <!--  Bibliotecas desenvolvidas de apoio para o projeto -->
 	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/GlobalVariables.js') }}"></script>
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/md5.js') }}"></script>    
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/ScreenTools.js') }}"></script>   
@@ -188,6 +187,7 @@
 		<div id="divNewGroup"			        url="{{ path('group_create') }}"></div>
 		<div id='divSaveNewGroup'           ajaxurl="{{ path('group_savenewgroup') }}"></div>
 		<div id='divCheckEmailPath'         ajaxurl="{{ path('profile_checkemail') }}"></div>
+		<div id='divCheckShortNamePath'     ajaxurl="{{ path('profile_checkshortname') }}"></div>
 		<div id='divSaveNewProfile'         ajaxurl="{{ path('profile_new') }}"></div>
 		<div id='divloginPath'              ajaxurl="{{ path('login') }}"></div>
 		<div id='divFeedPath'               ajaxurl="{{ path('feed_homepage') }}"></div>

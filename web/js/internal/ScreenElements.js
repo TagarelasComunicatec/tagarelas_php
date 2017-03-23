@@ -24,35 +24,33 @@ $( function() {
 			return jsScreenElements.divGroupActiveTitle;
 	}
 	
-	
 	/*
 	 * Prepare div Session
 	 */
 	jsScreenElements.divSessionByStatus = function(status){
-		if (status === global.statuSession.SCHEDULED) 
+		if (status === global.statusSession.SCHEDULED) 
 			return jsScreenElements.divSessionScheduled;
 	    
-		else if(status === global.statusSession.ACTIVE ) 
+		else if(status === global.statusSession.ACTIVE) 
 			return jsScreenElements.divSessionActive;
 	    
-	    else if(status === global.statusSession.PENDING ) 
+	    else if(status === global.statusSession.PENDING) 
 			return jsScreenElements.divSessionPending;
-		
-	    else if(status === global.statusSession.PUBLIC ) 
+	    else 
 			return jsScreenElements.divSessionPublic;
 	};
 	
 	jsScreenElements.divTitleSessionByStatus = function(status){
-		if (status === global.statuSession.SCHEDULED) 
+		if (status === global.statusSession.SCHEDULED) 
 			return jsScreenElements.divSessionScheduledTitle;
 	    
-		else if(status === global.statusSession.ACTIVE ) 
+		else if(status === global.statusSession.ACTIVE) 
 			return jsScreenElements.divSessionActiveTitle;
 	    
-	    else if(status === global.statusSession.PENDING ) 
+	    else if(status === global.statusSession.PENDING) 
 			return jsScreenElements.divSessionPendingTitle;
 		
-	    else if(status === global.statusSession.PUBLIC ) 
+	    else 
 			return jsScreenElements.divSessionPublicTitle;
 	};
 	
