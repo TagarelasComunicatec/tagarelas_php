@@ -10,7 +10,7 @@ For details on how to download and get started with Symfony, see the
 Important Notice
 ----------------
  
-You need install the composer[18] and run the command *c:\...\tagarelas_php\composer update* in your terminal or command prompt.
+You need install the [Composer application][18] and run the command **c:\...\tagarelas_php\composer update** (windows i.e.) in your terminal or command prompt.
 
 For more details on how work to SNT read the manual in WIKI.
 
