@@ -12,7 +12,7 @@ Important Notice
  
 You need install the [Composer application][18] and run the command **c:\...\tagarelas_php\composer update** (windows i.e.) in your terminal or command prompt.
 
-For more details on how work to SNT read the manual in WIKI.
+For more details on how work to SNT read the manual in [tagarelas WIKI][19].
 
 What's inside?
 --------------
@@ -99,6 +99,7 @@ Enjoy!
 [16]: https://www.igniterealtime.org/projects/openfire/documentation.jsp
 [17]: http://download.igniterealtime.org/openfire/docs/latest/documentation/database-guide.html#ofMucRoom
 [18]: http://getcomposer.org
+[19]: https://github.com/TagarelasComunicatec/tagarelas_php/wiki
 
 # The ComunicaTec Team
 
