@@ -7,7 +7,12 @@ application that you can use as Social Network for Educcational issues.
 For details on how to download and get started with Symfony, see the
 [Installation][1] chapter of the Symfony Documentation.
 
-For details on how work to SNT read the manual in WIKI.
+Important Notice
+----------------
+ 
+You need install the composer[18] and run the command *c:\...\tagarelas_php\composer update* in your terminal or command prompt.
+
+For more details on how work to SNT read the manual in WIKI.
 
 What's inside?
 --------------
@@ -64,7 +69,8 @@ It comes pre-configured with the following bundles:
   
   * [**XMPP Database Structure**][17] - XMPP Database Structure. 
 
-
+  * [**Composer Setup**][18] - Program to install all vendor packages.
+  
 All libraries and  bundles  included in the Symfony Standard Edition are
 released under the MIT / BSD license.
 
@@ -84,6 +90,7 @@ Enjoy!
 [15]: http://intelligentbee.com/blog/2015/11/13/symfony2-facebook-google-login
 [16]: https://www.igniterealtime.org/projects/openfire/documentation.jsp
 [17]: http://download.igniterealtime.org/openfire/docs/latest/documentation/database-guide.html#ofMucRoom
+[18]: http://getcomposer.org
 
 # The ComunicaTec Team
 
