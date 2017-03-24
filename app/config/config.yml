@@ -51,17 +51,17 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        default_connection: tagarelas
+        default_connection: openfire
         connections:
           
-          tagarelas:
-            driver:   "%database_driver_tagarelas%"
-            host:     "%database_host_tagarelas%"
-            port:     "%database_port_tagarelas%"
-            dbname:   "%database_name_tagarelas%"
-            user:     "%database_user_tagarelas%"
-            password: "%database_password_tagarelas%"
-            charset:  UTF8
+         # tagarelas:
+         #   driver:   "%database_driver_tagarelas%"
+         #   host:     "%database_host_tagarelas%"
+         #   port:     "%database_port_tagarelas%"
+         #   dbname:   "%database_name_tagarelas%"
+         #   user:     "%database_user_tagarelas%"
+         #   password: "%database_password_tagarelas%"
+         #   charset:  UTF8
           
           openfire:
             driver:   "%database_driver_openfire%"
@@ -86,13 +86,13 @@ doctrine:
         default_entity_manager: tagarelas
         
         entity_managers:
-          tagarelas:
-            connection: tagarelas
-            mappings:
-              AppBundle:
-                  type: annotation
-                  prefix: AppBundle\Entity
-                  dir: "%kernel.root_dir%/../src/AppBundle/Entity"
+         # tagarelas:
+         #   connection: tagarelas
+         #   mappings:
+         #     AppBundle:
+         #         type: annotation
+         #         prefix: AppBundle\Entity
+         #         dir: "%kernel.root_dir%/../src/AppBundle/Entity"
               
           openfire:    
             connection: openfire
@@ -112,13 +112,13 @@ swiftmailer:
     spool:     { type: memory }
   
 # FOSUser
-fos_user:
-    db_driver: orm
-    firewall_name: main
-    user_class: "AppBundle/Entity/User"
-    from_email:
-        address: tagarelas.comunicatec@gmail.com
-        sender_name: "Equipe Tagarelas" 
+#fos_user:
+#    db_driver: orm
+#    firewall_name: main
+#    user_class: "AppBundle/Entity/User"
+#    from_email:
+#        address: tagarelas.comunicatec@gmail.com
+#        sender_name: "Equipe Tagarelas" 
     
 hwi_oauth:
     firewall_names: [secured_area] 

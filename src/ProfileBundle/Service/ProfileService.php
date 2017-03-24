@@ -5,10 +5,9 @@ namespace ProfileBundle\Service;
 use Symfony\Component\DependencyInjection\Container;
 use Doctrine\ORM\EntityManager;
 use Monolog\Logger;
-use AppBundle\Entity\User;
-
-use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Openfire\Ofuser;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 
 class ProfileService {
 	const EMAIL_FOUND = 1;
@@ -36,14 +35,14 @@ class ProfileService {
 		$this->container = $cont;
 		$this->logger    = $log;
 		$this->em        = $entityManager;
-		$this->emo       = $this->container->get('doctrine')->getManager('openfire');
 	}
 	
 	public function loadAllUsers(){
+		
 		$qb = $this->em->createQueryBuilder();
 		$userId = $this->container->get('session')->get('userId');
 		$qb->select('u.id,u.realName,u.nickname')
-			->from('AppBundle:User', 'u')
+			->from('AppBundle:OfUser', 'u')
 		    ->where('u.id != :id')
 		    ->setParameter("id", $userId);
 		
@@ -55,7 +54,7 @@ class ProfileService {
 	public function findUserByEmail($email){
 		$qb = $this->em->createQueryBuilder();
 		$qb->select('u.id,u.password,u.realName,u.nickname')
-			->from('AppBundle:User', 'u')
+			->from('AppBundle:Ofuser', 'u')
 			->where('u.email LIKE :email')
 	   	    ->setParameter('email', $email );
 		
@@ -67,7 +66,7 @@ class ProfileService {
 	public function findUserByShortName($shortName){
 		$qb = $this->em->createQueryBuilder();
 		$qb->select('u.id,u.password,u.realName,u.nickname')
-		->from('AppBundle:User', 'u')
+		->from('AppBundle:ofUser', 'u')
 		->where('u.nickname LIKE :nickname')
 		->setParameter('nickname', $shortName );
 	
@@ -84,23 +83,21 @@ class ProfileService {
 								 'Não foi possível cadastrar usuário. '.
 					             'Entre em contato com o Suporte Tagarelas');
 		}
+		$this->em->beginTransaction();
 		try{
-			$user = new User();
 			$ofUser = new Ofuser();
-			$user->loadByRequest($request);
 			$ofUser->loadByRequest($request);
-			$this->em->persist($user);
+			$this->em->persist($ofUser);
 			$this->em->flush();
-			$this->emo->persist($ofUser);
-			$this->emo->flush();
+			$this->em->commit();			
 		} catch (Exception $e) {
+			$this->em->rollback();
 		    throw $e;
 	    }
 	}
 
 	public function loginUser(){
 		$request     = $this->container->get('request_stack')->getCurrentRequest();
-		$return		 = ProfileService::LOGIN_UNCORRECT;
 		$users       = $this->findUserByEmail($request->get('email'));
 		foreach ($users as $user){
 			$return = $this->verifyUser($request, $user);
