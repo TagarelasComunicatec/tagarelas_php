@@ -14,6 +14,12 @@ use AppBundle\Entity\Rule;
 use AppBundle\Entity\StatusUser;
 use AppBundle\AppBundle;
 
+
+//@@TODO alterar método save utilizando REST API.
+//@@TODO refazer as queries utilizando Openfire.
+//@@TODO corrigir o banco de dados incluindo ID.
+
+
 class GroupService {
 	const NAME_FOUND     = 1;
 	const NAME_NOT_FOUND = 2;

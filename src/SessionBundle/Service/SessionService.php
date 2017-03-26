@@ -11,6 +11,11 @@ use AppBundle\Entity\Rule;
 use AppBundle\Entity\SessionUser;
 use AppBundle\Entity\SessionGroup;
 
+//@@Session = ChatRoom no Openfire.
+//@@TODO alterar método save utilizando REST API.
+//@@TODO refazer as queries utilizando Openfire.
+//@@TODO corrigir o banco de dados incluindo ID.
+
 class SessionService {
 
 	const SESSION_FOUND     = 1;

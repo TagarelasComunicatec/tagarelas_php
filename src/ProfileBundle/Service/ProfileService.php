@@ -8,6 +8,13 @@ use Monolog\Logger;
 use AppBundle\Openfire\Ofuser;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+//@@TODO alterar método save utilizando REST API.
+//@@TODO refazer as queries utilizando Openfire.
+//@@TODO corrigir o banco de dados incluindo ID.
+
+//@@TODO Preparar Login senha usa Blowfish cb
+//@@TODO Rever o retorno de lista de membros users.message.user[]
+
 
 class ProfileService {
 	const EMAIL_FOUND = 1;
