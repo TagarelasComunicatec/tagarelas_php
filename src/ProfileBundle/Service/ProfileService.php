@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 //@@TODO Preparar Login senha usa Blowfish cb
 //@@TODO Rever o retorno de lista de membros users.message.user[]
+//@@TODO Alterar openfire para secret Authorization -> 123456
 
 
 class ProfileService {

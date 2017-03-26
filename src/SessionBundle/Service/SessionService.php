@@ -11,10 +11,13 @@ use AppBundle\Entity\Rule;
 use AppBundle\Entity\SessionUser;
 use AppBundle\Entity\SessionGroup;
 
-//@@Session = ChatRoom no Openfire.
-//@@TODO alterar método save utilizando REST API.
-//@@TODO refazer as queries utilizando Openfire.
-//@@TODO corrigir o banco de dados incluindo ID.
+//@@TODO Session = ChatRoom no Openfire.
+//@@TODO Alterar método save utilizando REST API.
+//@@TODO Refazer as queries utilizando Openfire.
+//@@TODO Corrigir o banco de dados incluindo ID.
+//@@TODO Rotina de agenda
+//@@TODO Ver qual a melhor técnica de chat para resolver chatroom.
+//@@TODO Muitos dos chats funcionam com BOSH
 
 class SessionService {
 
