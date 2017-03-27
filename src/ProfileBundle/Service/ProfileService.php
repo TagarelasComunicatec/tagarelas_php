@@ -7,10 +7,9 @@ use Doctrine\ORM\EntityManager;
 use Monolog\Logger;
 use AppBundle\Openfire\Ofuser;
 use Symfony\Component\HttpFoundation\Session\Session;
-
-//@@TODO alterar método save utilizando REST API.
-//@@TODO refazer as queries utilizando Openfire.
-//@@TODO corrigir o banco de dados incluindo ID.
+use AppBundle\Utility\AppRest;
+use AppBundle\Entity\GroupUser;
+use AppBundle\Openfire\Ofgroupuser;
 
 //@@TODO Preparar Login senha usa Blowfish cb
 //@@TODO Rever o retorno de lista de membros users.message.user[]
@@ -46,23 +45,50 @@ class ProfileService {
 		$this->em        = $entityManager;
 	}
 	
+	/**
+	 * Do add Users to Group
+	 * @param String $groupname
+	 * @param Array $users
+	 */
+	public function addUserToGroup($groupname,$users){
+		/*
+		 * Check all users-group
+		 */
+		for ($i=0;$i < $users->size();++$i){
+			$user = AppRest::doConnectRest()->getUser($users[$i]);
+			$hasGroup = false;
+			foreach($user->groups as $userGroup){
+				if ($userGroup === $groupname){
+					$hasGroup = true;
+					break;
+				}
+			}
+			/*
+			 * if group not exists save groupuser
+			 */
+			try {
+				if (! $hasGroup){
+					$this->addUserGroup($user->username, $groupname);
+				}
+			} catch(Exception $e){
+				throw $e;
+			}
+		}
+	}
+	
+	private function addUserGroup($username,$groupname){
+		$groupUser = new Ofgroupuser();
+		$isAdministrator = ($username === $this->container->get('session')->get('username'));
+		$groupUser->loadData($username, $groupname,$isAdministrator);
+	}
+	
 	public function loadAllUsers(){
-		
-		$qb = $this->em->createQueryBuilder();
-		$userId = $this->container->get('session')->get('userId');
-		$qb->select('u.id,u.realName,u.nickname')
-			->from('AppBundle:OfUser', 'u')
-		    ->where('u.id != :id')
-		    ->setParameter("id", $userId);
-		
-		$myReturn =  $qb->getQuery()->getResult();
-		
-		return $myReturn;
+		return AppRest::doConnectRest()->getUsers();
 	}
 	
 	public function findUserByEmail($email){
 		$qb = $this->em->createQueryBuilder();
-		$qb->select('u.id,u.password,u.realName,u.nickname')
+		$qb->select('u.id,u.encryptedpassword as password,u.name,u.email')
 			->from('AppBundle:Ofuser', 'u')
 			->where('u.email LIKE :email')
 	   	    ->setParameter('email', $email );
@@ -72,12 +98,12 @@ class ProfileService {
 		return $myReturn;
 	}
 
-	public function findUserByShortName($shortName){
+	public function findUserByUsername($username){
 		$qb = $this->em->createQueryBuilder();
-		$qb->select('u.id,u.password,u.realName,u.nickname')
-		->from('AppBundle:ofUser', 'u')
-		->where('u.nickname LIKE :nickname')
-		->setParameter('nickname', $shortName );
+		$qb->select('u.id,u.encryptedpassword as password,u.name,u.username')
+		->from('AppBundle:Ofuser', 'u')
+		->where('u.username LIKE :username')
+		->setParameter('nickname', $username );
 	
 		$myReturn =  $qb->getQuery()->getResult();
 	
@@ -87,22 +113,29 @@ class ProfileService {
 	public function save(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$email   = $request->get("email");
+		$result	 = ProfileService::FAIL_SAVE; 
+		
 		if (count($this->findUserByEmail($email)) >0){
 			throw new \Exception('Email já está cadastrado. ' .
 								 'Não foi possível cadastrar usuário. '.
 					             'Entre em contato com o Suporte Tagarelas');
 		}
-		$this->em->beginTransaction();
+		
 		try{
-			$ofUser = new Ofuser();
-			$ofUser->loadByRequest($request);
-			$this->em->persist($ofUser);
-			$this->em->flush();
-			$this->em->commit();			
+			AppRest::doConnectRest()->
+			addUser(
+					$request->get('shortName'),
+					$request->get("password"),
+					$request->get('name'),
+					$request->get("email")
+			);
+			$result	= ProfileService::SUCCESS_SAVE;
 		} catch (Exception $e) {
-			$this->em->rollback();
-		    throw $e;
+			$result	= ProfileService::FAIL_SAVE; 
+			throw $e;
 	    }
+	    return $result;
+	    
 	}
 
 	public function loginUser(){
@@ -125,8 +158,8 @@ class ProfileService {
 	
 	private function moveUserToSession(Array $user){
 		$this->container->get('session')->set('userId', $user['id']);
-		$this->container->get('session')->set('userName', $user['realName']);
-		$this->container->get('session')->set('nickName', $user['nickname']);
+		$this->container->get('session')->set('username', $user['username']);
+		$this->container->get('session')->set('name', $user['name']);
 	}
 	
 

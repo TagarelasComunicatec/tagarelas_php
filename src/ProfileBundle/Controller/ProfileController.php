@@ -92,7 +92,7 @@ class ProfileController extends Controller
     	$profileService = $this->get('profile.services');
     	$myReturn = [ ];
     	try {
-    		$result    = $profileService->findUserByShortName($shortName);
+    		$result    = $profileService->findUserByUsername($shortName);
     		$returnCode = (count($result) > 0 )? ProfileService::SHORTNAME_NOT_FOUND:
     		ProfileService::SHORTNAME_FOUND;
     		$myReturn = array (

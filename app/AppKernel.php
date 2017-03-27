@@ -19,8 +19,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-        	new CodeMe\TheBundle\TheBundle(),
-        	new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+            new CodeMe\TheBundle\TheBundle(),
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new SessionBundle\SessionBundle(),
             new ProfileBundle\ProfileBundle(),
             new FeedBundle\FeedBundle(),
@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new AdminBundle\AdminBundle(),
             new ChatBundle\ChatBundle(),
             new GroupBundle\GroupBundle(),
+
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -47,10 +47,10 @@ $( function() {
 			url: checkShortNamePath,
 			data: myData,
 			type: 'POST',
-			cache: true,
+			cache: false,
 	
 			beforeSend: function( ) {
-				 $("#shortName").css({'background-color' : '#fff'});
+			
 			},
 		
 			error: function(){
@@ -64,17 +64,20 @@ $( function() {
 				jsProfile.SHORTNAME_FOUND = false;
 				if($.trim(dataout.result) === global.recordFound){
 					jsProfile.SHORTNAME_FOUND = true;
-					 $("#shortName").css({'background-color' : '#fff'});
 				} else  
-					 $("#shortName").css({'background-color' : '#5B1762'});
-				 
+					
 				return;
 			},
 			statusCode: {
 				404: function() {
 					global.msgbox.data('messageBox').danger(window.important, 
 							global.error.connection + checkShortNamePath + ". "+ global.error.tryagain);
-				}
+				},
+			    500: function() {
+			      	if (window.ajaxLoading) window.ajaxLoading("hide");
+				       global.msgbox.data('messageBox').danger(window.important, 
+						  global.error.connection + urlLoadAllUsers + ". (500)");
+			    }
 			}
 		});
 		
@@ -93,10 +96,10 @@ $( function() {
 			url: checkEmailPath,
 			data: myData,
 			type: 'POST',
-			cache: true,
+			cache: false,
 	
 			beforeSend: function( ) {
-				$("#email").css({'background-color' : '#ffffff'});			},
+						},
 		
 			error: function(){
 
@@ -108,9 +111,9 @@ $( function() {
 				jsProfile.EMAIL_FOUND = false;
 				if($.trim(dataout.result) === global.recordFound){
 					jsProfile.EMAIL_FOUND = true;
-					$("#email").css({'background-color' : '#5B1762'});
+					
 				} else  
-					$("#email").css({'background-color' : '#ffffff'});
+					
 				 
 				return;
 			},
@@ -118,7 +121,12 @@ $( function() {
 				404: function() {
 					global.msgbox.data('messageBox').danger(window.important, 
 							global.error.connection + checkEmailPath + ". "+ global.error.tryagain);
-				}
+				},
+			    500: function() {
+			      	if (window.ajaxLoading) window.ajaxLoading("hide");
+				       global.msgbox.data('messageBox').danger(window.important, 
+						  global.error.connection + urlLoadAllUsers + ". (500)");
+			    }
 			}
 		});
 	};		
@@ -127,14 +135,10 @@ $( function() {
 	jsProfile.saveNewUser = function() {
 		jsProfile.checkShortName();
 		jsProfile.checkEmail();
-		//------------------------------------------
-		var passMD5   = calcMD5($("#password").val());
-		var cPassMD5  = calcMD5($("#confirmPassword").val());
-		//------------------------------------------
 		jsProfile.screenData = { 'name'           : $("#name").val(),
 								 'shortName'      : $("#shortName").val(),
-								 'password'       : passMD5,
-								 'confirmPassword': cPassMD5,
+								 'password'       : $("#password").val(),
+								 'confirmPassword': $("#confirmPassword").val(),
 								 'email'          : $("#email").val(),
 								 'confirmEmail'   : $("#confirmEmail").val(),
 								 'agree'          : $('#agree').is(":checked"),
@@ -152,7 +156,7 @@ $( function() {
 			url: jsProfile.screenData.path,
 			data: jsProfile.screenData,
 			type: 'POST',
-			cache: true,
+			cache: false,
 				
 			success: function(returned){ 
 				//debugger;
@@ -169,7 +173,12 @@ $( function() {
 					window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
 							global.error.connection + jsProfile.screenData.path + ". "+ global.error.tryagain);
-				}
+				},
+			    500: function() {
+			      	if (window.ajaxLoading) window.ajaxLoading("hide");
+				       global.msgbox.data('messageBox').danger(window.important, 
+						  global.error.connection + urlLoadAllUsers + ". (500)");
+			    }
 			}
 		});
 	};		
@@ -180,7 +189,7 @@ $( function() {
 		var passMD5   = calcMD5($("#password").val());
 
 		//------------------------------------------
-		jsProfile.screenData = { 'password'       : passMD5,
+		jsProfile.screenData = { 'password'       : $("#password").val(),
 								 'email'          : $("#email").val(),
 								 'checkLoginPath' : $("#divCheckLoginPath").attr("ajaxurl"),
 								 'feedPath'       : $("#divFeedPath").attr("ajaxurl"),
@@ -193,7 +202,7 @@ $( function() {
 			url: jsProfile.screenData.checkLoginPath,
 			data: jsProfile.screenData,
 			type: 'POST',
-			cache: true,
+			cache: false,
 				
 			success: function(returned){ 
 				window.ajaxLoading("hide");
@@ -209,7 +218,12 @@ $( function() {
 					window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
 							global.error.connection + jsProfile.screenData.checkLoginPath + ". "+ global.error.tryagain);
-				}
+				},
+			    500: function() {
+			      	if (window.ajaxLoading) window.ajaxLoading("hide");
+				       global.msgbox.data('messageBox').danger(window.important, 
+						  global.error.connection + urlLoadAllUsers + ". (500)");
+			    }
 			}
 		});
 	};
@@ -231,7 +245,7 @@ $( function() {
 		
 		} else {
 			jsProfile.membersSelected = $.grep(jsProfile.membersSelected,function(item){
-			             return (item.id !== data.id);
+			             return (item.id !== data.username);
 		     });
 			jsProfile.totalMembers = jsProfile.membersSelected.length;            
 	    }
@@ -268,12 +282,12 @@ $( function() {
 				var dataout = $.parseJSON(returned);
 				if(global.usersFound  ==$.trim(dataout.result)){
 					$('#allMembers').magicsearch({
-			            dataSource: dataout.users,
-			            fields: ['realName', 'nickname'],
-			            id: 'id',
-			            format: '%realName% · %nickname%',
+			            dataSource: dataout.users.message.user,
+			            fields: ['username', 'name'],
+			            id: 'username',
+			            format: '%rusername% · %name%',
 			            multiple: true,
-			            multiField: 'realName',
+			            multiField: 'username',
 			            dropdownBtn: true,
 			            multiStyle: {
 			                space: 5,
@@ -298,8 +312,13 @@ $( function() {
 				404: function() {
 					if (window.ajaxLoading) window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + urlLoadAllUsers + ". "+ global.error.tryagain);
-				}
+							global.error.connection + urlLoadAllUsers + ". (404) ");
+				},
+			    500: function() {
+			      	if (window.ajaxLoading) window.ajaxLoading("hide");
+				       global.msgbox.data('messageBox').danger(window.important, 
+						  global.error.connection + urlLoadAllUsers + ". (500)");
+			    }
 			},
 			
 		});
