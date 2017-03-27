@@ -37,6 +37,11 @@ class Ofgroupprop
      */
     private $propvalue;
 
-
+    public function doLoadAll($groupname,$name,$propvalue){
+    	$this->groupname = $groupname;
+    	$this->name = $name;
+    	$this->propvalue = $propvalue;
+    }
+    
 }
 

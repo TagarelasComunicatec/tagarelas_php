@@ -105,7 +105,7 @@ $( function() {
          var usersString ='';
 		 
 		 for(var index = 0, len = users.length; index < len; ++index  ){
-			 usersString += users[index].id;
+			 usersString += users[index].username;
 			 if (index < len -1) usersString +="|";
 		 }
 		 

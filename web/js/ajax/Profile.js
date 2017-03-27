@@ -135,9 +135,11 @@ $( function() {
 	jsProfile.saveNewUser = function() {
 		jsProfile.checkShortName();
 		jsProfile.checkEmail();
+		
 		jsProfile.screenData = { 'name'           : $("#name").val(),
 								 'shortName'      : $("#shortName").val(),
 								 'password'       : $("#password").val(),
+								 'passMD5'        : calcMD5($("#password").val()),
 								 'confirmPassword': $("#confirmPassword").val(),
 								 'email'          : $("#email").val(),
 								 'confirmEmail'   : $("#confirmEmail").val(),
@@ -245,7 +247,7 @@ $( function() {
 		
 		} else {
 			jsProfile.membersSelected = $.grep(jsProfile.membersSelected,function(item){
-			             return (item.id !== data.username);
+			             return (item.usename !== data.username);
 		     });
 			jsProfile.totalMembers = jsProfile.membersSelected.length;            
 	    }

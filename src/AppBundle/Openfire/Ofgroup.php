@@ -17,8 +17,7 @@ class Ofgroup
      *
      * @ORM\Column(name="groupname", type="string", length=50, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="ofgroup_groupname_seq", allocationSize=1, initialValue=1)
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $groupname;
 

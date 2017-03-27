@@ -12,20 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Ofuser
 {
-	
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+
 
 	/**
-     * @var string
-     *
+	 * @var string
+	 *
      * @ORM\Column(name="username", type="string", length=64, nullable=false)
-     *
-     */
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="NONE")
+	 */
     private $username;
 
     /**
@@ -118,18 +113,6 @@ class Ofuser
     }
     
     
-    /**
-     * Carrega o objeto com as variaveis de tela padronizadas
-     * @param Request $request
-     */
-    public function loadByRequest($request){
-    	$this->username		  			= $request->get("shortName");;
-    	$this->encryptedpassword		= $request->get("password");
-    	$this->name	          			= $request->get('name');
-    	$this->email          			= $request->get("email");
-    	$this->creationdate = (new \DateTime('now'))->format('Y-m-d');
-    	$this->modificationdate = (new \DateTime('now'))->format('Y-m-d');
-    }
-    
+
 }
 

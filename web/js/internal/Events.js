@@ -18,6 +18,10 @@ $( function() {
 		jsProfile.checkShortName();
 	});
 	
+	$("#shortName").on("input", function(e) {
+	    $(this).val($(this).val().replace(" ", ""));
+	});	
+	
 	/**
 	 * Clique do botão de novo cadastro
 	 */
