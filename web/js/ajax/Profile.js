@@ -285,7 +285,7 @@ $( function() {
 			            dataSource: dataout.users.message.user,
 			            fields: ['username', 'name'],
 			            id: 'username',
-			            format: '%rusername% · %name%',
+			            format: '%username% · %name%',
 			            multiple: true,
 			            multiField: 'username',
 			            dropdownBtn: true,
