@@ -45,7 +45,18 @@ class ProfileService {
 	}
 	
 	public function loadAllUsers(){
-		return AppRest::doConnectRest()->getUsers();
+		$users = AppRest::doConnectRest()->getUsers();
+		$outOfUsers = "Admin,";
+		
+		if ($this->container->get('session')->get('username') != null) 
+			$outOfUsers .= $this->container->get('session')->get('username');
+		$result = array();
+		foreach($users as $user){
+			if (strpos($outOfUsers,$user["username"]) >=0 ){
+				$result.push($user);
+			}
+		}
+	    return $result;
 	}
 	
 	public function findUserByEmail($email){
