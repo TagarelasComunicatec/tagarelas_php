@@ -46,20 +46,24 @@ class ProfileService {
 	
 	public function loadAllUsers(){
 
-		$outOfUsers = "Admin,openfire,candy";
+		$outOfUsers = "'admin','openfire','candy',";
 		
 		if ($this->container->get('session')->get('username') != null) 
-			$outOfUsers .= $this->container->get('session')->get('username');
+			$outOfUsers .="'". $this->container->get('session')->get('username')."'";
 		
-		$qb = $this->em->createQueryBuilder();
-		$expr = $qb->expr()->notIn('u.username', ':outOfUsers');
-
-		return  $qb->select('u.name,u.username')
-			       ->from('AppBundle:Ofuser', 'u')
-				   ->where($expr)
-		           ->setParameter('outOfUsers', $outOfUsers )
-		           ->getQuery()
-		           ->execute();
+			$qb = $this->em->createQueryBuilder();
+			
+			$users =   $qb->select('u.name,u.username')
+			->from('AppBundle:Ofuser', 'u')
+			->getQuery()
+			->execute();
+			$result = array();
+			foreach($users as $user){
+				if (strpos($outOfUsers,$user["username"]) == false){
+					array_push($result,$user);
+				}
+			}
+			return $result;
 	}
 	
 	public function findUserByEmail($email){

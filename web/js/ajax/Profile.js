@@ -284,7 +284,7 @@ $( function() {
 				var dataout = $.parseJSON(returned);
 				if(global.usersFound  ==$.trim(dataout.result)){
 					$('#allMembers').magicsearch({
-			            dataSource: dataout.users.message.user,
+			            dataSource: dataout.users,
 			            fields: ['username', 'name'],
 			            id: 'username',
 			            format: '%username% · %name%',
