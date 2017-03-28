@@ -45,18 +45,21 @@ class ProfileService {
 	}
 	
 	public function loadAllUsers(){
-		$users = AppRest::doConnectRest()->getUsers();
-		$outOfUsers = "Admin,";
+
+		$outOfUsers = "Admin,openfire,candy";
 		
 		if ($this->container->get('session')->get('username') != null) 
 			$outOfUsers .= $this->container->get('session')->get('username');
-		$result = array();
-		foreach($users as $user){
-			if (strpos($outOfUsers,$user["username"]) >=0 ){
-				$result.push($user);
-			}
-		}
-	    return $result;
+		
+		$qb = $this->em->createQueryBuilder();
+		$expr = $qb->expr()->notIn('u.username', ':outOfUsers');
+
+		return  $qb->select('u.name,u.username')
+			       ->from('AppBundle:Ofuser', 'u')
+				   ->where($expr)
+		           ->setParameter('outOfUsers', $outOfUsers )
+		           ->getQuery()
+		           ->execute();
 	}
 	
 	public function findUserByEmail($email){
