@@ -5,6 +5,8 @@ namespace GroupBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use GroupBundle\Service\GroupService;
 use Symfony\Component\HttpFoundation\Response;
+use ProfileBundle\Service\ProfileService;
+use AppBundle\Utility\Utils;
 
 class GroupController extends Controller
 {
@@ -86,16 +88,45 @@ class GroupController extends Controller
 	}
 	
 	public function saveNewGroupAction(){
-		 $groupService = $this->get("group.services");
-		 $myResult  =	$groupService->save();
-		 $myReturn    = array (
+		try {  
+		     $groupService = $this->get("group.services");
+		     $myResult     =	$groupService->save();
+		     $this->saveGroupUsers();
+		     $myReturn     = array (
 							"responseCode" => 200,
 							"result" => $myResult,
-					);
-		 $returnJson = json_encode ( $myReturn );
-		 return new Response ( $returnJson, 200, array (
+			  );
+		     $returnJson = json_encode ( $myReturn );
+		     return new Response ( $returnJson, 200, array (
 		 		'Content-Type' => 'application/text'
-		 ) );
+		     ) );
+		     
+		} catch (\Exception $e){
+		 	throw $e;    	
+	    }
+	}
+	
+	/**
+	 * Save all users from a group
+	 */
+	private function saveGroupUsers(){
+		$profileService = $this->get("profile.services");
+		$request 		 = $this->container->get('request_stack')->getCurrentRequest();
+		$groupname 		 = $request->get("groupName");
+		$users			 = Utils::convertToArray($request->get("users"));
+		/*
+		 * Save the administrator
+		 */
+		$username = $this->container->get('session')->get('username');
+		if ($username != null){
+			$profileService->addUserToGroup($username,$groupname);
+		}
+		/*
+		 * Save the other components
+		 */
+		foreach($users as $user){
+			$profileService->addUserToGroup($user,$groupname);
+		}
 	}
 	
 	public function loadGroupsByStatusAction() {

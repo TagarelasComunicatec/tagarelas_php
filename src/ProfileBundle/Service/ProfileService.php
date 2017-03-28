@@ -44,43 +44,6 @@ class ProfileService {
 		$this->em        = $entityManager;
 	}
 	
-	/**
-	 * Do add Users to Group
-	 * @param String $groupname
-	 * @param Array $users
-	 */
-	public function addUserToGroup($groupname,$users){
-		/*
-		 * Check all users-group
-		 */
-		for ($i=0;$i < $users->size();++$i){
-			$user = AppRest::doConnectRest()->getUser($users[$i]);
-			$hasGroup = false;
-			foreach($user->groups as $userGroup){
-				if ($userGroup === $groupname){
-					$hasGroup = true;
-					break;
-				}
-			}
-			/*
-			 * if group not exists save groupuser
-			 */
-			try {
-				if (! $hasGroup){
-					$this->addUserGroup($user->username, $groupname);
-				}
-			} catch(Exception $e){
-				throw $e;
-			}
-		}
-	}
-	
-	private function addUserGroup($username,$groupname){
-		$groupUser = new Ofgroupuser();
-		$isAdministrator = ($username === $this->container->get('session')->get('username'));
-		$groupUser->loadData($username, $groupname,$isAdministrator);
-	}
-	
 	public function loadAllUsers(){
 		return AppRest::doConnectRest()->getUsers();
 	}
@@ -97,6 +60,38 @@ class ProfileService {
 		return $myReturn;
 	}
 
+	/**
+	 * Add users to group using REST
+	 * @param string $username
+	 * @param string $groupname
+	 */
+	public function addUserToGroup($username,$groupname){
+		$isAdministrator = ($this->container->get('session')->get('username') == $username) ?
+		                   Ofgroupuser::IS_ADMINISTRATOR :  Ofgroupuser::IS_USER;
+		
+	    $this->logger->info("Conteudo de username - groupname -  isAdministrator -> " .$username. '-'. $groupname.'-'.$isAdministrator);
+		$groupUser = new Ofgroupuser();
+	    
+	    if ($username == null || $groupname == null){
+	    	throw new \Exception("addUserToGroup-> empty username (".
+	    						  $username .") or empty groupname (".$groupname.")");
+	    }
+	    
+	    $groupUser->loadData($username, $groupname, $isAdministrator);
+	    
+	    try {
+	    	$this->em->persist($groupUser);
+	    	$this->em->flush ();
+	    } catch(Exception $e){
+	    	throw $e;
+	    }
+	}
+	
+	/**
+	 * Locate Ofuser by username
+	 * @param unknown $username
+	 * @return array
+	 */
 	public function findUserByUsername($username){
 		$qb = $this->em->createQueryBuilder();
 		$qb->select('u.encryptedpassword as password,u.name,u.username')
