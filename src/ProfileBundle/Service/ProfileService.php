@@ -45,11 +45,17 @@ class ProfileService {
 	}
 	
 	public function loadAllUsers(){
-
-		$outOfUsers = "'admin','openfire','candy',";
+		$request = $this->container->get('request_stack')->getCurrentRequest();
+		$session = $request->getSession();
 		
-		if ($this->container->get('session')->get('username') != null) 
-			$outOfUsers .="'". $this->container->get('session')->get('username')."'";
+		$this->logger->info('Verificação de variavel de sessao->'.  
+			$session->get('username'));
+		
+		$outOfUsers = ['admin','openfire','candy'];
+		
+		if ($session->get('username') != null) 
+			array($outOfUsers ,
+					$session->get('username'));
 		
 			$qb = $this->em->createQueryBuilder();
 			
@@ -59,7 +65,7 @@ class ProfileService {
 			->execute();
 			$result = array();
 			foreach($users as $user){
-				if (strpos($outOfUsers,$user["username"]) == false){
+				if ( ! in_array($user["username"], $outOfUsers) ){
 					array_push($result,$user);
 				}
 			}
@@ -181,8 +187,11 @@ class ProfileService {
 	}
 	
 	private function moveUserToSession(Array $user){
-		$this->container->get('session')->set('username', $user['username']);
-		$this->container->get('session')->set('name', $user['name']);
+		$request     = $this->container->get('request_stack')->getCurrentRequest();
+		$session = $request->getSession();
+		$session->start();
+		$session->set('username', $user['username']);
+		$session->set('name', $user['name']);
 	}
 	
 
