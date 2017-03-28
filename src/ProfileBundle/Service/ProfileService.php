@@ -50,7 +50,7 @@ class ProfileService {
 	
 	public function findUserByEmail($email){
 		$qb = $this->em->createQueryBuilder();
-		$qb->select('u.username,u.encryptedpassword as password,u.name,u.email')
+		$qb->select('u.username,u.plainpassword as password,u.name,u.email')
 			->from('AppBundle:Ofuser', 'u')
 			->where('u.email LIKE :email')
 	   	    ->setParameter('email', $email );
@@ -94,7 +94,7 @@ class ProfileService {
 	 */
 	public function findUserByUsername($username){
 		$qb = $this->em->createQueryBuilder();
-		$qb->select('u.encryptedpassword as password,u.name,u.username')
+		$qb->select('u.name,u.username')
 		->from('AppBundle:Ofuser', 'u')
 		->where('u.username LIKE :username')
 		->setParameter('nickname', $username );
@@ -131,9 +131,10 @@ class ProfileService {
 			           ->set('u.plainpassword',"'". $request->get("password")."'")
 			           ->where('u.username = ?1')
 			           ->setParameter(1, $request->get('shortName'))
-					   ->getQuery();
-			$p = $qb->execute();
-		
+					   ->getQuery()
+			           ->execute();
+		     
+			$this->em->flush() ;          
 			$result	= ProfileService::SUCCESS_SAVE;
 		} catch (Exception $e) {
 			$result	= ProfileService::FAIL_SAVE; 

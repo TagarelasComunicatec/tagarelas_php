@@ -12,7 +12,7 @@ parameters:
    #Database openfire - protocolo XMPP
     database_driver_openfire: pdo_mysql
     database_host_openfire: localhost
-    database_port_openfire: 5432
+    database_port_openfire: 3306
     database_name_openfire: openfire
     database_user_openfire: root
     database_password_openfire: 123456

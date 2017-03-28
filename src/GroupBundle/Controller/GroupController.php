@@ -91,6 +91,9 @@ class GroupController extends Controller
 		try {  
 		     $groupService = $this->get("group.services");
 		     $myResult     =	$groupService->save();
+		     //--------------------------
+		     // Save users for the group
+		     //--------------------------
 		     $this->saveGroupUsers();
 		     $myReturn     = array (
 							"responseCode" => 200,
