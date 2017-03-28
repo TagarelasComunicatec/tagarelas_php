@@ -124,18 +124,16 @@ class ProfileService {
 					$request->get("email")
 			);
 		
+		    /* Save in plainPassword */
 			
-		/*	
-		 * Não funcionou
-		 * -------------
-		 * $qb = $this->em->createQueryBuilder()
+			$qb = $this->em->createQueryBuilder()
 			           ->update('AppBundle:Ofuser', 'u')
 			           ->set('u.plainpassword',"'". $request->get("password")."'")
 			           ->where('u.username = ?1')
 			           ->setParameter(1, $request->get('shortName'))
 					   ->getQuery();
 			$p = $qb->execute();
-		*/	
+		
 			$result	= ProfileService::SUCCESS_SAVE;
 		} catch (Exception $e) {
 			$result	= ProfileService::FAIL_SAVE; 
@@ -164,7 +162,6 @@ class ProfileService {
 	}
 	
 	private function moveUserToSession(Array $user){
-		$this->container->get('session')->set('userId', $user['id']);
 		$this->container->get('session')->set('username', $user['username']);
 		$this->container->get('session')->set('name', $user['name']);
 	}
