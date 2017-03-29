@@ -48,7 +48,7 @@ class ProfileService {
 		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$session = $request->getSession();
 		
-		$this->logger->info('VerificaÁ„o de variavel de sessao->'.  
+		$this->logger->info('VerificaÔøΩÔøΩo de variavel de sessao->'.  
 			$session->get('username'));
 		
 		$outOfUsers = ['admin','openfire','candy'];
@@ -104,10 +104,10 @@ class ProfileService {
 	    $groupUser->loadData($username, $groupname, $isAdministrator);
 	    
 	    try {
-	    	$this->em->persist($groupUser);
+	    	$this->em->merge($groupUser);
 	    	$this->em->flush ();
 	    } catch(Exception $e){
-	    	throw $e;
+	    	$this->logger.info("Informa√ß√£o j√° existe na tabela");
 	    }
 	}
 	
