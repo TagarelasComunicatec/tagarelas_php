@@ -5,7 +5,7 @@ Tagarelas - Meu Perfil - Editar
 {% endblock %}
 {% block content %}
 		<section id="conteudo-principal">
-			<div class="container">
+			<div class="container">'
 
 				<div id="conteudo-cabecalho">
 
@@ -54,31 +54,41 @@ Tagarelas - Meu Perfil - Editar
 				<form class="row">
 				
 					<div class="col-xs-12 col-sm-4 form-group">
-						<label>Nome Completo</label>
-						<input type="text" class="form-control" value="Lucianna">
+						<label>Apelido</label>
+						<input id="shortName" type="text" class="form-control" value="Santos">
 					</div>
+					
 					<div class="col-xs-12 col-sm-4 form-group">
-						<label>Nome Curto</label>
-						<input type="text" class="form-control" value="Santos">
+						<label>Nome Completo</label>
+						<input id="name" type="text" class="form-control" value="Lucianna">
 					</div>
+					
 					<div class="col-xs-12 col-sm-4 form-group">
 						<label>Email</label>
-						<input type="email" class="form-control" value="luciannasantos@gmail.com">
+						<input id="email" type="email" class="form-control" value="luciannasantos@gmail.com">
 					</div>
 					<div class="col-xs-12 form-group">
 						<label>Avatar</label>
 						<br>
 						<div class="col-xs-12 form-group">
 							<div class="col-xs-12 col-sm-4 text-center form-group">
-								<img src="img/default-avatar.gif" class="avatar-img">
-							</div>
-							<div class="col-xs-12 col-sm-4 text-center form-group">
-								<p>
-									<div class="btn btn-default btn-file">
-										<span><i class="material-icons">&#xE410;</i> Enviar Foto</span>
-										<input type="file" accept="image/*">
-									</div>
-								</p>
+								<!--  image Upload Start -->
+ 
+                                     <div class="imageupload panel panel-default">
+                                        <div class="panel-heading clearfix">
+                                            <h3 class="panel-title pull-left">Carregar Imagem</h3>
+                                        </div>
+                                        <div class="file-tab panel-body">
+                                            <label class="btn btn-default btn-file">
+                                                <span>Browse</span>
+                                                <!-- The file is stored here. -->
+                                                <input type="file" id='avatar'  name="avatar">
+                                            </label>
+                                            <button type="button" class="btn btn-default">Remove</button>
+                                        </div>
+                                    </div>
+ 
+ 									<!--  image upload End -->
 								<p>ou</p>
 								<p>
 									<label class="checkbox-inline">
@@ -89,7 +99,7 @@ Tagarelas - Meu Perfil - Editar
 						</div>
 					</div>
 					<div class="col-xs-12 form-group">
-						<button type="submit" class="clearfix btn btn-success">Salvar</button>
+						<button type="button" id="submitEditProfile" class="clearfix btn btn-success">Salvar</button>
 					</div>
 				</form>
 			</div> <!-- container --> 
