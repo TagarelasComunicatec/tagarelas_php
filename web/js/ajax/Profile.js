@@ -36,6 +36,47 @@ $( function() {
 		return true;
 	};
 	
+	
+	jsProfile.loadUser = function() { 
+		// debugger
+		if (window.ajaxLoading) window.ajaxLoading("show");
+		$.ajax({
+			url: $.("#loadUser").attr("ajaxurl"),
+			data: { },
+			type: 'POST',
+			cache: false,
+	
+			beforeSend: function( ) {
+			
+			},
+		
+			error: function(){
+				if (window.ajaxLoading) window.ajaxLoading("hide");
+			},
+
+			success: function(returned){ 
+				//debugger;
+			if (window.ajaxLoading) window.ajaxLoading("hide");
+			var dataout = $.parseJSON(returned);
+				$("#username").val(dataout.username);
+				$("#name").val(dataout.name);
+				$("#email").val(dataout.email);
+			},
+			statusCode: {
+				404: function() {
+					global.msgbox.data('messageBox').danger(window.important, 
+							global.error.connection + checkShortNamePath + ". "+ global.error.tryagain);
+				},
+			    500: function() {
+			      	ifif (window.ajaxLoading) window.ajaxLoading("hide");
+				       global.msgbox.data('messageBox').danger(window.important, 
+						  global.error.connection + urlLoadAllUsers + ". (500)");
+			    }
+			}
+		});
+
+	};
+	
 	jsProfile.checkShortName = function() { 
 		// debugger
 		
@@ -59,7 +100,6 @@ $( function() {
 
 			success: function(returned){ 
 				//debugger;
-				$(divPosicao).empty();
 				var dataout = $.parseJSON(returned);
 				jsProfile.SHORTNAME_FOUND = false;
 				if($.trim(dataout.result) === global.recordFound){
@@ -204,7 +244,7 @@ $( function() {
 			url: jsProfile.screenData.checkLoginPath,
 			data: jsProfile.screenData,
 			type: 'POST',
-			cache: false,
+			cache: true,
 				
 			success: function(returned){ 
 				window.ajaxLoading("hide");

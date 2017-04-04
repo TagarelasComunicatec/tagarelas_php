@@ -48,9 +48,6 @@ class ProfileService {
 		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$session = $request->getSession();
 		
-		$this->logger->info('Verifica��o de variavel de sessao->'.  
-			$session->get('username'));
-		
 		$outOfUsers = ['admin','openfire','candy'];
 		
 		if ($session->get('username') != null) 
@@ -73,6 +70,7 @@ class ProfileService {
 	}
 	
 	public function findUserByEmail($email){
+		$this->logger->info("Acessando usuario by email ->" . $email);
 		$qb = $this->em->createQueryBuilder();
 		$qb->select('u.username,u.plainpassword as password,u.name,u.email')
 			->from('AppBundle:Ofuser', 'u')
@@ -80,7 +78,6 @@ class ProfileService {
 	   	    ->setParameter('email', $email );
 		
 		$myReturn =  $qb->getQuery()->getResult();
-
 		return $myReturn;
 	}
 
@@ -118,13 +115,13 @@ class ProfileService {
 	 */
 	public function findUserByUsername($username){
 		$qb = $this->em->createQueryBuilder();
-		$qb->select('u.name,u.username')
+		$qb->select('u.name,u.username, u.email')
 		->from('AppBundle:Ofuser', 'u')
 		->where('u.username LIKE :username')
-		->setParameter('nickname', $username );
+		->setParameter('username', $username );
 	
 		$myReturn =  $qb->getQuery()->getResult();
-	
+		$this->logger->info("result da consulta ->" . json_encode($myReturn));
 		return $myReturn;
 	}
 	
@@ -150,7 +147,7 @@ class ProfileService {
 		
 		    /* Save in plainPassword */
 			
-			$qb = $this->em->createQueryBuilder()
+			$this->em->createQueryBuilder()
 			           ->update('AppBundle:Ofuser', 'u')
 			           ->set('u.plainpassword',"'". $request->get("password")."'")
 			           ->where('u.username = ?1')
@@ -187,6 +184,7 @@ class ProfileService {
 	}
 	
 	private function moveUserToSession(Array $user){
+		$this->logger->info("Movendo usuario para a Sessão");
 		$request     = $this->container->get('request_stack')->getCurrentRequest();
 		$session = $request->getSession();
 		$session->start();

@@ -58,6 +58,14 @@ $( function() {
 	$("#dtBox").DateTimePicker();
 	
 	/**
+	 * Load data of User
+	 */
+	
+	if ($("#editProfile").length){
+		jsGroup.loadUser();
+	}
+	
+	/**
 	 * Load events in feed page
 	 */
 	
