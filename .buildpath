@@ -11,12 +11,7 @@
 			<attribute name="composer" value="source"/>
 		</attributes>
 	</buildpathentry>
-	<buildpathentry excluding="ca-bundle/" kind="src" path="vendor/composer">
-		<attributes>
-			<attribute name="composer" value="vendor"/>
-		</attributes>
-	</buildpathentry>
-	<buildpathentry kind="src" path="vendor/composer/ca-bundle/src">
+	<buildpathentry kind="src" path="vendor/composer">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>

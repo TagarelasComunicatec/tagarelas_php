@@ -53,6 +53,10 @@ $( function() {
 	    jsProfile.saveUser(this,event);
 	}); 
 	
+	$("#changePasswordForm").submit(function(event){
+	    jsProfile.changePassword(this,event);
+	}); 
+	
 	/**
 	 * Configure the datetime field of session bundle
 	 */
@@ -63,9 +67,14 @@ $( function() {
 	 * Load data of User
 	 */
 	
-	if ($("#editProfile").length){
+	if ($("#editUserForm").length){
 		jsProfile.loadUser();
 	}
+
+	if ($("#changePasswordForm").length){
+		jsProfile.loadPassword();
+	}
+	
 	
 	/**
 	 * Load events in feed page

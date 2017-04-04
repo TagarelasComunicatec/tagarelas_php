@@ -17,6 +17,18 @@ profile_loaduser:
 profile_saveuser:
     path:     /profile/saveuser
     defaults: { _controller: 'ProfileBundle:Profile:saveUser' }
+
+profile_changepassword:
+    path:     /profile/changepassword
+    defaults: { _controller: 'ProfileBundle:Profile:changePassword' }
+
+profile_savechangedpassword:
+    path:     /profile/savechangedpassword
+    defaults: { _controller: 'ProfileBundle:Profile:saveChangedPassword' }
+    
+profile_cancelprofile:
+    path:     /profile/cancelprofile
+    defaults: { _controller: 'ProfileBundle:Profile:cancelProfile' }
     
 profile_checkemail:
     path: /profile/checkemail

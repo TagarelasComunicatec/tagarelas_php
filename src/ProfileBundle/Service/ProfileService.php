@@ -170,10 +170,11 @@ class ProfileService {
 	public function loginUser(){
 		$request     = $this->container->get('request_stack')->getCurrentRequest();
 		$users       = $this->findUserByEmail($request->get('email'));
+		$result = ProfileService::LOGIN_UNCORRECT;
 		foreach ($users as $user){
-			$return = $this->verifyUser($request, $user);
+			$result = $this->verifyUser($request, $user);
 		}
-		return $return;
+		return $result;
 	}
 
 	private function verifyUser($request,$user){
@@ -232,7 +233,7 @@ class ProfileService {
 	private function persistImage(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$file = $request->files->get("file");
-		$path = $this->container->getParameter('perofile_images_directory') .'/';
+		$path = $this->container->getParameter('profile_images_directory') .'/';
 		if (is_null($file)) {
 			return 'default.png';
 		}

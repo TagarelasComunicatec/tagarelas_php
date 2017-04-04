@@ -36,10 +36,10 @@ Tagarelas - Meu Perfil - Editar
 										<a href="#">Dados Pessoais</a>
 									</li>
 									<li>
-										<a href="#">Senha</a>
+										<a href="{{ path('profile_changepassword')}}">Senha</a>
 									</li>
 									<li>
-										<a href="#">Desativação</a>
+										<a href="{{ path('profile_cancelprofile')}}">Desativação</a>
 									</li>
 								</ul> <!-- slide -->
 								
@@ -101,7 +101,7 @@ Tagarelas - Meu Perfil - Editar
 						</div>
 					</div>
 					<div class="col-xs-12 form-group">
-						<button type="button" id="submitEditProfile" class="clearfix btn btn-success">Salvar</button>
+						<button type="submit" id="submitEditProfile" class="clearfix btn btn-success">Salvar</button>
 					</div>
 				</form>
 			</div> <!-- container --> 

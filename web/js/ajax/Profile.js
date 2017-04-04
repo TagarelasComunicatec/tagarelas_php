@@ -36,6 +36,58 @@ $( function() {
 		return true;
 	};
 	
+	jsProfile.changePassword = function (myForm,event){
+		
+		if (! pass.doVerifyPassword($("#password").val(),$("#confirmPassword").val())){			
+					$("#password").focus();		
+					return;
+		}
+		
+		if (window.ajaxLoading) window.ajaxLoading("show");
+
+		 var formObj = $(myForm);
+		 var formURL = formObj.attr("action");
+		 
+		 var formData = new FormData();
+		
+		 
+		 formData.append("username", $("#shortName").val());
+		 formData.append("password", $("#passssword").val());;
+		
+		 $.ajax({
+		        url: formURL,
+		        type: 'post',
+		        data:  formData,
+		        //mimeType:"multipart/form-data",
+		        contentType: false,
+		        cache: false,
+		        processData:false,
+		        success: function(returned, textStatus, jqXHR)
+		        {
+		          //debugger;
+					var dataout = $.parseJSON(returned);
+					if($.trim(dataout.result) === global.recordSavedWithSuccess){
+						global.msgbox.data('messageBox').info(window.important, 
+								 global.saveOk)	 
+						return;
+					} else  {
+						global.msgbox.data('messageBox').error(window.important, 
+								global.saveError);
+					}
+					return;
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) 
+		        {
+		        	 $.notify(errorThrown+ ' '+ textStatus, true);
+		         }          
+		 });
+		 if (event) {
+			 event.preventDefault(); //Prevent Default action. 
+			 event.unbind();
+		 }
+	}
+	
+	
 	jsProfile.saveUser = function(myForm,event) {
 		// debugger
 		if (window.ajaxLoading) window.ajaxLoading("show");
@@ -48,9 +100,9 @@ $( function() {
 		 var formData = new FormData();
 		
 		 
-		 formData.append("username", $("#username").val());
-		 formData.append("name", $("#name").val()));
-		 formData.append("email", $("#email").val()));
+		 formData.append("username", $("#shortName").val());
+		 formData.append("name", $("#name").val());
+		 formData.append("email", $("#email").val());
 		 formData.append("file", filedata) ;
 		
 		 $.ajax({
@@ -80,8 +132,10 @@ $( function() {
 		        	 $.notify(errorThrown+ ' '+ textStatus, true);
 		         }          
 		 });
-		 event.preventDefault(); //Prevent Default action. 
-		 event.unbind();
+		 if (event) {
+			 event.preventDefault(); //Prevent Default action. 
+			 event.unbind();
+		 }
 	}
 	
 	jsProfile.loadUser = function() { 
