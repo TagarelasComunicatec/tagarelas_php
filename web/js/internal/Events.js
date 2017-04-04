@@ -3,8 +3,6 @@
  * Objetivo: Controle de Eventos do Sistema
  */
 
-
-
 $( function() {
 	$("input[type=text]").focus(function() {
 		   $(this).select();
@@ -51,6 +49,10 @@ $( function() {
 	    jsGroup.saveNewGroup(this,event);
 	}); 
 	
+	$("#editUserForm").submit(function(event){
+	    jsProfile.saveUser(this,event);
+	}); 
+	
 	/**
 	 * Configure the datetime field of session bundle
 	 */
@@ -62,7 +64,7 @@ $( function() {
 	 */
 	
 	if ($("#editProfile").length){
-		jsGroup.loadUser();
+		jsProfile.loadUser();
 	}
 	
 	/**

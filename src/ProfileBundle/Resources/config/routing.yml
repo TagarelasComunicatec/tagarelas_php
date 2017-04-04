@@ -9,6 +9,14 @@ profile_new:
 profile_edit:
     path:     /profile/edit
     defaults: { _controller: 'ProfileBundle:Profile:edit' }
+
+profile_loaduser:
+    path:     /profile/loaduser
+    defaults: { _controller: 'ProfileBundle:Profile:loadUser' }
+
+profile_saveuser:
+    path:     /profile/saveuser
+    defaults: { _controller: 'ProfileBundle:Profile:saveUser' }
     
 profile_checkemail:
     path: /profile/checkemail

@@ -178,6 +178,7 @@
 
 {% block links %}
         <div id='divLoadAllUsers'           ajaxurl="{{ path('profile_loadallusers') }}"></div>
+	    <div id='divLoadUser' 			    ajaxurl="{{ path('profile_loaduser') }}"></div>
 	    <div id='divLoadAllGroups'          ajaxurl="{{ path('group_loadallgroups') }}"></div>
 		<div id='divCheckSessionName'       ajaxurl="{{ path("session_checksessionname") }}"></div>
 		<div id='divnewSession'                 url="{{ path("session_new") }}"></div>
@@ -195,6 +196,7 @@
 		<div id='divLoadGroupsByStatus'     ajaxurl="{{ path('group_loadgroupsbystatus') }}"></div>
 		<div id='divGroupUploadImage' 		ajaxurl="{{ path('group_uploadimage') }}"></div>
 		<div id='divHost' 				        url="{{   app.request.scheme ~'://' ~ app.request.httpHost ~ app.request.getBaseURL() }}"></div>
+
 {% endblock %}
 
 </body>

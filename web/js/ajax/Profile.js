@@ -36,15 +36,63 @@ $( function() {
 		return true;
 	};
 	
+	jsProfile.saveUser = function(myForm,event) {
+		// debugger
+		if (window.ajaxLoading) window.ajaxLoading("show");
+		
+        var filedata = $("#avatar").prop("files")[0];
+		 
+		 var formObj = $(myForm);
+		 var formURL = formObj.attr("action");
+		 
+		 var formData = new FormData();
+		
+		 
+		 formData.append("username", $("#username").val());
+		 formData.append("name", $("#name").val()));
+		 formData.append("email", $("#email").val()));
+		 formData.append("file", filedata) ;
+		
+		 $.ajax({
+		        url: formURL,
+		        type: 'post',
+		        data:  formData,
+		        //mimeType:"multipart/form-data",
+		        contentType: false,
+		        cache: false,
+		        processData:false,
+		        success: function(returned, textStatus, jqXHR)
+		        {
+		          //debugger;
+					var dataout = $.parseJSON(returned);
+					if($.trim(dataout.result) === global.recordSavedWithSuccess){
+						global.msgbox.data('messageBox').info(window.important, 
+								 global.saveOk)	 
+						return;
+					} else  {
+						global.msgbox.data('messageBox').error(window.important, 
+								global.saveError);
+					}
+					return;
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) 
+		        {
+		        	 $.notify(errorThrown+ ' '+ textStatus, true);
+		         }          
+		 });
+		 event.preventDefault(); //Prevent Default action. 
+		 event.unbind();
+	}
 	
 	jsProfile.loadUser = function() { 
 		// debugger
 		if (window.ajaxLoading) window.ajaxLoading("show");
+		
 		$.ajax({
-			url: $.("#loadUser").attr("ajaxurl"),
+			url: $("#divLoadUser").attr("ajaxurl"),
 			data: { },
 			type: 'POST',
-			cache: false,
+			cache: true,
 	
 			beforeSend: function( ) {
 			
@@ -56,11 +104,12 @@ $( function() {
 
 			success: function(returned){ 
 				//debugger;
-			if (window.ajaxLoading) window.ajaxLoading("hide");
-			var dataout = $.parseJSON(returned);
-				$("#username").val(dataout.username);
-				$("#name").val(dataout.name);
-				$("#email").val(dataout.email);
+				if (window.ajaxLoading) window.ajaxLoading("hide");
+				var dataout = $.parseJSON(returned);
+				user = dataout.user[0];
+				$("#shortName").val(user.username);
+				$("#name").val(user.name);
+				$("#email").val(user.email);
 			},
 			statusCode: {
 				404: function() {
@@ -68,7 +117,7 @@ $( function() {
 							global.error.connection + checkShortNamePath + ". "+ global.error.tryagain);
 				},
 			    500: function() {
-			      	ifif (window.ajaxLoading) window.ajaxLoading("hide");
+			      	if (window.ajaxLoading) window.ajaxLoading("hide");
 				       global.msgbox.data('messageBox').danger(window.important, 
 						  global.error.connection + urlLoadAllUsers + ". (500)");
 			    }
@@ -76,7 +125,7 @@ $( function() {
 		});
 
 	};
-	
+
 	jsProfile.checkShortName = function() { 
 		// debugger
 		
@@ -95,7 +144,7 @@ $( function() {
 			},
 		
 			error: function(){
-
+				if (window.ajaxLoading) window.ajaxLoading("hide");
 			},
 
 			success: function(returned){ 
@@ -110,6 +159,7 @@ $( function() {
 			},
 			statusCode: {
 				404: function() {
+					if (window.ajaxLoading) window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
 							global.error.connection + checkShortNamePath + ". "+ global.error.tryagain);
 				},
@@ -124,6 +174,7 @@ $( function() {
 		
 		
 	};
+	
 	jsProfile.checkEmail = function() {
 		var email 	   = $("#email").val();
 		var checkEmailPath = $("#divCheckEmailPath").attr("ajaxurl");
@@ -139,14 +190,15 @@ $( function() {
 			cache: false,
 	
 			beforeSend: function( ) {
-						},
+			},
 		
 			error: function(){
-
+				if (window.ajaxLoading) window.ajaxLoading("hide");
 			},
 
 			success: function(returned){ 
 				//debugger;
+				if (window.ajaxLoading) window.ajaxLoading("hide");
 				var dataout = $.parseJSON(returned);
 				jsProfile.EMAIL_FOUND = false;
 				if($.trim(dataout.result) === global.recordFound){
@@ -159,6 +211,7 @@ $( function() {
 			},
 			statusCode: {
 				404: function() {
+					if (window.ajaxLoading) window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
 							global.error.connection + checkEmailPath + ". "+ global.error.tryagain);
 				},
@@ -190,9 +243,6 @@ $( function() {
 		if  (! jsProfile.checkFields())
 			return false;
 		
-		/**
-		 * Execute the call of save record
-		 */
 		window.ajaxLoading("show");
 		$.ajax({
 			url: jsProfile.screenData.path,
@@ -236,9 +286,6 @@ $( function() {
 								 'checkLoginPath' : $("#divCheckLoginPath").attr("ajaxurl"),
 								 'feedPath'       : $("#divFeedPath").attr("ajaxurl"),
 				     			};
-		/**
-		 * Execute the call of save record
-		 */
 		window.ajaxLoading("show"); d
 		$.ajax({
 			url: jsProfile.screenData.checkLoginPath,
@@ -302,9 +349,7 @@ $( function() {
 	};
 	
 	jsProfile.loadAllUsers = function() {
-		/**
-		 * Execute call to load all users
-		 */
+
 		if (window.ajaxLoading) window.ajaxLoading("show");
 		var urlLoadAllUsers =  $("#divLoadAllUsers").attr("ajaxurl");
 		$.ajax({
@@ -367,7 +412,7 @@ $( function() {
 	
 	};
 	
-	
+
 	
 	/**
 	 * If exists $("#loadAllUsersDiv") - I'm in Group page then load all users.

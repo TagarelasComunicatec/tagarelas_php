@@ -37,12 +37,26 @@ class ProfileController extends Controller
     
     public function editAction()
     {
+    	return $this->render('ProfileBundle:Profile:edit.html.twig');
+    }    
+    
+    public function loadUserAction(){
     	$request     = $this->container->get('request_stack')->getCurrentRequest();
     	$session = $request->getSession();
     	$profileService = $this->get ( 'profile.services' );
-    	$result = $profileService->findUserByUsername($session->get("username")); 
-    	return $this->render('ProfileBundle:Profile:edit.html.twig',array($result));
-    }    
+    	$result = $profileService->findUserByUsername($session->get("username"));
+    	$returnCode = (count ( $result ) > 0) ?
+    	        ProfileService::USERS_FOUND : ProfileService::USERS_NOT_FOUND;
+    	$myReturn = array (
+    	        		"responseCode" => 200,
+    	        		"result"       => $returnCode,
+    	        		"user"        => $result
+   				 	);
+    	$returnJson = json_encode ( $myReturn );
+    	return new Response ( $returnJson, 200, array (
+    	        		'Content-Type' => 'application/text' ) );
+    }
+    
     
     public function loadAllUsersAction(){
 		$profileService = $this->get ( 'profile.services' );

@@ -136,7 +136,7 @@ class GroupService {
 			$avatar = $this->persistImage();
 			$groupAttribute = new Ofgroupprop();;
 			$groupAttribute->doLoadAll($groupName, GroupService::AVATAR, $avatar);
-			$this->em->persist($groupAttribute);
+			$this->em->merge($groupAttribute);
 			$this->em->flush ();
 		    return Rule::SUCCESS_SAVE;
 		} catch(Exception $e){

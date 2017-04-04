@@ -52,7 +52,8 @@ Tagarelas - Meu Perfil - Editar
                 </div> <!-- conteudo-cabecalho --> 
 				
 				
-				<form class="row">
+			<form class="row" id='editUserForm' method="POST" action="{{ path('profile_saveuser') }}"  enctype="multipart/form-data">
+				
 				    <input type='hidden' id='editProfile' >
 					<div class="col-xs-12 col-sm-4 form-group">
 						<label>Apelido</label>

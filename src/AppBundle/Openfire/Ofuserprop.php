@@ -37,6 +37,11 @@ class Ofuserprop
      */
     private $propvalue;
 
-
+    public function doLoadAll($username,$name,$propvalue){
+    	$this->username = $username;
+    	$this->name = $name;
+    	$this->propvalue = $propvalue;
+    	return $this;
+    }
 }
 

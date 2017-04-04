@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Utility\AppRest;
 use AppBundle\Entity\GroupUser;
 use AppBundle\Openfire\Ofgroupuser;
+use AppBundle\Openfire\Ofuserprop;
 
 //@@TODO Preparar Login senha usa Blowfish cb
 //@@TODO Alterar openfire para secret Authorization -> 123456
@@ -32,6 +33,7 @@ class ProfileService {
 	const SHORTNAME_FOUND = 1;
 	const SHORTNAME_NOT_FOUND = 2;
 	
+	const AVATAR = 'AVATAR';
 	
 	protected $em;
 	protected $emo;
@@ -190,6 +192,55 @@ class ProfileService {
 		$session->start();
 		$session->set('username', $user['username']);
 		$session->set('name', $user['name']);
+	}
+	
+	public function saveUser(){
+		try{
+			$request  = $this->container->get('request_stack')->getCurrentRequest();
+			$userName = $request->get("username");
+		
+			/*
+			 * update the user data
+			 */
+			$this->em->createQueryBuilder()
+						->update('AppBundle:Ofuser', 'u')
+						->set('u.name',"'". $request->get("name")."'")
+						->set('u.email',"'". $request->get("email")."'")
+						->where('u.username = ?1')
+						->setParameter(1, $request->get('username'))
+						->getQuery()
+						->execute();
+			
+			$this->em->flush() ;   
+			
+			/*
+			 * Uodate the Avatar
+			 */
+			$avatar = $this->persistImage();
+			$userAttribute = new Ofuserprop();
+			$userAttribute->doLoadAll($userName, ProfileService::AVATAR, $avatar);
+			$this->em->merge($userAttribute);
+			$this->em->flush ();
+			return ProfileService::SUCCESS_SAVE;
+			
+		} catch(Exception $e){
+			$this->logger->error("Conteudo de error by reference " . $e->__toString());
+			return ProfileService::FAIL_SAVE;
+		}
+	}
+	
+	private function persistImage(){
+		$request = $this->container->get('request_stack')->getCurrentRequest();
+		$file = $request->files->get("file");
+		$path = $this->container->getParameter('perofile_images_directory') .'/';
+		if (is_null($file)) {
+			return 'default.png';
+		}
+		$filename = md5(uniqid()).'.'.$file->getClientOriginalExtension();
+		$this->logger->info("arquivo de imagem salvo:" . $filename);
+		
+		$file->move( $path, $filename);
+		return $filename;
 	}
 	
 
