@@ -29,6 +29,10 @@ profile_savechangedpassword:
 profile_cancelprofile:
     path:     /profile/cancelprofile
     defaults: { _controller: 'ProfileBundle:Profile:cancelProfile' }
+ 
+profile_canceledprofile:
+    path:     /profile/canceledprofile
+    defaults: { _controller: 'ProfileBundle:Profile:calceledProfile' } 
     
 profile_checkemail:
     path: /profile/checkemail

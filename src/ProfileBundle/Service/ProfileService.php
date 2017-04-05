@@ -126,7 +126,12 @@ class ProfileService {
 		$this->logger->info("result da consulta ->" . json_encode($myReturn));
 		return $myReturn;
 	}
-	
+	/**
+	 * Save User
+	 * @throws \Exception
+	 * @throws Exception
+	 * @return number Success or Fail 
+	 */
 	public function save(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$email   = $request->get("email");
@@ -146,19 +151,10 @@ class ProfileService {
 					$request->get('name'),
 					$request->get("email")
 			);
-		
 		    /* Save in plainPassword */
-			
-			$this->em->createQueryBuilder()
-			           ->update('AppBundle:Ofuser', 'u')
-			           ->set('u.plainpassword',"'". $request->get("password")."'")
-			           ->where('u.username = ?1')
-			           ->setParameter(1, $request->get('shortName'))
-					   ->getQuery()
-			           ->execute();
-		     
-			$this->em->flush() ;          
+			$this->savePlainPassword($request->get('shortName'), $request->get("password"));         
 			$result	= ProfileService::SUCCESS_SAVE;
+		
 		} catch (Exception $e) {
 			$result	= ProfileService::FAIL_SAVE; 
 			throw $e;
@@ -167,6 +163,22 @@ class ProfileService {
 	    
 	}
 
+	private function savePlainPassword($username,$password){
+		$this->em->createQueryBuilder()
+			 	 ->update('AppBundle:Ofuser', 'u')
+				 ->set('u.plainpassword',"'". $password."'")
+				 ->where('u.username = ?1')
+				 ->setParameter(1, $username)
+				 ->getQuery()
+				 ->execute();
+		
+		$this->em->flush() ;
+	}
+	
+	/**
+	 * Realize the login
+	 * @return number LOGIN_CORRECT or LOGIN_UNCORRECT
+	 */
 	public function loginUser(){
 		$request     = $this->container->get('request_stack')->getCurrentRequest();
 		$users       = $this->findUserByEmail($request->get('email'));
@@ -193,13 +205,47 @@ class ProfileService {
 		$session->start();
 		$session->set('username', $user['username']);
 		$session->set('name', $user['name']);
+		$session->set('email', $user['email']);
 	}
 	
+	/**
+	 * Save the new Password from User
+	 * @return number - SUCESS or FAIL 
+	 */
+	public function saveChangedPassword(){
+		try{
+			
+			$request  = $this->container->get('request_stack')->getCurrentRequest();
+			$session = $request->getSession();
+			$username = $request->get("username");
+			$password = $request->get("password");
+			$name     = $session->get("name");
+			$email    = $session->get("email");
+			AppRest::doConnectRest()->updateUser($username, $password,$name,$email);
+			$this->savePlainPassword($username,$password);
+		} catch (Exception $e){
+			$this->logger->error("Conteudo de error by reference " . $e->__toString());
+			return ProfileService::FAIL_SAVE;
+		}
+	}
+	
+	/**
+	 * Delete user from database
+	 */
+	public function cancelUser(){
+		$request  = $this->container->get('request_stack')->getCurrentRequest();
+		$username = $request->get("username");
+		AppRest::doConnectRest()->deleteUser($username);
+	}
+	
+	/**
+	 * Save user to database
+	 * @return number SUCCESS or FAIL
+	 */
 	public function saveUser(){
 		try{
 			$request  = $this->container->get('request_stack')->getCurrentRequest();
 			$userName = $request->get("username");
-		
 			/*
 			 * update the user data
 			 */
@@ -210,8 +256,7 @@ class ProfileService {
 						->where('u.username = ?1')
 						->setParameter(1, $request->get('username'))
 						->getQuery()
-						->execute();
-			
+						->execute();			
 			$this->em->flush() ;   
 			
 			/*

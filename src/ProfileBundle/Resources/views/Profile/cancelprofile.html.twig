@@ -33,12 +33,12 @@ Tagarelas - Meu Perfil - Editar
 							
 								<ul class="nav nav-sublinhado slide">
 									<li>
-										<a href="{{ path('profile_edit')}}">Dados Pessoais</a>
-									</li>
-									<li  class="ativo">
-										<a href="#">Senha</a>
+										<a href="#">Dados Pessoais</a>
 									</li>
 									<li>
+										<a href="{{ path('profile_changepassword')}}">Senha</a>
+									</li>
+									<li  class="ativo">
 										<a href="{{ path('profile_cancelprofile')}}">Desativação</a>
 									</li>
 								</ul> <!-- slide -->
@@ -51,24 +51,27 @@ Tagarelas - Meu Perfil - Editar
 					
                 </div> <!-- conteudo-cabecalho --> 
 				
-			<form class="row" id='changePasswordForm' method="POST" action="{{ path('profile_savechangedpassword') }}"  enctype="multipart/form-data">
-				    <input id="shortName" type="hidden" readonly value="{{ app.session.get('username')}}">
-					<input id="md5Pass"   type="hidden" readonly value="">
+				
+			<form class="row" id='cancelUserForm' method="POST" action="{{ path('profile_canceledprofile') }}"  enctype="multipart/form-data">
+				
+				    <input type='hidden' id='editProfile' >
 					<div class="col-xs-12 col-sm-4 form-group">
-						<label>Senha Atual</label>
-						<input id="oldPassword" type="password" class="form-control" value="">
+						<label>Apelido</label>
+						<input id="shortName" type="text" readonly class="form-control">
 					</div>
 					
 					<div class="col-xs-12 col-sm-4 form-group">
-						<label>Nova Senha</label>
-						<input id="password" type="password" class="form-control" value="">
+						<label>Nome Completo</label>
+						<input id="name" type="text" readonly class="form-control">
 					</div>
+					
 					<div class="col-xs-12 col-sm-4 form-group">
-						<label>Confirme a Nova Senha</label>
-						<input id="confirmPassword" type="password" class="form-control" value="">
-					</div>					
+						<label>Email</label>
+						<input id="email" type="email" readonly class="form-control">
+					</div>
+					
 					<div class="col-xs-12 form-group">
-						<button type="submit" id="submitChangePasswordProfile" class="clearfix btn btn-success">Salvar</button>
+						<button type="submit" id="submitCancelProfile" class="clearfix btn btn-success">Sim, desejo excluir minha conta</button>
 					</div>
 				</form>
 			</div> <!-- container --> 

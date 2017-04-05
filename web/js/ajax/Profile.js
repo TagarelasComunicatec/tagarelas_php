@@ -36,6 +36,51 @@ $( function() {
 		return true;
 	};
 	
+	
+	jsProfile.cancelPassword = function (myForm,event){
+		
+		if (window.ajaxLoading) window.ajaxLoading("show");
+
+		 var formObj = $(myForm);
+		 var formURL = formObj.attr("action");
+		 
+		 var formData = new FormData();
+		
+		 
+		 formData.append("username", $("#shortName").val());
+		 
+		 $.ajax({
+		        url: formURL,
+		        type: 'post',
+		        data:  formData,
+		        //mimeType:"multipart/form-data",
+		        contentType: false,
+		        cache: false,
+		        processData:false,
+		        success: function(returned, textStatus, jqXHR)
+		        {
+		          //debugger;
+		        	if (window.ajaxLoading) window.ajaxLoading("hide");
+					return;
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) 
+		        {
+		        	if (window.ajaxLoading) window.ajaxLoading("hide");
+		        	 $.notify(errorThrown+ ' '+ textStatus, true);
+		         },
+		         statusCode: {
+						404: function() {
+							global.msgbox.data('messageBox').danger(window.important, 
+									global.error.connection + checkShortNamePath + ". "+ global.error.tryagain);
+						},
+					    500: function() {
+					      	if (window.ajaxLoading) window.ajaxLoading("hide");
+						       global.msgbox.data('messageBox').danger(window.important, 
+								  global.error.connection + urlLoadAllUsers + ". (500)");
+					    }
+				}
+	 });
+	
 	jsProfile.changePassword = function (myForm,event){
 		
 		if (! pass.doVerifyPassword($("#password").val(),$("#confirmPassword").val())){			
@@ -52,7 +97,7 @@ $( function() {
 		
 		 
 		 formData.append("username", $("#shortName").val());
-		 formData.append("password", $("#passssword").val());;
+		 formData.append("password", $("#password").val());;
 		
 		 $.ajax({
 		        url: formURL,
@@ -65,6 +110,7 @@ $( function() {
 		        success: function(returned, textStatus, jqXHR)
 		        {
 		          //debugger;
+		        	if (window.ajaxLoading) window.ajaxLoading("hide");
 					var dataout = $.parseJSON(returned);
 					if($.trim(dataout.result) === global.recordSavedWithSuccess){
 						global.msgbox.data('messageBox').info(window.important, 
@@ -78,8 +124,20 @@ $( function() {
 		        },
 		        error: function(jqXHR, textStatus, errorThrown) 
 		        {
+		        	if (window.ajaxLoading) window.ajaxLoading("hide");
 		        	 $.notify(errorThrown+ ' '+ textStatus, true);
-		         }          
+		         },
+		         statusCode: {
+						404: function() {
+							global.msgbox.data('messageBox').danger(window.important, 
+									global.error.connection + checkShortNamePath + ". "+ global.error.tryagain);
+						},
+					    500: function() {
+					      	if (window.ajaxLoading) window.ajaxLoading("hide");
+						       global.msgbox.data('messageBox').danger(window.important, 
+								  global.error.connection + urlLoadAllUsers + ". (500)");
+					    }
+				}
 		 });
 		 if (event) {
 			 event.preventDefault(); //Prevent Default action. 
@@ -130,7 +188,18 @@ $( function() {
 		        error: function(jqXHR, textStatus, errorThrown) 
 		        {
 		        	 $.notify(errorThrown+ ' '+ textStatus, true);
-		         }          
+		         },
+		         statusCode: {
+						404: function() {
+							global.msgbox.data('messageBox').danger(window.important, 
+									global.error.connection + checkShortNamePath + ". "+ global.error.tryagain);
+						},
+					    500: function() {
+					      	if (window.ajaxLoading) window.ajaxLoading("hide");
+						       global.msgbox.data('messageBox').danger(window.important, 
+								  global.error.connection + urlLoadAllUsers + ". (500)");
+					    }
+					}
 		 });
 		 if (event) {
 			 event.preventDefault(); //Prevent Default action. 

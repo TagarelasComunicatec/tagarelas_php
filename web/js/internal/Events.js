@@ -57,6 +57,10 @@ $( function() {
 	    jsProfile.changePassword(this,event);
 	}); 
 	
+	$("#cancelUserForm").submit( function(event){
+		jsProfile.cancelPassword(this,event);
+	});
+	
 	/**
 	 * Configure the datetime field of session bundle
 	 */
@@ -67,7 +71,7 @@ $( function() {
 	 * Load data of User
 	 */
 	
-	if ($("#editUserForm").length){
+	if ($("#editUserForm").length || $("#cancelUserForm").length){
 		jsProfile.loadUser();
 	}
 

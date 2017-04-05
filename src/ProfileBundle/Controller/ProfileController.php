@@ -40,11 +40,40 @@ class ProfileController extends Controller
     	return $this->render('ProfileBundle:Profile:edit.html.twig');
     }    
     
+    public function cancelProfileAction(){
+    	return $this->render('ProfileBundle:Profile:cancelprofile.html.twig');
+    }
+    
+    public function calceledProfileAction(){
+    	$profileService = $this->get('profile.services');
+        $profileService->cancelUser();
+    	return $this->render('default/login.html.twig');
+    }
+    
     public function changePasswordAction(){
     	return $this->render('ProfileBundle:Profile:changepassword.html.twig');
     }
     
-    
+    public function saveChangedPasswordAction(){
+    	$profileService = $this->get('profile.services');
+    	$myReturn = array();
+    	try{
+    		$profileService->saveChangedPassword();
+    		$myReturn = array (
+    				"responseCode" => 200,
+    				"result" => ProfileService::SUCCESS_SAVE,
+    		);
+    	} catch (Exception $e){
+    		$myReturn = array (
+    				"responseCode" => 400,
+    				"result" => $e->getTraceAsString(),
+    		);
+    	}
+    	$returnJson = json_encode ( $myReturn );
+    	return new Response ( $returnJson, 200, array (
+    			'Content-Type' => 'application/text'
+    	) );
+    }
     
     public function loadUserAction(){
     	$request     = $this->container->get('request_stack')->getCurrentRequest();
@@ -138,25 +167,6 @@ class ProfileController extends Controller
     	) );
     
     }
-    
-    public function saveChangedPasswordAction(){
-    	$profileService = $this->get('profile.services');
-    	$myReturn = array();
-    	try{
-    		$profileService->savePassword();
-    		$myReturn = array (
-    				"responseCode" => 200,
-    				"result" => ProfileService::SUCCESS_SAVE,
-    		);
-    	} catch (Exception $e){
-    		$myReturn = array (
-    				"responseCode" => 400,
-    				"result" => $e->getTraceAsString(),
-    		);
-    	}
-    	return $myReturn;
-    }
-    
     
     public function saveUserAction()
     {
