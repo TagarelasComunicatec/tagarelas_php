@@ -1,5 +1,5 @@
 /**
- *  Conference Administration
+	 *  Conference Administration
  *  ==========================
  */
 
@@ -80,5 +80,4 @@ $( function() {
 	jsConference.doLoadPrivateMessages = function(conference, toMe){
 		
 	};
-	
 });
