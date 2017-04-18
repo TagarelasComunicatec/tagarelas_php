@@ -55,10 +55,15 @@ $( function() {
 			
 			statusCode: {
 				404: function() {
-					if (window.ajaxLoading)  window.ajaxLoading("hide");
+					if (window.ajaxLoading) window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + loadAllGroupsPath + ". "+ global.error.tryagain);
-				}
+							global.error.connection + urlLoadAllUsers + ". (404) ");
+				},
+			    500: function() {
+			      	if (window.ajaxLoading) window.ajaxLoading("hide");
+				       global.msgbox.data('messageBox').danger(window.important, 
+						  global.error.connection + urlLoadAllUsers + ". (500)");
+			    }
 			},
 			
 		});	
@@ -161,7 +166,19 @@ $( function() {
 		        error: function(jqXHR, textStatus, errorThrown) 
 		        {
 		        	 $.notify(errorThrown+ ' '+ textStatus, true);
-		         }          
+		         },
+				statusCode: {
+					404: function() {
+						if (window.ajaxLoading) window.ajaxLoading("hide");
+						global.msgbox.data('messageBox').danger(window.important, 
+								global.error.connection + urlLoadAllUsers + ". (404) ");
+					},
+				    500: function() {
+				      	if (window.ajaxLoading) window.ajaxLoading("hide");
+					       global.msgbox.data('messageBox').danger(window.important, 
+							  global.error.connection + urlLoadAllUsers + ". (500)");
+				    }
+				},          
 		    });
 		 event.preventDefault(); //Prevent Default action. 
 		 event.unbind();
@@ -244,8 +261,13 @@ $( function() {
 				404: function() {
 					if (window.ajaxLoading) window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + loadAllGroupsPath + ". "+ global.error.tryagain);
-				}
+							global.error.connection + urlLoadAllUsers + ". (404) ");
+				},
+			    500: function() {
+			      	if (window.ajaxLoading) window.ajaxLoading("hide");
+				       global.msgbox.data('messageBox').danger(window.important, 
+						  global.error.connection + urlLoadAllUsers + ". (500)");
+			    }
 			},
 			
 		});
@@ -310,9 +332,15 @@ $( function() {
 			},
 			statusCode: {
 				404: function() {
+					if (window.ajaxLoading) window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection +checkGroupNameUrl + ". "+ global.error.tryagain);
-				}
+							global.error.connection + urlLoadAllUsers + ". (404) ");
+				},
+			    500: function() {
+			      	if (window.ajaxLoading) window.ajaxLoading("hide");
+				       global.msgbox.data('messageBox').danger(window.important, 
+						  global.error.connection + urlLoadAllUsers + ". (500)");
+			    }
 			}
 		});
 	};			

@@ -53,10 +53,15 @@ $( function() {
 			
 			statusCode: {
 				404: function() {
-					if (window.ajaxLoading)  window.ajaxLoading("hide");
+					if (window.ajaxLoading) window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + loadAllGroupsPath + ". "+ global.error.tryagain);
-				}
+							global.error.connection + urlLoadAllUsers + ". (404) ");
+				},
+			    500: function() {
+			      	if (window.ajaxLoading) window.ajaxLoading("hide");
+				       global.msgbox.data('messageBox').danger(window.important, 
+						  global.error.connection + urlLoadAllUsers + ". (500)");
+			    }
 			},
 			
 		});	
@@ -136,12 +141,19 @@ $( function() {
 								global.saveError);
 					return;
 				},
+				
 				statusCode: {
 					404: function() {
+						if (window.ajaxLoading) window.ajaxLoading("hide");
 						global.msgbox.data('messageBox').danger(window.important, 
-								global.error.connection + saveNewSessionUrl + ". "+ global.error.tryagain);
-					}
-				}
+								global.error.connection + urlLoadAllUsers + ". (404) ");
+					},
+				    500: function() {
+				      	if (window.ajaxLoading) window.ajaxLoading("hide");
+					       global.msgbox.data('messageBox').danger(window.important, 
+							  global.error.connection + urlLoadAllUsers + ". (500)");
+				    }
+				},
 			});
 		
 		return true;
@@ -192,12 +204,19 @@ $( function() {
 				 
 				return;
 			},
+			
 			statusCode: {
 				404: function() {
+					if (window.ajaxLoading) window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + pageUrlSession + ". "+ global.error.tryagain);
-				}
-			}
+							global.error.connection + urlLoadAllUsers + ". (404) ");
+				},
+			    500: function() {
+			      	if (window.ajaxLoading) window.ajaxLoading("hide");
+				       global.msgbox.data('messageBox').danger(window.important, 
+						  global.error.connection + urlLoadAllUsers + ". (500)");
+			    }
+			},
 		});
 	};		
 	
