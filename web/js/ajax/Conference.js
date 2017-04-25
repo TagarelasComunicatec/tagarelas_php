@@ -4,41 +4,44 @@
  */
 
 $( function() {
-	jsConference = {
-			IS_CONNECT: true,
-			SERVER: '127.0.0.1',
-			DOMAIN: 'localhost',
-			jid: 'ricardo@gmail.com',
-	        password: '123456'
-	};
+	jsConference = { };
+	
+	jsConference.BOSH_SERVICE ='http://localhost:7070';
+	jsConference.connection   = null;
 	
 	/**
 	 * Connect to a conference.
 	 */
 	jsConference.connect = function() {
-		var xmpp = require("../xmpp");  
-		var conn = new xmpp.Connection(this.DOMAIN);  
-		var sys = require("sys");  
-		var id = 1; 
-		
-		conn.log = function (_, m) { sys.puts(m); };  
-		conn.connect(jsConference.jid, jsConference.password, 
-				function (status, condition){  
-				          if(status == xmpp.Status.CONNECTED){  
-				            conn.addHandler(onMessage, null, 'message', null, null,  null);  
-				            setInterval(function(){  
-				                 id++;  
-				                 conn.send(xmpp.iq({from: jid + "." + 
-				                	 	conn.host, to: conn.host, id: "iq:" + id, type: "get"}).c
-				                	 	("ping", {xmlns: 'urn:xmpp:ping'}));  
-				  
-				                    }, 60000);  
-				          } else  
-				             conn.log(xmpp.LogLevel.DEBUG, "New connection status: " + status + (condition?(" ("+condition+")"):""));  
-				});  
-				  
+		jsConference.connection = new Strophe.Connection(jsConference.BOSH_SERVICE);
+		jsConference.connection.rawInput  = jsConference.rawInput;
+		jsConference.connection.rawOutput = jsConference.rawOutput;
 	};
-
+	
+	jsConference.rawInput = function(data) {
+		 console.log('RCV ' + data);
+	};	
+	
+	jsConference.rawOutput =  function(data) {
+		 console.log('SENT ' + data);
+	};
+	
+	jsConference.onConnect= function (status){
+		 if (status == Strophe.Status.CONNECTING) {
+			 console.log('Strophe is connecting.');
+		 } else if (status == Strophe.Status.CONNFAIL) {
+			 console.log('Strophe failed to connect.');
+			 $('#connect').get(0).value = 'connect';
+	     } else if (status == Strophe.Status.DISCONNECTING) {
+	    	 console.log('Strophe is disconnecting.');
+         } else if (status == Strophe.Status.DISCONNECTED) {
+        	 console.log('Strophe is disconnected.');
+			$('#connect').get(0).value = 'connect';
+         } else if (status == Strophe.Status.CONNECTED) {
+        	console.log('Strophe is connected.');
+         }
+	};
+	
 	/**
 	 * Show calendar of a conference
 	 */
@@ -80,4 +83,5 @@ $( function() {
 	jsConference.doLoadPrivateMessages = function(conference, toMe){
 		
 	};
+	
 });

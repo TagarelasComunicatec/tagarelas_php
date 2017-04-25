@@ -106,6 +106,9 @@ $( function() {
 	
 	if ($("#publicSession").length){
 		jsSession.loadSessionsByStatus(global.statusSession.PUBLIC,4,$("#publicSession"));
-	}; 
+	};
+	
+	jsConference.connect();
+	
 });	
 

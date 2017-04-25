@@ -79,7 +79,8 @@ $( function() {
 								  global.error.connection + urlLoadAllUsers + ". (500)");
 					    }
 				}
-	 });
+		 });
+	};
 	
 	jsProfile.changePassword = function (myForm,event){
 		
