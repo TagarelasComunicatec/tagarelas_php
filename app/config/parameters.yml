@@ -2,20 +2,13 @@
 # @@TODO Alterar a base de dados para mysql - ocorreram problemas com o pgsql
 parameters:
     #Database tagarelas - default
-    database_driver_tagarelas: pdo_mysql
+    database_driver_tagarelas: pdo_pgsql
     database_host_tagarelas: 127.0.0.1
-    database_port_tagarelas: 3306
+    database_port_tagarelas: 5432
     database_name_tagarelas: tagarelas
-    database_user_tagarelas: root
+    database_user_tagarelas: tagarelas
     database_password_tagarelas: 123456
-   
-   #Database openfire - protocolo XMPP
-    database_driver_openfire: pdo_mysql
-    database_host_openfire: localhost
-    database_port_openfire: 3306
-    database_name_openfire: openfire
-    database_user_openfire: root
-    database_password_openfire: 123456
+  
     
     mailer_transport: smtp
     mailer_host: 127.0.0.1   
@@ -24,7 +17,7 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
 
 # parametros para o acesso ao Facebook e Google    
-    site: "http://localhost/"
+    site: "http://portaltagarelas.uniriotec.br/"
   
     #Oauth2
     facebook_client_id:     id
