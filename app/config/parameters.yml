@@ -2,12 +2,12 @@
 # @@TODO Alterar a base de dados para mysql - ocorreram problemas com o pgsql
 parameters:
     #Database tagarelas - default
-    database_driver_tagarelas: pdo_pgsql
-    database_host_tagarelas: 127.0.0.1
-    database_port_tagarelas: 5432
-    database_name_tagarelas: tagarelas
-    database_user_tagarelas: tagarelas
-    database_password_tagarelas: 123456
+    database_driver: pdo_pgsql
+    database_host: 127.0.0.1
+    database_port: 5432
+    database_name: tagarelas
+    database_user: tagarelas
+    database_password: 123456
   
     
     mailer_transport: smtp

@@ -54,7 +54,7 @@ doctrine:
         default_connection: tagarelas
         connections:
   
-          openfire:
+          tagarelas:
             driver:   "%database_driver%"
             host:     "%database_host%"
             port:     "%database_port%"
