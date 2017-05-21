@@ -86,14 +86,12 @@ where gu.username = 'ricardo2' and  (gp.name= 'ricardo2' or gp.name = 'AVATAR')
 		
 		$groups =  $qb->getQuery()->getResult();
 		$myReturn = array();
-		$count = 0;
 		foreach ($groups as $group){
 			$avatar = $this->loadAvatar($group->groupname);
 			$totalMembers =  $this->loadTotalMembers($group->groupname);
-			$myReturn[$count]= array('groupname'=>$group->groupname, 
+			$myReturn[]= array('groupname'=>$group->groupname, 
 						             'avatar'=>$avatar, 
 					                 'totalMembers'=>$totalMembers);
-			++$count;
 		}
 		return $myReturn;
 	}
