@@ -12,6 +12,9 @@ class Utils{
 	public static function convertToArray($myString,$delimiter=null){
         $delimiter = $delimiter == null ? '|': $delimiter;
 		$result = array();
+		if ($myString == null)
+			return result();
+		
 		if (strrpos($myString,$delimiter)=== false){
 			$result.put($myString);
 		} else {

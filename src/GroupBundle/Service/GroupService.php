@@ -44,7 +44,7 @@ class GroupService {
 	
 	public function loadAllGroups($limit = 0){
 		$qb = $this->em->createQueryBuilder();
-		$qb->select('pg.groupname,g.value, count(gu.username) as totalMembers')
+		$qb->select('g.groupname,g.description')
 		   ->from('AppBundle:Group', 'g')
 		   ->join('AppBundle:GroupUser', 'gu', Join::WITH,'gu.idGroup = g.id')
 		   ->groupBy('g.id,g.groupName')
@@ -58,18 +58,52 @@ class GroupService {
 	}
 	/**
 	 * Load user groups by status and user
+	 * select gp.groupname, gu.username, gp.name, gp.propvalue
+from ofgroupuser gu 
+inner join ofgroupprop gp on gu.groupname = gp.groupname
+where gu.username = 'ricardo2' and  (gp.name= 'ricardo2' or gp.name = 'AVATAR')
 	 */
 	public function loadGroupByStatus(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
-		$limit = intval($request->get("limit"));
-		$groups = $this->loadAllGroups($limit);
+		$limit   = intval($request->get("limit"));
 		$userId =  $this->container->get('session')->get('userId');
 		$status =  $request->get("status");
+		/*
+		 * ----------------------------------------------------------
+		 * Carrega os usuarios com o sustaus definidos em ofgroupprop
+		 * ----------------------------------------------------------
+		 */
+		$qb = $this->em->createQueryBuilder()
+		               ->select('gp.groupname,gu.name')
+		               ->from('AppBundle:Ofgroupprop', 'gp')
+		               ->where('gu.name = :name')
+		               ->andWhere('gu.propvalue = :propValue')
+		               ->setParameter("name", $userId)
+		               ->setParameter('propValue', $status);
+		
+		if (0 != $limit)
+			$qb->setMaxResults($limit);
+		
+		$groups =  $qb->getQuery()->getResult();
 		$myReturn = array();
+		$count = 0;
 		foreach ($groups as $group){
-			$myReturn = $this->loadGroupUserInformation($group, $userId, $status, $myReturn);
+			$avatar = $this->loadAvatar($group->groupname);
+			$totalMembers =  $this->loadTotalMembers($group->groupname);
+			$myReturn[$count]= array('groupname'=>$group->groupname, 
+						             'avatar'=>$avatar, 
+					                 'totalMembers'=>$totalMembers);
+			++$count;
 		}
 		return $myReturn;
+	}
+	
+	
+	private function loadAvatar($groupname){
+		
+	}
+	private function loadTotalMembes($groupname){
+		
 	}
 	
 	/**
@@ -160,6 +194,19 @@ class GroupService {
 		$file->move( $path, $filename);
 		return $filename;
 	}
-	
+
+	/**
+	 * Altera o status dos usuarios em um grupo grupo
+	 * @param unknown $username - nome do usuario
+	 * @param unknown $groupname - nome do usuario. 
+	 * @param unknown $rule - Veja as regas em Rules.php 
+	 */
+	public function saveGroupUserRule($username, $groupname, $rule){
+		$this->em->flush ();
+		$groupAttribute = new Ofgroupprop();;
+		$groupAttribute->doLoadAll($groupname, $username, $rule);
+		$this->em->merge($groupAttribute);
+		$this->em->flush ();
+	}
 	
 }
