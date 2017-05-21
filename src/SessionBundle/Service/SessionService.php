@@ -139,6 +139,7 @@ class SessionService {
 	}
 	public function save() {
 		$request = $this->container->get ( 'request_stack' )->getCurrentRequest ();
+		$this->em->flush ();
 		$sessionName = $request->get ( "sessionName" );
 		if (count ( $this->findSessionByName ( $sessionName ) ) > 0) {
 			throw new \Exception ( 'Nome da Sessão já está cadastrada. ' . 'Não foi possível cadastrar a sessão. ' );

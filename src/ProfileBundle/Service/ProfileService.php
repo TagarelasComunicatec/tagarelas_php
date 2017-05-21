@@ -151,6 +151,7 @@ class ProfileService {
 					$request->get('name'),
 					$request->get("email")
 			);
+			$this->em->flush() ;
 		    /* Save in plainPassword */
 			$this->savePlainPassword($request->get('shortName'), $request->get("password"));         
 			$result	= ProfileService::SUCCESS_SAVE;

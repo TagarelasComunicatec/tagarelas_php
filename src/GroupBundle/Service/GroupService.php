@@ -133,6 +133,7 @@ class GroupService {
 			}
 		   
 			AppRest::doConnectRest()->createGroup($groupName);
+			$this->em->flush ();
 			$avatar = $this->persistImage();
 			$groupAttribute = new Ofgroupprop();;
 			$groupAttribute->doLoadAll($groupName, GroupService::AVATAR, $avatar);
