@@ -42,7 +42,7 @@ $( function() {
 				for(var index=0, len = dataout.result.length; index < len; index++ ){
 				    var myData = dataout.result[index];
 				    var myText = jsScreenElements.divGroupByStatus(status-0);
-				    myText = myText.replace("$groupName$"   , myData.groupName );
+				    myText = myText.replace("$groupName$"   , myData.groupname );
 				    myText = myText.replace("$totalMembers$", myData.totalMembers );
 				    myText = myText.replace("$avatar$",
 				    		 window.fullUrl()  + 

@@ -58,10 +58,7 @@ class GroupService {
 	}
 	/**
 	 * Load user groups by status and user
-	 * select gp.groupname, gu.username, gp.name, gp.propvalue
-from ofgroupuser gu 
-inner join ofgroupprop gp on gu.groupname = gp.groupname
-where gu.username = 'ricardo2' and  (gp.name= 'ricardo2' or gp.name = 'AVATAR')
+	 *
 	 */
 	public function loadGroupByStatus(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
@@ -74,10 +71,10 @@ where gu.username = 'ricardo2' and  (gp.name= 'ricardo2' or gp.name = 'AVATAR')
 		 * ----------------------------------------------------------
 		 */
 		$qb = $this->em->createQueryBuilder()
-		               ->select('gp.groupname,gu.name')
+		               ->select('gp.groupname,gp.name')
 		               ->from('AppBundle:Ofgroupprop', 'gp')
-		               ->where('gu.name = :name')
-		               ->andWhere('gu.propvalue = :propValue')
+		               ->where('gp.name = :name')
+		               ->andWhere('gp.propvalue = :propValue')
 		               ->setParameter("name", $userId)
 		               ->setParameter('propValue', $status);
 		
@@ -98,10 +95,34 @@ where gu.username = 'ricardo2' and  (gp.name= 'ricardo2' or gp.name = 'AVATAR')
 	
 	
 	private function loadAvatar($groupname){
+		$group = $this->em->createQueryBuilder()
+				   ->select('gp.groupname,gp.name, gp.propvalue')
+				   ->from('AppBundle:Ofgroupprop', 'gp')
+				   ->where('gp.groupname = :groupname')
+		           ->andWhere('gp.name = :name')
+		           ->setParameter("groupname", $groupname)
+				   ->setParameter('name', \GroupService::AVATAR)
+		           ->setMaxResults(1)
+		           ->getQuery()
+		           ->getOneOrNullResult();
 		
+		if ($group == null)	return "default.png";
+		
+		return $group[0]["propvalue"]; 
 	}
+
+	
+	
 	private function loadTotalMembes($groupname){
-		
+		$group = $this->em->createQueryBuilder()
+					->select('gu.groupname,count(gu.groupname) as totalMembers')
+					->from('AppBundle:Ofgroupuser', 'gu')
+					->where('gp.groupname = :groupname')
+					->setParameter("groupname", $groupname)
+					->groupBy("gu.groupname")
+					->getQuery()
+					->getSingleScalarResult();
+		return $group[0]["totalMembers"]; 
 	}
 	
 	/**
