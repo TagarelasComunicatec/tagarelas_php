@@ -11,6 +11,7 @@ use AppBundle\Utility\AppRest;
 use AppBundle\Entity\GroupUser;
 use AppBundle\Openfire\Ofgroupuser;
 use AppBundle\Openfire\Ofuserprop;
+use AppBundle\Entity\Rule;
 
 //@@TODO Preparar Login senha usa Blowfish cb
 //@@TODO Alterar openfire para secret Authorization -> 123456
@@ -88,7 +89,7 @@ class ProfileService {
 	 * @param string $username
 	 * @param string $groupname
 	 */
-	public function addUserToGroup($username,$groupname){
+	public function addUserToGroup($username,$groupname, $groupService = null){
 		$isAdministrator = ($this->container->get('session')->get('username') == $username) ?
 		                   Ofgroupuser::IS_ADMINISTRATOR :  Ofgroupuser::IS_USER;
 		
@@ -101,10 +102,15 @@ class ProfileService {
 	    }
 	    
 	    $groupUser->loadData($username, $groupname, $isAdministrator);
+	    $this->em->flush ();
 	    
 	    try {
 	    	$this->em->merge($groupUser);
 	    	$this->em->flush ();
+	    	if  ($groupService != null && ! $isAdministrator){
+	    		$groupService->saveGroupUserRule($username, $groupname, Rule::USER_PENDING);
+	    	}
+	    	
 	    } catch(Exception $e){
 	    	$this->logger.info("Informação já existe na tabela");
 	    }
@@ -151,6 +157,7 @@ class ProfileService {
 					$request->get('name'),
 					$request->get("email")
 			);
+			$this->em->flush() ;
 		    /* Save in plainPassword */
 			$this->savePlainPassword($request->get('shortName'), $request->get("password"));         
 			$result	= ProfileService::SUCCESS_SAVE;

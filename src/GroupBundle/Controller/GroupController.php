@@ -113,7 +113,7 @@ class GroupController extends Controller
 	 * Save all users from a group
 	 */
 	private function saveGroupUsers(){
-		$profileService = $this->get("profile.services");
+		$profileService  = $this->get("profile.services");
 		$request 		 = $this->container->get('request_stack')->getCurrentRequest();
 		$groupname 		 = $request->get("groupName");
 		$users			 = Utils::convertToArray($request->get("users"));
@@ -127,9 +127,11 @@ class GroupController extends Controller
 		/*
 		 * Save the other components
 		 */
-		foreach($users as $user){
-			$profileService->addUserToGroup($user,$groupname);
-		}
+		if (! empty($users)) // Users selected.
+			foreach($users as $user){
+				$profileService->addUserToGroup($user,$groupname, $this->get("group.services"));
+			}
+	
 	}
 	
 	public function loadGroupsByStatusAction() {

@@ -8,7 +8,9 @@ class AppRest {
 		$api = new OpenFireRestApi();
 		
 		// Set the required config parameters
-		$api->secret = "123456";
+		
+		$api->secret = "P1m&nT&l";
+		
 		$api->host = "localhost";
 		$api->port = "9090";  // default 9090
 		

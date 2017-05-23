@@ -135,11 +135,12 @@ $( function() {
 	global.usersNotFound 			=   "8";
 
 	global.statusUser = { };
-	global.statusUser.PENDING  = 0;
-	global.statusUser.ACTIVE   = 1;
-	global.statusUser.REJECTED = 2;
-	global.statusUser.CANCELED = 3;
-	global.statusUser.BANNED   = 4;
+
+	global.statusUser.PENDING  = "USER_PENDING";
+	global.statusUser.ACTIVE   = "USER_ACTIVE";
+	global.statusUser.REJECTED = "USER_REJECT";
+	global.statusUser.CANCELED = "USER_CANCELED";
+	global.statusUser.BANNED   = "USER_BANNED";
 	
 	global.statusSession = { };
 	global.statusSession.SCHEDULED=0;
