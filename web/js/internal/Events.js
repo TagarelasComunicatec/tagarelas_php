@@ -84,12 +84,9 @@ $( function() {
 	 * Load events in feed page
 	 */
 	
-	if ($("#pendingGroup").length){
-		jsGroup.loadGroupsByStatus(global.statusUser.PENDING,0,$("#pendingGroup"));
-	}
 	
 	if ($("#activeGroup").length){
-		jsGroup.loadGroupsByStatus(global.statusUser.ACTIVE,4,$("#activeGroup"));
+		jsGroup.loadUserGroups(10,$("#activeGroup"));
 	}
 	
 	if ($("#scheduledSession").length){

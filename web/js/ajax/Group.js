@@ -12,15 +12,15 @@ $( function() {
 	/**
 	 * Load Group by Status
 	 */
-	jsGroup.loadGroupsByStatus = function(status,limit,areaHtml){
+	jsGroup.loadUserGroups = function(limit, areaHtml){
 		/**
 		 * Execute call to load all groups
 		 */
 		if (window.ajaxLoading)  window.ajaxLoading("show");
-		var loadStatusGroupsPath = $("#divLoadGroupsByStatus").attr("ajaxurl");
-		var myData     = {'status' : status,'limit' : limit};
+		var loadUserGroupsPath = $("#divLoadUserGroups").attr("ajaxurl");
+		var myData     = {'limit' : limit};
 		$.ajax({
-			url:loadStatusGroupsPath,
+			url:loadUserGroupsPath,
 			data: myData,
 			type: 'POST',
 			cache: true,
@@ -34,15 +34,14 @@ $( function() {
 				if (window.ajaxLoading)  window.ajaxLoading("hide");
 				areaHtml.empty();
 				var dataout = $.parseJSON(returned);
-
-				
-				myStatus = jsScreenElements.divTitleGroupByStatus(status) ;
-				areaHtml.append(myStatus);
+				activeGroup = jsScreenElements.divTitleGroupByUser();
+				areaHtml.append(activeGroup);
 				if (dataout.result.length == 0) return;
 				for(var index=0, len = dataout.result.length; index < len; index++ ){
 				    var myData = dataout.result[index];
-				    var myText = jsScreenElements.divGroupByStatus(status-0);
+				    var myText = jsScreenElements.divGroupByUser();
 				    myText = myText.replace("$groupName$"   , myData.groupname );
+				    myText = myText.replace("$admin$"       , myData.admin );
 				    myText = myText.replace("$totalMembers$", myData.totalMembers );
 				    myText = myText.replace("$avatar$",
 				    		 window.fullUrl()  + 
@@ -57,12 +56,12 @@ $( function() {
 				404: function() {
 					if (window.ajaxLoading) window.ajaxLoading("hide");
 					global.msgbox.data('messageBox').danger(window.important, 
-							global.error.connection + urlLoadAllUsers + ". (404) ");
+							global.error.connection + loadUserGroupsPath + ". (404) ");
 				},
 			    500: function() {
 			      	if (window.ajaxLoading) window.ajaxLoading("hide");
 				       global.msgbox.data('messageBox').danger(window.important, 
-						  global.error.connection + urlLoadAllUsers + ". (500)");
+						  global.error.connection + loadUserGroupsPath + ". (500)");
 			    }
 			},
 			

@@ -195,9 +195,10 @@
 		<div id='divloginPath'              ajaxurl="{{ path('login') }}"></div>
 		<div id='divFeedPath'               ajaxurl="{{ path('feed_homepage') }}"></div>
 		<div id='divCheckLoginPath'         ajaxurl="{{ path('profile_loginUser') }}"></div>
-		<div id='divLoadGroupsByStatus'     ajaxurl="{{ path('group_loadgroupsbystatus') }}"></div>
+		<div id='divLoadUserGroups'     	ajaxurl="{{ path('group_loadUserGroups') }}"></div>
 		<div id='divGroupUploadImage' 		ajaxurl="{{ path('group_uploadimage') }}"></div>
 		<div id='divHost' 				        url="{{   app.request.scheme ~'://' ~ app.request.httpHost ~ app.request.getBaseURL() }}"></div>
+		
 
 {% endblock %}
 

@@ -60,37 +60,71 @@ class GroupService {
 	 * Load user groups by status and user
 	 *
 	 */
-	public function loadGroupByStatus(){
-		$request = $this->container->get('request_stack')->getCurrentRequest();
-		$limit   = intval($request->get("limit"));
-		$userId =  $this->container->get('session')->get('userId');
-		$status =  $request->get("status");
+	
+	public function loadUserGroups(){
+		$request  = $this->container->get('request_stack')->getCurrentRequest();
+		$limit    = intval($request->get("limit"));
+		$username =  $this->container->get('session')->get('username');
 		/*
 		 * ----------------------------------------------------------
 		 * Carrega os usuarios com o sustaus definidos em ofgroupprop
 		 * ----------------------------------------------------------
 		 */
 		$qb = $this->em->createQueryBuilder()
-		               ->select('gp.groupname,gp.name')
-		               ->from('AppBundle:Ofgroupprop', 'gp')
-		               ->where('gp.name = :name')
-		               ->andWhere('gp.propvalue = :propValue')
-		               ->setParameter("name", $userId)
-		               ->setParameter('propValue', $status);
+					   ->select('gu.groupname as groupname ,gu.username as username, gu.isAdministrator as admin')
+					   ->from('AppBundle:Ofgroupuser', 'gu')
+					   ->where('gu.username = :username')
+					   ->setParameter("username", $username);
 		
 		if (0 != $limit)
 			$qb->setMaxResults($limit);
-		
+			
 		$groups =  $qb->getQuery()->getResult();
+	    $this->logger->info('groups->' .  var_export($groups, true));
 		$myReturn = array();
-		foreach ($groups as $group){
-			$avatar = $this->loadAvatar($group->groupname);
-			$totalMembers =  $this->loadTotalMembers($group->groupname);
-			$myReturn[]= array('groupname'=>$group->groupname, 
-						             'avatar'=>$avatar, 
-					                 'totalMembers'=>$totalMembers);
+			
+		for ($count=0; $count < count($groups) ; ++$count){
+				$group = $groups[$count];
+				$this->logger->info('group->$count:' .  var_export($group, true));
+				$groupname =  $group["groupname"] ;
+		        $admin     =  ($group["admin"] == 1); 
+		        if ($admin)  // Admin is ever active
+		        	$status =  Rule::USER_ACTIVE;
+		        else 
+		        	$status    =  $this->loadStatusUser($groupname, $username);
+				$avatar = $this->loadAvatar($groupname);
+				$totalMembers =  $this->loadTotalMembers($groupname);
+				$this->logger->info('groupname->' . $groupname.  ' admin->' . $admin .  ' status->' . $status 
+												  . ' avatar->' . $avatar . ' totalMembers->'. $totalMembers );
+				array_push($myReturn, array('groupname'=>$groupname,
+						'avatar'=>$avatar,
+						'totalMembers'=>$totalMembers));
 		}
 		return $myReturn;
+	}
+	
+	
+	
+	
+	public function loadStatusUser($groupname, $username){
+
+		/*
+		 * ----------------------------------------------------------
+		 * Carrega os usuarios com o sustaus definidos em ofgroupprop
+		 * ----------------------------------------------------------
+		 */
+		$status = $this->em->createQueryBuilder()
+		               ->select('gp.propvalue as propvalue')
+		               ->from('AppBundle:Ofgroupprop', 'gp')
+		               ->where('gp.name = :name')
+		               ->andWhere('gp.groupname = :groupname')
+		               ->setParameter("name", $username) 
+		               ->setParameter('groupname', $groupname)
+		               ->getQuery()
+		               ->getResult();
+		
+		$this->logger->info('status->' .  var_export($status, true)); 
+		return $status["propvalue"];
 	}
 	
 	
@@ -101,27 +135,29 @@ class GroupService {
 				   ->where('gp.groupname = :groupname')
 		           ->andWhere('gp.name = :name')
 		           ->setParameter("groupname", $groupname)
-				   ->setParameter('name', \GroupService::AVATAR)
+				   ->setParameter('name', $this::AVATAR)
 		           ->setMaxResults(1)
 		           ->getQuery()
 		           ->getOneOrNullResult();
 		
-		if ($group == null)	return "default.png";
-		
+		if ($group == null || count($group ==0))	return "default.png";
+		$this->logger->info('group To Avatar->' .  var_export($group, true)); 
 		return $group[0]["propvalue"]; 
 	}
 
 	
 	
-	private function loadTotalMembes($groupname){
+	private function loadTotalMembers($groupname){
 		$group = $this->em->createQueryBuilder()
-					->select('gu.groupname,count(gu.groupname) as totalMembers')
+					->select('gu.groupname,count(gu.username) as totalMembers')
 					->from('AppBundle:Ofgroupuser', 'gu')
-					->where('gp.groupname = :groupname')
+					->where('gu.groupname = :groupname')
 					->setParameter("groupname", $groupname)
 					->groupBy("gu.groupname")
 					->getQuery()
-					->getSingleScalarResult();
+					->getResult();
+		if ($group == null || count($group ==0)) return 0;
+		$this->logger->info('group To TotalMembers->' .  var_export($group, true)); 
 		return $group[0]["totalMembers"]; 
 	}
 	

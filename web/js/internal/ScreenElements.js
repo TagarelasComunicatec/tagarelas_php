@@ -9,7 +9,16 @@ $( function() {
 	/*
 	 * Prepare div group
 	 */
-	jsScreenElements.divGroupByStatus = function(status){
+
+	jsScreenElements.divGroupByUser = function(){
+			return jsScreenElements.divGroupActive;
+	}
+	
+	jsScreenElements.divTitleGroupByUser = function(){
+			return jsScreenElements.divGroupActiveTitle;
+	}				
+	
+/*	jsScreenElements.divGroupByStatus = function(status){
 		if (status === global.statusUser.PENDING) {
 			return jsScreenElements.divGroupPending;
 		} else if(status === global.statusUser.ACTIVE )
@@ -22,11 +31,12 @@ $( function() {
 			return jsScreenElements.divGroupPendingTitle;
 		else if(status === global.statusUser.ACTIVE ) 
 			return jsScreenElements.divGroupActiveTitle;
-	}
+	} */
 	
 	/*
 	 * Prepare div Session
 	 */
+	
 	jsScreenElements.divSessionByStatus = function(status){
 		if (status === global.statusSession.SCHEDULED) 
 			return jsScreenElements.divSessionScheduled;
@@ -106,7 +116,7 @@ $( function() {
 		'	               $groupName$'+
 		'        </a>'+
 		'           <div class="info-adicional">'+
-		'	         $totalMembers$ Membros' +      
+		'	          $totalMembers$ Membros' +      
 		'           </div>'+
 	    '     </div>'+
         '</div>';

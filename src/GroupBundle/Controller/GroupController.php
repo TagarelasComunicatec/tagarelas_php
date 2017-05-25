@@ -134,10 +134,9 @@ class GroupController extends Controller
 	
 	}
 	
-	public function loadGroupsByStatusAction() {
+	public function loadUserGroupsAction() {
 		$groupService = $this->get("group.services");
-		$logger = $this->get('logger');
-		$myResult     =	$groupService->loadGroupByStatus($logger);
+		$myResult     =	$groupService->loadUserGroups();
 		$myReturn    = array (
 				"responseCode" => 200,
 				"result" => $myResult,

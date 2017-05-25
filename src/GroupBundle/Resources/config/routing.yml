@@ -33,4 +33,8 @@ group_loadgroupsbystatus:
 group_uploadimage:    
     path:     /group/loadimagegroup
     defaults: { _controller: 'GroupBundle:Group:loadImageGroup' }  
-       
+
+group_loadUserGroups:    
+    path:     /group/loadUserGroups
+    defaults: { _controller: 'GroupBundle:Group:loadUserGroups' }         
+    
