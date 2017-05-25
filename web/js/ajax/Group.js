@@ -19,6 +19,9 @@ $( function() {
 		if (window.ajaxLoading)  window.ajaxLoading("show");
 		var loadUserGroupsPath = $("#divLoadUserGroups").attr("ajaxurl");
 		var myData     = {'limit' : limit};
+		areaHtml.empty();
+		var activeGroup = jsScreenElements.divTitleGroupByUser();
+		areaHtml.append(activeGroup);
 		$.ajax({
 			url:loadUserGroupsPath,
 			data: myData,
@@ -32,10 +35,7 @@ $( function() {
 			
 			success: function(returned){ 
 				if (window.ajaxLoading)  window.ajaxLoading("hide");
-				areaHtml.empty();
 				var dataout = $.parseJSON(returned);
-				activeGroup = jsScreenElements.divTitleGroupByUser();
-				areaHtml.append(activeGroup);
 				if (dataout.result.length == 0) return;
 				for(var index=0, len = dataout.result.length; index < len; index++ ){
 				    var myData = dataout.result[index];
