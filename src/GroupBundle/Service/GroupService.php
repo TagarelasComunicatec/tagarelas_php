@@ -88,14 +88,17 @@ class GroupService {
 				$this->logger->info('group->$count:' .  var_export($group, true));
 				$groupname =  $group["groupname"] ;
 		        $admin     =  ($group["admin"] == 1); 
+		        $totalMembers =  $this->loadTotalMembers($groupname);
+		        
 		        if ($admin)  // Admin is ever active
 		        	$status =  Rule::USER_ACTIVE;
 		        else 
 		        	$status    =  $this->loadStatusUser($groupname, $username);
-				$avatar = $this->loadAvatar($groupname);
-				$totalMembers =  $this->loadTotalMembers($groupname);
+		        
+		        $avatar = $this->loadAvatar($groupname);
+				
 				$this->logger->info('groupname->' . $groupname.  ' admin->' . $admin .  ' status->' . $status 
-												  . ' avatar->' . $avatar . ' totalMembers->'. $totalMembers );
+						. ' avatar->' . $avatar . ' totalMembers->'. $totalMembers);
 				array_push($myReturn, array('groupname'=>$groupname,
 						'avatar'=>$avatar,
 						'totalMembers'=>$totalMembers));
@@ -121,8 +124,9 @@ class GroupService {
 		               ->setParameter("name", $username) 
 		               ->setParameter('groupname', $groupname)
 		               ->getQuery()
-		               ->getResult();
+		               ->getOneOrNullResult();;
 		
+		if ($status == null || count($status) ==0)	return Rule::USER_ACTIVE;
 		$this->logger->info('status->' .  var_export($status, true)); 
 		return $status["propvalue"];
 	}
@@ -140,25 +144,27 @@ class GroupService {
 		           ->getQuery()
 		           ->getOneOrNullResult();
 		
-		if ($group == null || count($group ==0))	return "default.png";
+		if ($group == null || count($group) == 0)	return "default.png";
 		$this->logger->info('group To Avatar->' .  var_export($group, true)); 
-		return $group[0]["propvalue"]; 
+		return $group["propvalue"]; 
 	}
 
 	
 	
 	private function loadTotalMembers($groupname){
-		$group = $this->em->createQueryBuilder()
+		$members = $this->em->createQueryBuilder()
 					->select('gu.groupname,count(gu.username) as totalMembers')
 					->from('AppBundle:Ofgroupuser', 'gu')
 					->where('gu.groupname = :groupname')
 					->setParameter("groupname", $groupname)
 					->groupBy("gu.groupname")
 					->getQuery()
-					->getResult();
-		if ($group == null || count($group ==0)) return 0;
-		$this->logger->info('group To TotalMembers->' .  var_export($group, true)); 
-		return $group[0]["totalMembers"]; 
+					->getOneOrNullResult();
+		
+		$this->logger->info('group To TotalMembers->' .  var_export($members , true));
+		if ($members == null || count($members) == 0) return 0;
+		 
+		return $members ["totalMembers"]; 
 	}
 	
 	/**
