@@ -57,7 +57,10 @@
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/jquery.magicsearch.js') }}"></script>  
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/DateTimePicker.js') }}"></script>  
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/bootstrap-imageupload.min.js') }}"></script>   
-    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/strophe.js') }}"></script>  
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/strophe.js') }}"></script> 
+   
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script> 
  
  	<!--  Bibliotecas para chamadas AJAX -->
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Profile.js') }}"></script>    
@@ -179,6 +182,9 @@
 {% endblock %}
 
 {% block links %}
+eclipse themes
+
+        <div id='divEditProfile'            ajaxurl="{{ path('profile_edit') }}"></div>
         <div id='divLoadAllUsers'           ajaxurl="{{ path('profile_loadallusers') }}"></div>
 	    <div id='divLoadUser' 			    ajaxurl="{{ path('profile_loaduser') }}"></div>
 	    <div id='divLoadAllGroups'          ajaxurl="{{ path('group_loadallgroups') }}"></div>

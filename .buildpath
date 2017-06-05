@@ -91,6 +91,11 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/friendsofsymfony/jsrouting-bundle">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/friendsofsymfony/user-bundle">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
@@ -277,6 +282,11 @@
 		</attributes>
 	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/twig/twig/lib">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/willdurand/jsonp-callback-validator/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>
 		</attributes>

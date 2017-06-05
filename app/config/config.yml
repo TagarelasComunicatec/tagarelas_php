@@ -80,7 +80,10 @@ doctrine:
                   prefix: AppBundle\Openfire
                   dir: "%kernel.root_dir%/../src/AppBundle/Openfire"
         
-        
+# Rotas de AJAX
+fos_js_routing:
+    routes_to_expose: [  ]
+            
 # Swiftmailer Configuration
 swiftmailer:
     transport: gmail

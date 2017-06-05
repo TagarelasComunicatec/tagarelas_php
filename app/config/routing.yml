@@ -50,4 +50,7 @@ google_login:
     
 the:
     resource: "@TheBundle/Resources/config/routing.yml"
-    prefix:   /   
+    prefix:   /  
+    
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml" 

@@ -35,6 +35,9 @@ class ProfileController extends Controller
     	) );
     }
     
+    /**
+     * @Route("/profile/edit", options={"expose"=true}, name="profile_edit_teste")
+     */
     public function editAction()
     {
     	return $this->render('ProfileBundle:Profile:edit.html.twig');
