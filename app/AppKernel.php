@@ -15,7 +15,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-        	new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
             new FOS\UserBundle\FOSUserBundle(),
@@ -29,6 +29,7 @@ class AppKernel extends Kernel
             new ChatBundle\ChatBundle(),
             new GroupBundle\GroupBundle(),
         		new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new FOS\MessageBundle\FOSMessageBundle(),
 
         ];
 
