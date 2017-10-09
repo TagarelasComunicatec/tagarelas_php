@@ -79,6 +79,16 @@ doctrine:
                   type: annotation
                   prefix: AppBundle\Openfire
                   dir: "%kernel.root_dir%/../src/AppBundle/Openfire"
+            
+             # The mappings to import the FOSMessage entities mappings:     
+             fos_message:
+                type: annotation
+                dir: %kernel.root_dir%/../vendor/friendsofsymfony/message/src/Driver/Doctrine/ORM/Entity
+                prefix: FOS\Message\Driver\Doctrine\ORM\Entity
+           
+           # User your user entity instead of the PersonInterface
+           resolve_target_entities:
+                 FOS\Message\Model\PersonInterface: AppBundle\Openfire\User
         
 # Rotas de AJAX
 fos_js_routing:
@@ -91,10 +101,10 @@ swiftmailer:
     password:  "P1m&nT&l"
     
  #FOSMessage
-fos_message:
-    db_driver: orm
-    thread_class:      "AppBundle/Openfire/Entity/Thread"
-    message_class:  " AppBundle/Openfire/Entity/Message"
+#fos_message:
+#   db_driver: orm
+#    thread_class:      "AppBundle/Openfire/Entity/Thread"
+#   message_class:  " AppBundle/Openfire/Entity/Message"
 #   spam_detector:  "fos_message.akismet_spam_detector"
     
     

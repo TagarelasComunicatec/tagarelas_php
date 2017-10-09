@@ -1,5 +1,5 @@
 <?php
-// src/AppBundle/Entity/User.php
+// src/AppBundle/Openfire/User.php
 
 namespace AppBundle\Openfire;
 
