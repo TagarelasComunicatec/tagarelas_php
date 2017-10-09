@@ -51,6 +51,14 @@ google_login:
 the:
     resource: "@TheBundle/Resources/config/routing.yml"
     prefix:   /  
+
+# fos_user routing
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+  
+logout:
+    path: /logout
+       
     
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml" 
