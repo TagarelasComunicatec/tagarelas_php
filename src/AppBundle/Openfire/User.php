@@ -1,17 +1,18 @@
 <?php
 // src/AppBundle/Entity/User.php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Openfire;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use FOS\MessageBundle\Model\ParticipantInterface;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="tg_usuario")
  * @ORM\HasLifecycleCallbacks()
  */
-class User extends BaseUser 
+class User extends BaseUser implements ParticipantInterface
 {
 	/**
 	 * @ORM\Id

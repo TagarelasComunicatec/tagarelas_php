@@ -89,12 +89,20 @@ swiftmailer:
     transport: gmail
     username:  "%tagarelas.comunicatec@gmail.com"
     password:  "P1m&nT&l"
-  
+    
+ #FOSMessage
+fos_message:
+    db_driver: orm
+    thread_class:      "AppBundle/Openfire/Entity/Thread"
+    message_class:  " AppBundle/Openfire/Entity/Message"
+#   spam_detector:  "fos_message.akismet_spam_detector"
+    
+    
 # FOSUser
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: "AppBundle/Entity/User"
+    user_class: "AppBundle/Openfire/Entity/User"
     from_email:
         address: tagarelas.comunicatec@gmail.com
         sender_name: "Equipe Tagarelas" 
