@@ -94,11 +94,25 @@ swiftmailer:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: "AppBundle/Entity/User"
+    user_class: "AppBundle/Openfire/TgUser"
+    registration:
+        confirmation:
+            enabled: true
     from_email:
         address: tagarelas.comunicatec@gmail.com
         sender_name: "Equipe Tagarelas" 
     
+fos_message:
+    db_driver: orm
+    thread_class: "AppBundle/Openfire/TgThread"
+    message_class: "AppBundle/Openfire/TgMessage"
+ 
+fos_message:
+    spam_detector: fos_message.akismet_spam_detector   
+
+services:
+    fos_user.doctrine_registry:
+        alias: doctrine   
 hwi_oauth:
     firewall_names: [secured_area] 
 

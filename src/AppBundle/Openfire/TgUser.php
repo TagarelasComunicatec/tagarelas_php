@@ -5,13 +5,13 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use FOS\MessageBundle\Model\ParticipantInterface;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="tg_usuario")
- * @ORM\HasLifecycleCallbacks()
  */
-class User extends BaseUser 
+class TgUser extends BaseUser implements ParticipantInterface
 {
 	/**
 	 * @ORM\Id
@@ -120,7 +120,7 @@ class User extends BaseUser
 	/**
 	 * id
 	 * @param int $id
-	 * @return User
+	 * @return TgUser
 	 */
 	public function setId($id){
 		$this->id = $id;
@@ -138,7 +138,7 @@ class User extends BaseUser
 	/**
 	 * facebookID
 	 * @param string $facebookID
-	 * @return User
+	 * @return TgUser
 	 */
 	public function setFacebookID($facebookID){
 		$this->facebookID = $facebookID;
@@ -156,7 +156,7 @@ class User extends BaseUser
 	/**
 	 * googleID
 	 * @param string $googleID
-	 * @return User
+	 * @return TgUser
 	 */
 	public function setGoogleID($googleID){
 		$this->googleID = $googleID;
@@ -174,7 +174,7 @@ class User extends BaseUser
 	/**
 	 * nickname
 	 * @param string $nickname
-	 * @return User
+	 * @return TgUser
 	 */
 	public function setNickname($nickname){
 		$this->nickname = $nickname;
@@ -192,7 +192,7 @@ class User extends BaseUser
 	/**
 	 * realName
 	 * @param string $realName
-	 * @return User
+	 * @return TgUser
 	 */
 	public function setRealName($realName){
 		$this->realName = $realName;
@@ -210,7 +210,7 @@ class User extends BaseUser
 	/**
 	 * avatar
 	 * @param string $avatar
-	 * @return User
+	 * @return TgUser
 	 */
 	public function setAvatar($avatar){
 		$this->avatar = $avatar;
@@ -228,7 +228,7 @@ class User extends BaseUser
 	/**
 	 * created
 	 * @param string $created
-	 * @return User
+	 * @return TgUser
 	 */
 	public function setCreated($created){
 		$this->created = $created;
@@ -246,7 +246,7 @@ class User extends BaseUser
 	/**
 	 * lastUpdate
 	 * @param string $lastUpdate
-	 * @return User
+	 * @return TgUser
 	 */
 	public function setLastUpdate($lastUpdate){
 		$this->lastUpdate = $lastUpdate;
@@ -264,7 +264,7 @@ class User extends BaseUser
 	/**
 	 * isDeleted
 	 * @param string $isDeleted
-	 * @return User
+	 * @return TgUser
 	 */
 	public function setIsDeleted($isDeleted){
 		$this->isDeleted = $isDeleted;
@@ -283,7 +283,7 @@ class User extends BaseUser
 	/**
 	 * userGroups
 	 * @param string $userGroups
-	 * @return User
+	 * @return TgUser
 	 */
 	public function setUserGroups($userGroups){
 		$this->userGroups = $userGroups;
@@ -302,7 +302,7 @@ class User extends BaseUser
 	/**
 	 * userSessions
 	 * @param string $userSessions
-	 * @return User
+	 * @return TgUser
 	 */
 	public function setUserSessions($userSessions){
 		$this->userSessions = $userSessions;
@@ -320,7 +320,7 @@ class User extends BaseUser
 	/**
 	 * userFriends
 	 * @param string $userFriends
-	 * @return User
+	 * @return TgUser
 	 */
 	public function setUserFriends($userFriends){
 		$this->userFriends = $userFriends;
@@ -338,7 +338,7 @@ class User extends BaseUser
 	/**
 	 * friendUsers
 	 * @param string $friendUsers
-	 * @return User
+	 * @return TgUser
 	 */
 	public function setFriendUsers($friendUsers){
 		$this->friendUsers = $friendUsers;
