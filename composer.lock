@@ -1279,7 +1279,11 @@
             "keywords": [
                 "User management"
             ],
+<<<<<<< HEAD
             "time": "2017-10-09 10:58:35"
+=======
+            "time": "2017-10-09T10:58:35+00:00"
+>>>>>>> branch '1.0' of https://github.com/TagarelasComunicatec/tagarelas_php.git
         },
         {
             "name": "gidkom/php-openfire-restapi",
@@ -1323,7 +1327,7 @@
                 "openfire",
                 "xmpp"
             ],
-            "time": "2017-08-29 10:08:34"
+            "time": "2017-08-29T10:08:34+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
