@@ -47,7 +47,7 @@ security:
                 failure_path:      /login
 
                 oauth_user_provider:
-                    service: my.oauth_aware.user_provider.servic
+                    service: my.oauth_aware.user_provider.service
 
     role_hierarchy:
         ROLE_USER:        ROLE_USER

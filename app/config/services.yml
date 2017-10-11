@@ -11,6 +11,13 @@ services:
      hwi_oauth.user.provider.entity:
         class: CodeMe\TheBundle\Provider\Provider
         arguments: ["@session", "@doctrine", "@admin.checker", "@request_stack"]
+   
+     my.oauth_aware.user_provider.service:
+         class: HWI\Bundle\OAuthBundle\Security\Core\User\FOSUBUserProvider
+         arguments:
+                   -  '@fos_user.user_manager'
+                   - ["@session", "@doctrine", "@admin.checker", "@request_stack"]
+   
      
      admin.checker:
         class: CodeMe\TheBundle\Provider\AdminChecker
