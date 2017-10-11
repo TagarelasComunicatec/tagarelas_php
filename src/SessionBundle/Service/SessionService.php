@@ -157,7 +157,7 @@ class SessionService {
 			$this->em->flush ();
 			$this->em->getConnection ()->commit ();
 			return Rule::SUCCESS_SAVE;
-		} catch ( Exception $e ) {
+		} catch ( \Exception $e ) {
 			$this->em->getConnection ()->rollBack ();
 			$this->logger->error ( "Sessao nao foi salva " . $e->__toString () );
 			return Rule::FAIL_SAVE;

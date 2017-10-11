@@ -22,7 +22,7 @@ class ProfileController extends Controller
     				"responseCode" => 200,
     				"result" => $result,
     		);
-    	} catch (Exception $e){
+    	} catch (\Exception $e){
     		$myReturn = array (
     				"responseCode" => 400,
     				"result" => $e->getTraceAsString(),
@@ -125,7 +125,7 @@ class ProfileController extends Controller
     				"responseCode" => 200,
     				"result" => ProfileService::SUCCESS_SAVE,
     		);
-    	} catch (Exception $e){
+    	} catch (\Exception $e){
     		$myReturn = array (
     				"responseCode" => 400,
     				"result" => $e->getTraceAsString(),

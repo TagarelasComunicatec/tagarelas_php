@@ -139,7 +139,7 @@ class GroupService {
 		    $this->em->flush();
 		    $this->em->getConnection()->commit();
 		    return Rule::SUCCESS_SAVE;
-		} catch(Exception $e){
+		} catch(\Exception $e){
 			$this->em->getConnection()->rollBack();
 			$this->logger->error("Conteudo de user by reference " . $e->__toString());
 			return Rule::FAIL_SAVE;

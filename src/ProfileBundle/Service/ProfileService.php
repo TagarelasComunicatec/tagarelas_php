@@ -93,7 +93,7 @@ class ProfileService {
 			$this->em->flush();
 			$this->emo->persist($ofUser);
 			$this->emo->flush();
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 		    throw $e;
 	    }
 	}
