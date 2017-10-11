@@ -51,3 +51,7 @@ google_login:
 the:
     resource: "@TheBundle/Resources/config/routing.yml"
     prefix:   /   
+
+fos_message:
+    resource: "@FOSMessageBundle/Resources/config/routing.xml"
+    prefix: /chat/messages   

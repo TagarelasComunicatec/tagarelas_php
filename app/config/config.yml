@@ -119,7 +119,13 @@ fos_user:
     from_email:
         address: tagarelas.comunicatec@gmail.com
         sender_name: "Equipe Tagarelas" 
-    
+
+ # FOSMessage
+fos_message:
+    db_driver: tagarelas
+    thread_class: AppBundle\Entity\Thread
+    message_class: AppBundle\Entity\Message
+       
 hwi_oauth:
     firewall_names: [secured_area] 
 
