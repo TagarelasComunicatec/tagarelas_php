@@ -1,0 +1,59 @@
+{% extends  '::base.html.twig' %} 
+{% block title %}
+Tagarelas - Login - FOS
+{% endblock %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% block content %}
+
+        <section id="area-destaque">
+        			<div class="container">
+        				<div class="row">
+        					<div class="col-xs-12 col-sm-6 text-center">
+        						<img src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('img/img2_med.png')}}" class="img-responsive center-block img-ilustrativa">
+        						<h1>Batepapo Sério</h1>
+        					</div>
+        					<div id="login" class="col-xs-12 col-sm-6 text-center">
+        						<hr>
+        						<h3>Entrar</h3>
+        						<button type="button" class="btn btn-facebook">
+        							<span class="icone-social"><img src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('img/facebook.icon.png')}}"></span> Entre com o Facebook
+        						</button>
+        						<br><br>
+        						<p>ou</p>
+        	                    {% block fos_user_content %}
+        		                <form name='login' id='login' method='post' action="{{ path("fos_user_security_check") }}">
+        	   				        
+        	                        {% if csrf_token %}
+                        					 <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                                 {% endif %}
+        							
+        							<div class="form-group">
+        								<input id="username" name="_username" value="{{ last_username }}" required="required" type="text" placeholder= 'Email'>
+        							</div>
+        							
+        							<div class="form-group">
+        								<input type='password' id="password" name="_password" required="required" maxlength='60' placeholder='Senha'>
+        							</div>
+        							
+        							<div class="form-group">
+        							<input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+            							<label for="remember_me">&nbsp;&nbsp;Manter-me logado</label>
+        							</div>
+        							
+        							<div class="form-group">
+        								<a href="#" class="small">Esqueceu a Senha?</a>
+        							</div>
+        								<button type="button" id = 'loginUserTagarelas' class="btn btn-default">Entrar</button>
+        						</form>
+        						{% endblock fos_user_content %}
+        						<p>
+        							Não possui um login? <a href="{{ path('newLogin') }}">Cadastre-se</a>
+        						</p>
+        					</div>
+        				</div>
+        			</div>
+        </section>
+{% endblock content %}
+<!--  end new  -->
+

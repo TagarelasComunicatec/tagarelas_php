@@ -63,14 +63,14 @@ doctrine:
             password: "%database_password_tagarelas%"
             charset:  UTF8
           
-          openfire:
-            driver:   "%database_driver_openfire%"
-            host:     "%database_host_openfire%"
-            port:     "%database_port_openfire%"
-            dbname:   "%database_name_openfire%"
-            user:     "%database_user_openfire%"
-            password: "%database_password_openfire%"
-            charset:  UTF8 
+      #    openfire:
+      #     driver:   "%database_driver_openfire%"
+      #     host:     "%database_host_openfire%"
+      #     port:     "%database_port_openfire%"
+      #     dbname:   "%database_name_openfire%"
+      #     user:     "%database_user_openfire%"
+      #     password: "%database_password_openfire%"
+      #     charset:  UTF8 
              
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
@@ -94,13 +94,13 @@ doctrine:
                   prefix: AppBundle\Entity
                   dir: "%kernel.root_dir%/../src/AppBundle/Entity"
               
-          openfire:    
-            connection: openfire
-            mappings:
-              AppBundle:                     
-                  type: annotation
-                  prefix: AppBundle\Openfire
-                  dir: "%kernel.root_dir%/../src/AppBundle/Openfire"
+          #openfire:    
+           # connection: openfire
+           # mappings:
+            #  AppBundle:                     
+             #     type: annotation
+             #     prefix: AppBundle\Openfire
+              #    dir: "%kernel.root_dir%/../src/AppBundle/Openfire"
         
         
 # Swiftmailer Configuration
@@ -126,11 +126,12 @@ hwi_oauth:
     resource_owners:
         facebook:
             type:                facebook
-            client_id:           "%facebook_client_id%"
+            client_id:              "%facebook_client_id%"
             client_secret:       "%facebook_client_secret%"
-            scope:               "email profile"
+            scope:                  "email profile"
             options:
-                display: popup #dialog is optimized for popup window
+                csrf: true
+                display: popup           #dialog is optimized for popup window
                 auth_type: rerequest # Re-asking for Declined Permissions
         
         google:
@@ -139,6 +140,7 @@ hwi_oauth:
             client_secret:       "%google_client_secret%"
             scope:               "email profile"
             options:
+               csrf: true
                 access_type:     "offline"
 
     http_client:
