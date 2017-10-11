@@ -3,16 +3,18 @@
 
 namespace AppBundle\Document;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\ORM\Mapping as ORM;
 use FOS\MessageBundle\Document\MessageMetadata as BaseMessageMetadata;
 
 /**
- * @ODM\EmbeddedDocument
+ * @ORM\Entity
+ * @ORM\Table(name="tg_mensagem_metadata")
+ * @ORM\HasLifecycleCallbacks()
  */
 class MessageMetadata extends BaseMessageMetadata
 {
     /**
-     * @ODM\ReferenceOne(targetDocument="AppBundle\Document\User")
+     * @ODM\ReferenceOne(targetDocument="AppBundle\Entity\User")
      */
     protected $participant;
 }

@@ -3,11 +3,13 @@
 
 namespace AppBundle\Document;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\ORM\Mapping as ORM;
 use FOS\MessageBundle\Document\ThreadMetadata as BaseThreadMetadata;
 
 /**
- * @ODM\EmbeddedDocument
+ * @ORM\Entity
+ * @ORM\Table(name="tg_thread_metadata")
+ * @ORM\HasLifecycleCallbacks()
  */
 class ThreadMetadata extends BaseThreadMetadata
 {

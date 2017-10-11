@@ -1,13 +1,15 @@
 <?php
 // src/AppBundle/Document/Thread.php
 
-namespace AppBundle\Document;
+namespace AppBundle\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ORM\Mapping as ORM;
 use FOS\MessageBundle\Document\Thread as BaseThread;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity
+ * @ORM\Table(name="tg_thread")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Thread extends BaseThread
 {

@@ -3,16 +3,20 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ORM\Mapping as ORM;
 use FOS\MessageBundle\Document\Message as BaseMessage;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity
+ * @ORM\Table(name="tg_mensagem")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Message extends BaseMessage
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -27,7 +31,7 @@ class Message extends BaseMessage
     protected $thread;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="AppBundle\Document\User")
+     * @MongoDB\ReferenceOne(targetDocument="AppBundle\Entity\User")
      */
     protected $sender;
 }
