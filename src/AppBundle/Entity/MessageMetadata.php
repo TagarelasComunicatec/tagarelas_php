@@ -14,7 +14,24 @@ use FOS\MessageBundle\Document\MessageMetadata as BaseMessageMetadata;
 class MessageMetadata extends BaseMessageMetadata
 {
     /**
-     * @ODM\ReferenceOne(targetDocument="AppBundle\Entity\User")
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+    
+    /**
+     * @ORM\ManyToOne(
+     *   targetEntity="AppBundle\Entity\Message",
+     *   inversedBy="metadata"
+     * )
+     * @var \FOS\MessageBundle\Model\MessageInterface
+     */
+    protected $message;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $participant;
 }

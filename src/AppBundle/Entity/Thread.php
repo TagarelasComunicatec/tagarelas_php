@@ -4,7 +4,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\MessageBundle\Document\Thread as BaseThread;
+use Doctrine\Common\Collections\Collection;
+use FOS\MessageBundle\Entity\Thread as BaseThread;
 
 /**
  * @ORM\Entity
@@ -14,27 +15,34 @@ use FOS\MessageBundle\Document\Thread as BaseThread;
 class Thread extends BaseThread
 {
     /**
-     * @MongoDB\Id
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
+    
     /**
-     * @MongoDB\ReferenceMany(targetDocument="AppBundle\Document\Message")
-     */
-    protected $messages;
-
-    /**
-     * @MongoDB\EmbedMany(targetDocument="AppBundle\Document\ThreadMetadata")
-     */
-    protected $metadata;
-
-    /**
-     * @MongoDB\ReferenceMany(targetDocument="AppBundle\Document\User")
-     */
-    protected $participants;
-
-    /**
-     * @MongoDB\ReferenceOne(targetDocument="AppBundle\Document\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $createdBy;
+    
+    /**
+     * @ORM\OneToMany(
+     *   targetEntity="AppBundle\Entity\Message",
+     *   mappedBy="thread"
+     * )
+     * @var Message[]|Collection
+     */
+    protected $messages;
+    
+    /**
+     * @ORM\OneToMany(
+     *   targetEntity="AppBundle\Entity\ThreadMetadata",
+     *   mappedBy="thread",
+     *   cascade={"all"}
+     * )
+     * @var ThreadMetadata[]|Collection
+     */
+    protected $metadata;
 }

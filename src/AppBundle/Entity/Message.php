@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\MessageBundle\Document\Message as BaseMessage;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity
@@ -19,19 +20,29 @@ class Message extends BaseMessage
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
+    
     /**
-     * @MongoDB\EmbedMany(targetDocument="AppBundle\Document\MessageMetadata")
-     */
-    protected $metadata;
-
-    /**
-     * @MongoDB\ReferenceOne(targetDocument="AppBundle\Document\Thread")
+     * @ORM\ManyToOne(
+     *   targetEntity="AppBundle\Entity\Thread",
+     *   inversedBy="messages"
+     * )
+     * @var \FOS\MessageBundle\Model\ThreadInterface
      */
     protected $thread;
-
+    
     /**
-     * @MongoDB\ReferenceOne(targetDocument="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $sender;
+    
+    /**
+     * @ORM\OneToMany(
+     *   targetEntity="AppBundle\Entity\MessageMetadata",
+     *   mappedBy="message",
+     *   cascade={"all"}
+     * )
+     * @var MessageMetadata[]|Collection
+     */
+    protected $metadata;
 }

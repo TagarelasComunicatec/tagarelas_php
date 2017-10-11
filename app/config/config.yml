@@ -53,8 +53,7 @@ doctrine:
     dbal:
         default_connection: tagarelas
         connections:
-          
-          tagarelas:
+           tagarelas:
             driver:   "%database_driver_tagarelas%"
             host:     "%database_host_tagarelas%"
             port:     "%database_port_tagarelas%"
@@ -62,22 +61,6 @@ doctrine:
             user:     "%database_user_tagarelas%"
             password: "%database_password_tagarelas%"
             charset:  UTF8
-          
-      #    openfire:
-      #     driver:   "%database_driver_openfire%"
-      #     host:     "%database_host_openfire%"
-      #     port:     "%database_port_openfire%"
-      #     dbname:   "%database_name_openfire%"
-      #     user:     "%database_user_openfire%"
-      #     password: "%database_password_openfire%"
-      #     charset:  UTF8 
-             
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        #     path:     "%database_path%"
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -93,15 +76,6 @@ doctrine:
                   type: annotation
                   prefix: AppBundle\Entity
                   dir: "%kernel.root_dir%/../src/AppBundle/Entity"
-              
-          #openfire:    
-           # connection: openfire
-           # mappings:
-            #  AppBundle:                     
-             #     type: annotation
-             #     prefix: AppBundle\Openfire
-              #    dir: "%kernel.root_dir%/../src/AppBundle/Openfire"
-        
         
 # Swiftmailer Configuration
 swiftmailer:

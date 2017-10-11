@@ -1,20 +1,39 @@
 <?php
-// src/AppBundle/Document/ThreadMetadata.php
+// src/AppBundle/Entity/ThreadMetadata.php
 
-namespace AppBundle\Document;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\MessageBundle\Document\ThreadMetadata as BaseThreadMetadata;
+use FOS\MessageBundle\Entity\ThreadMetadata as BaseThreadMetadata;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="tg_thread_metadata")
  * @ORM\HasLifecycleCallbacks()
  */
+ 
 class ThreadMetadata extends BaseThreadMetadata
 {
     /**
-     * @ODM\ReferenceOne(targetDocument="AppBundle\Document\User")
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\ManyToOne(
+     *   targetEntity="AppBundle\Entity\Thread",
+     *   inversedBy="metadata"
+     * )
+     * @var \FOS\MessageBundle\Model\ThreadInterface
+     */
+    protected $thread;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $participant;
 }
+
