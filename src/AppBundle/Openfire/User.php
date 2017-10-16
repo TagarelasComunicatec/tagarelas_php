@@ -12,7 +12,7 @@ use FOS\MessageBundle\Model\ParticipantInterface;
  * @ORM\Table(name="tg_usuario")
  * @ORM\HasLifecycleCallbacks()
  */
-class User extends BaseUser implements ParticipantInterface
+class User extends BaseUser
 {
 	/**
 	 * @ORM\Id

@@ -80,21 +80,6 @@ doctrine:
                   prefix: AppBundle\Openfire
                   dir: "%kernel.root_dir%/../src/AppBundle/Openfire"
             
-             # The mappings to import the FOSMessage entities mappings:     
-              fos_message:
-                  type: annotation
-                  dir: "%kernel.root_dir%/../vendor/friendsofsymfony/message/src/Driver/Doctrine/ORM/Entity"
-                  prefix: FOS\Message\Driver\Doctrine\ORM\Entity
-           
-        # User your user entity instead of the PersonInterface
-        resolve_target_entities:
-           FOS\Message\Model\PersonInterface: AppBundle\Openfire\User      
-        
-        
-# Rotas de AJAX
-fos_js_routing:
-    routes_to_expose: [  ]
-            
 # Swiftmailer Configuration
 swiftmailer:
     transport: gmail
@@ -113,18 +98,11 @@ fos_user:
     from_email:
         address: tagarelas.comunicatec@gmail.com
         sender_name: "Equipe Tagarelas" 
-    
-fos_message:
-    db_driver: orm
-    thread_class: "AppBundle/Openfire/TgThread"
-    message_class: "AppBundle/Openfire/TgMessage"
- 
-fos_message:
-    spam_detector: fos_message.akismet_spam_detector   
 
 services:
     fos_user.doctrine_registry:
         alias: doctrine   
+        
 hwi_oauth:
     firewall_names: [secured_area] 
 

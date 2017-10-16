@@ -1,10 +1,17 @@
-
-
-
 {% extends  '::base.html.twig' %} 
 {% block title %}
 Tagarelas - Chat
 {% endblock %}
 {% block content %}
-
+<script>
+    converse.initialize({
+        bosh_service_url: 'https://tagarelas.uniriotec.br', // Please use this connection manager only for testing purposes
+        show_controlbox_by_default: true,
+        auto_login=true,
+        jid: "ricardo2@gmail.com",
+        password: "123456",
+        domain: "tgarelas.uniriotec.br",
+        debug:true,
+    });
+</script>
 {% endblock %}

@@ -28,8 +28,6 @@ class AppKernel extends Kernel
             new AdminBundle\AdminBundle(),
             new ChatBundle\ChatBundle(),
             new GroupBundle\GroupBundle(),
-        		new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-            new FOS\MessageBundle\FOSMessageBundle(),
 
         ];
 

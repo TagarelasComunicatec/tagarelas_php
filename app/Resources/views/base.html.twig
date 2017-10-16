@@ -48,7 +48,7 @@
    	<script src="https://cdn.conversejs.org/dist/converse.min.js"></script>        
    	
 	<!--  Bibliotecas  Google --> 
-	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>   
 	
 	<!-- Bibliotecas de terceiros incluidas no projeto -->
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/collapse.js') }}"></script>
@@ -62,9 +62,6 @@
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/bootstrap-imageupload.min.js') }}"></script>   
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/strophe.js') }}"></script> 
    
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script> 
- 
  	<!--  Bibliotecas para chamadas AJAX -->
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Profile.js') }}"></script>    
  	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Group.js') }}"></script>    
