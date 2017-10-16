@@ -77,12 +77,12 @@ class User extends BaseUser implements ParticipantInterface
 		$this->nickname       			= $request->get('shortName');
 		$this->password		  			= $request->get("password");
 		$this->username		  			= $this->name;
-		$this->usernameCanonical		= $this->name;
+		$this->usernameCanonical		    = $this->name;
 		$this->enabled					= true;
 		$this->salt						= "DEFAULT";
-		$this->roles					= array("USER");
+		$this->roles					    = array("USER");
 		$this->realName					= $this->name;
-		$this->isDeleted				= false;
+		$this->isDeleted				    = false;
 	}
 	
 	/**

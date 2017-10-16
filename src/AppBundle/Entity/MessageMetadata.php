@@ -1,7 +1,7 @@
 <?php
 // src/AppBundle/Document/MessageMetadata.php
 
-namespace AppBundle\Document;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\MessageBundle\Document\MessageMetadata as BaseMessageMetadata;

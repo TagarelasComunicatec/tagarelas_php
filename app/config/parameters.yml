@@ -6,7 +6,7 @@ parameters:
     database_port_tagarelas: 5432
     database_name_tagarelas: tagarelas
     database_user_tagarelas: postgres
-    database_password_tagarelas: 123456
+    database_password_tagarelas: "P1m&nT&l"
    
    #Database openfire - protocolo XMPP
     database_driver_openfire: pdo_pgsql

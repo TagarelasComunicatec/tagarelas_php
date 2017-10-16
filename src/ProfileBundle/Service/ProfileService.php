@@ -36,7 +36,6 @@ class ProfileService {
 		$this->container = $cont;
 		$this->logger    = $log;
 		$this->em        = $entityManager;
-		$this->emo       = $this->container->get('doctrine')->getManager('openfire');
 	}
 	
 	public function loadAllUsers(){
@@ -86,13 +85,9 @@ class ProfileService {
 		}
 		try{
 			$user = new User();
-			$ofUser = new Ofuser();
 			$user->loadByRequest($request);
-			$ofUser->loadByRequest($request);
 			$this->em->persist($user);
 			$this->em->flush();
-			$this->emo->persist($ofUser);
-			$this->emo->flush();
 		} catch (\Exception $e) {
 		    throw $e;
 	    }
