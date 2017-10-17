@@ -1,7 +1,7 @@
 <?php
 namespace CodeMe\TheBundle\Provider;
 
-use AppBundle\Entity\User as User;
+use AppBundle\Openfire\User as User;
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
 
 /**

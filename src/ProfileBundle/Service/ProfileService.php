@@ -8,7 +8,6 @@ use Monolog\Logger;
 use AppBundle\Openfire\Ofuser;
 use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Utility\AppRest;
-use AppBundle\Entity\GroupUser;
 use AppBundle\Openfire\Ofgroupuser;
 use AppBundle\Openfire\Ofuserprop;
 use AppBundle\Entity\Rule;
@@ -111,7 +110,7 @@ class ProfileService {
 	    		$groupService->saveGroupUserRule($username, $groupname, Rule::USER_PENDING);
 	    	}
 	    	
-	    } catch(Exception $e){
+	    } catch(\Exception $e){
 	    	$this->logger.info("Informação já existe na tabela");
 	    }
 	}
@@ -162,7 +161,7 @@ class ProfileService {
 			$this->savePlainPassword($request->get('shortName'), $request->get("password"));         
 			$result	= ProfileService::SUCCESS_SAVE;
 		
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$result	= ProfileService::FAIL_SAVE; 
 			throw $e;
 	    }
@@ -230,7 +229,7 @@ class ProfileService {
 			$email    = $session->get("email");
 			AppRest::doConnectRest()->updateUser($username, $password,$name,$email);
 			$this->savePlainPassword($username,$password);
-		} catch (Exception $e){
+		} catch (\Exception $e){
 			$this->logger->error("Conteudo de error by reference " . $e->__toString());
 			return ProfileService::FAIL_SAVE;
 		}
@@ -276,7 +275,7 @@ class ProfileService {
 			$this->em->flush ();
 			return ProfileService::SUCCESS_SAVE;
 			
-		} catch(Exception $e){
+		} catch(\Exception $e){
 			$this->logger->error("Conteudo de error by reference " . $e->__toString());
 			return ProfileService::FAIL_SAVE;
 		}

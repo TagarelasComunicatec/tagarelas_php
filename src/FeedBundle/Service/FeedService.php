@@ -2,14 +2,14 @@
 namespace GroupBundle\Service;
 
 
-use AppBundle\Entity\Group;
-use AppBundle\Entity\User;
+use AppBundle\Openfire\Ofgroup as Group;
+use AppBundle\Openfire\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr\Join;
 use Monolog\Logger;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Session\Session;
-use AppBundle\Entity\GroupUser;
+use AppBundle\Openfire\Ofgroupuser as GroupUser;
 use AppBundle\Entity\Rule;
 
 class FeedService {

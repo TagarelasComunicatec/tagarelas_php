@@ -3,10 +3,10 @@ namespace GroupBundle\Service;
 
 
 use AppBundle\AppBundle;
-use AppBundle\Entity\Group;
-use AppBundle\Entity\GroupUser;
+use AppBundle\Openfire\Ofgroup as Group;
+use AppBundle\Openfire\Ofgroupuser as GroupUser;
 use AppBundle\Entity\Rule;
-use AppBundle\Entity\User;
+use AppBundle\Openfire\User;
 use AppBundle\Openfire\Ofgroupprop;
 use AppBundle\Utility\AppRest;
 use Doctrine\ORM\EntityManager;
@@ -235,7 +235,7 @@ class GroupService {
 			$this->em->merge($groupAttribute);
 			$this->em->flush ();
 		    return Rule::SUCCESS_SAVE;
-		} catch(Exception $e){
+		} catch(\Exception $e){
 			$this->logger->error("Conteudo de error by reference " . $e->__toString());
 			return Rule::FAIL_SAVE;
 		}

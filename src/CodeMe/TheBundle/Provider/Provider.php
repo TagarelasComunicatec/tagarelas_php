@@ -3,7 +3,7 @@ namespace CodeMe\TheBundle\Provider;
 
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
-use AppBundle\Entity\User as User;
+use AppBundle\Openfire\User as User;
 use CodeMe\TheBundle\Provider\OAuthUser;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
