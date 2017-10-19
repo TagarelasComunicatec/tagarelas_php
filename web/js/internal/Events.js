@@ -105,7 +105,5 @@ $( function() {
 		jsSession.loadSessionsByStatus(global.statusSession.PUBLIC,4,$("#publicSession"));
 	};
 	
-	jsConference.connect();
-	
 });	
 

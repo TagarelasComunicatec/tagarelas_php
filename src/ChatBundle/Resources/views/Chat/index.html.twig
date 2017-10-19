@@ -1,19 +1,24 @@
 {% extends  '::base.html.twig' %} 
 {% block title %}
-Tagarelas - Chat
+Tagarelas - Candy Chat
 {% endblock %}
-{% block content %}
+{% block script %}
 <script>
-$( function() {
-    converse.initialize({
-        bosh_service_url: 'http://tagarelas.uniriotec.br:7070', // Please use this connection manager only for testing purposes
-        show_controlbox_by_default: true,
-        auto_login: true,
-        jid: "ricardo2@gmail.com",
-        password: "123456",
-        domain: "tgarelas.uniriotec.br",
-        debug:true,
-    });
-})  
+$(function (){
+	Candy.init('http://tagarelas.uniriotec.br:7070/http-bind/', {
+		core: {
+			debug: true,
+			autojoin: ['comunicatec@conference.tagarelas.uniriotec.br']
+		},
+		view: { assets: '{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/candy/res') }}' }
+	});
+	Candy.Core.connect('ricardo2@gmail.com', '123456')	
+	//Candy.Core.connect();
+})
+
 </script>
+{% endblock %}
+
+{% block content %}
+<div id="candy"></div>
 {% endblock %}
