@@ -10,7 +10,8 @@ $(function (){
 			debug: true,
 			autojoin: ['comunicatec@conference.tagarelas.uniriotec.br']
 		},
-		view: { assets: '{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/candy/res') }}' }
+		view: { language: 'pt_br',
+			    assets: '{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/candy/res') }}' }
 	});
 	Candy.Core.connect('ricardo2@gmail.com', '123456')	
 	//Candy.Core.connect();
