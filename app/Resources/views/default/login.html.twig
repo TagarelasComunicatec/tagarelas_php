@@ -3,6 +3,15 @@
 {% block title %}
 Tagarelas - Login
 {% endblock %}
+{% block script %}
+<script>
+$("#facebook").click(function() {
+	window.open( "{{ app.request.httpHost ~ asset('connect/facebook')}}" );	
+	return true;
+})
+
+</script>
+{% endblock %}
 {% block content %}
 			<section id="area-destaque">
 			<div class="container">
@@ -14,7 +23,7 @@ Tagarelas - Login
 					<div id="login" class="col-xs-12 col-sm-6 text-center">
 						<hr>
 						<h3>Entrar</h3>
-						<button type="button" class="btn btn-facebook">
+						<button type="button" id="facebook" class="btn btn-facebook">
 							<span class="icone-social"><img src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('img/facebook.icon.png')}}"></span> Entre com o Facebook
 						</button>
 						<br><br>

@@ -17,19 +17,19 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
 
 # parametros para o acesso ao Facebook e Google    
-    site: "http://portaltagarelas.uniriotec.br/"
+    site: "http://tagarelas.uniriotec.br/"
   
     #Oauth2
-    facebook_client_id:     id
-    facebook_client_secret: secret
+    facebook_client_id:     142500026247029
+    facebook_client_secret: 71d5d530157a9f03d197c73f75b9b494
     google_client_id: id
     google_client_secret: secret
 
     admins:
         facebook:
-            - "myfacebook.id"
+            - "ricardo.domingos@gmail.com"
 
 twig:
     globals:
-        facebook_client_id: "%facebook_client_id%"
-        site: "%site%"
+        facebook_client_id: "142500026247029"
+        site: "tagarelas.uniriotec.br"
