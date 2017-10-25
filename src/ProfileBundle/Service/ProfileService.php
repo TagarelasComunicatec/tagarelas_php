@@ -134,7 +134,6 @@ class ProfileService {
 	/**
 	 * Save User
 	 * @throws \Exception
-	 * @throws Exception
 	 * @return number Success or Fail 
 	 */
 	public function save(){
@@ -156,13 +155,26 @@ class ProfileService {
 					$request->get('name'),
 					$request->get("email")
 			);
+			
+			/* Destrqva o usuario para uso */
+			
+			AppRest::doConnectRest()->
+			         unlockUser($request->get('shortName'));
+			// ====================================================
+			// Salva registro em FosUser para checar login e senha.
+			// ====================================================
+			// $this->saveFosUser($request);
+			
 			$this->em->flush() ;
+			
 		    /* Save in plainPassword */
-			$this->savePlainPassword($request->get('shortName'), $request->get("password"));         
+			$this->savePlainPassword( $request->get('shortName'), 
+			                          $request->get("password"));         
 			$result	= ProfileService::SUCCESS_SAVE;
 		
 		} catch (\Exception $e) {
 			$result	= ProfileService::FAIL_SAVE; 
+			$this->logger->error("Erro em salvar o usuario $e");
 			throw $e;
 	    }
 	    return $result;
@@ -180,6 +192,16 @@ class ProfileService {
 		
 		$this->em->flush() ;
 	}
+	
+	private function saveFosUser($request){
+	    $userManager = $this->container->get("fs_user.user_manager");
+	    $user = $userManager->createUser();
+	    $user->setUsername($request->get('shortName'));
+	    $user->setEmail($request->get('email'));
+	    $user->setPassword($request->get("password"));
+	    $userManager->updateUser($user);
+	}
+	
 	
 	/**
 	 * Realize the login
