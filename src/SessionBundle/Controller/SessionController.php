@@ -5,24 +5,38 @@ namespace SessionBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use SessionBundle\Service\SessionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class SessionController extends Controller
 {
+    /**
+     * @Route("/session", name="session_homepage")
+     */
     public function indexAction()
     {
         return $this->render('SessionBundle:Session:index.html.twig');
     }
     
+    /**
+     * @Route("/session/mine", name="session_mysessions")
+     */
     public function mySessionsAction()
     {
     	return $this->render('SessionBundle:Session:mysessions.html.twig');
     }
     
+    /**
+     * @Route(" /session/new", name="session_new")
+     */
     public function newSessionAction()
     {
     	return $this->render('SessionBundle:Session:new.html.twig');
     }
     
+    /**
+     * @Route("/session/save", name="session_save")
+     */ 
     public function saveSessionAction()
     {
     	$sessionService = $this->get("session.services");
@@ -36,6 +50,9 @@ class SessionController extends Controller
     	) );
     }
     
+    /**
+     * @Route("/session/checkname", name="session_checksessionname")
+     */ 
     public function checkSessionByNameAction(){
     	
     	$request = $this->container->get('request_stack')->getCurrentRequest();
@@ -66,6 +83,9 @@ class SessionController extends Controller
     	) );
     }
     
+    /**
+     * @Route("/session/loadsessionbystatus", name="session_loadsessionbystatus")
+     */ 
     public function loadSessionByStatusAction() {
     	$sessionService = $this->get("Session.services");
     	$myResult     =	$sessionService->loadSessionByStatus();

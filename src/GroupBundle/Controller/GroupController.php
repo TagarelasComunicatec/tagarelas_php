@@ -7,27 +7,46 @@ use GroupBundle\Service\GroupService;
 use Symfony\Component\HttpFoundation\Response;
 use ProfileBundle\Service\ProfileService;
 use AppBundle\Utility\Utils;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class GroupController extends Controller
 {
-	public function indexAction()
+    /**
+     * @Route("/group", name="group_homepage")
+     */
+    public function indexAction()
 	{
 		return $this->render('GroupBundle:Group:index.html.twig');
 	}
+
+	/**
+	 * @Route("/group/new", name="group_create")
+	 */
 	public function createGroupAction()
 	{
 		return $this->render('GroupBundle:Group:new.html.twig');
 	}
+	
+	/**
+	 * @Route("/group/edit", name="group_edit")
+	 */
 	public function editGroupAction()
 	{
 		return $this->render('GroupBundle:Group:edit.html.twig');
 	}
 	
+	/**
+	 * @Route("/group/sessions", name="group_sessions")
+	 */ 
 	public function sessionsGroupAction()
 	{
 		return $this->render('GroupBundle:Group:sessionsgroup.html.twig');
 	}
 	
+	/**
+	 * @Route("/group/loadallgroups", name="group_loadallgroups")
+     */ 
 	public function loadAllGroupsAction(){
 		$groupService = $this->get("group.services");
 		$returnCode  =	$groupService->loadAllGroups();
@@ -41,6 +60,9 @@ class GroupController extends Controller
 		) );
 	}
 	
+	/**
+	 * @Route("/group/loadimagegroup", name="group_uploadimage")
+	 */ 
 	public function loadImageGroupAction(){
 
 		$groupService = $this->get('group.services');
@@ -59,6 +81,9 @@ class GroupController extends Controller
 		
 	}
 	
+	/**
+	 * @Route("/group/checkname", name="group_checkgroupname")
+	 */
 	public function checkGroupByNameAction(){
 		$request  = $this->container->get('request_stack')->getCurrentRequest();
 		$groupName = $request->get("groupName");
@@ -87,6 +112,9 @@ class GroupController extends Controller
 		) );
 	}
 	
+	/**
+	 * @Route("/group/save_new_group", name="group_savenewgroup")
+	 */
 	public function saveNewGroupAction(){
 		try {  
 		     $groupService = $this->get("group.services");
@@ -134,6 +162,9 @@ class GroupController extends Controller
 	
 	}
 	
+	/**
+	 * @Route("/group/loadusergroups", name="group_loadUserGroups")
+	 */ 
 	public function loadUserGroupsAction() {
 		$groupService = $this->get("group.services");
 		$myResult     =	$groupService->loadUserGroups();

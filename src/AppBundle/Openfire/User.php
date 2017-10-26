@@ -5,7 +5,6 @@ namespace AppBundle\Openfire;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
-use FOS\MessageBundle\Model\ParticipantInterface;
 
 /**
  * @ORM\Entity
@@ -36,12 +35,12 @@ class User extends BaseUser
 	private $googleID;
 	
 	/**
-	 * @ORM\Column(name="nick_name", type="string", length=255, nullable=false)
+	 * @ORM\Column(name="nick_name", type="string", length=255, nullable=true)
 	 */
 	protected $nickname;
 	
 	/**
-	 * @ORM\Column(name="real_name", type="string", length=255, nullable=false)
+	 * @ORM\Column(name="real_name", type="string", length=255, nullable=true)
 	 */
 	protected $realName;
 	
@@ -61,7 +60,7 @@ class User extends BaseUser
 	protected $lastUpdate;
 
 	/**
-	 * @ORM\Column(name="deletado", type="boolean", nullable=false)
+	 * @ORM\Column(name="deletado", type="boolean", nullable=true)
 	 */
 	protected $isDeleted;
 	
@@ -77,12 +76,12 @@ class User extends BaseUser
 		$this->nickname       			= $request->get('shortName');
 		$this->password		  			= $request->get("password");
 		$this->username		  			= $this->name;
-		$this->usernameCanonical		= $this->name;
+		$this->usernameCanonical	      	= $this->name;
 		$this->enabled					= true;
 		$this->salt						= "DEFAULT";
-		$this->roles					= array("USER");
+		$this->roles					    = array("USER");
 		$this->realName					= $this->name;
-		$this->isDeleted				= false;
+		$this->isDeleted				    = false;
 	}
 	
 	/**

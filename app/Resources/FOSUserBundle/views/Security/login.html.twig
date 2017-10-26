@@ -1,0 +1,75 @@
+{% extends  '::base.html.twig' %} 
+{% block title %}
+Tagarelas - Login
+{% endblock %}
+{% block script %}
+        <script>
+       		 $("#facebook").click(function() {
+       	     	window.open( "{{ app.request.httpHost ~ asset('connect/facebook')}}" );	
+        		    	return true;
+            })
+        </script>
+{% endblock %}
+
+{% block content %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+		
+		{% block fos_user_content %}
+			
+    			<section id="area-destaque">
+                	   {% if app.request.hasPreviousSession %}
+                        {% for type, messages in app.session.flashBag.all %}
+                            {% for message in messages %}
+                                <div class="{{ type }}">
+                                    {{ message|trans({}, 'FOSUserBundle') }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
+    				
+    				<div class="container">
+    					<div class="row">
+        					<div class="col-xs-12 col-sm-6 text-center">
+        						<img src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('img/img2_med.png')}}" class="img-responsive center-block img-ilustrativa">
+        						<h1>Batepapo Sério</h1>
+        					</div>
+        					<div id="login" class="col-xs-12 col-sm-6 text-center">
+        						<hr>
+        						<h3>Entrar</h3>
+        						<button type="button" id="facebook" class="btn btn-facebook">
+        							<span class="icone-social"><img src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('img/facebook.icon.png')}}"></span> Entre com o Facebook
+        						</button>
+        						<br><br>
+        						<p>ou</p>
+							<form name='login' id='login' method='post' action="{{ path("fos_user_security_check") }}">
+    		    					     {% if csrf_token %}
+              				       <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+               					 {% endif %}        
+        							<div class="form-group">
+        								<input type="text"  name="_username" value="{{ last_username }}" class="form-control" id='username' placeholder="Email">
+        							</div>
+        							<div class="form-group">
+        								<input type="password" name="_password" class="form-control" id= 'password' placeholder="Senha">
+        							    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+    							        <label for="remember_me">&nbsp;Manter-me logado</label>
+        								<br/>
+        								<button type="submit" id = 'loginFosUserTagarelas' class="btn btn-default">Entrar</button>
+        							</div>
+        								
+        						</form>
+        						
+        						<p>
+        							<a href="#" class="small">Esqueceu a Senha?</a>
+        							<br/>
+        							Não possui um login? <a href="{{ path('newLogin') }}">Cadastre-se</a>
+        						</p>
+    						</div>
+    					</div>
+    				</div>
+    		    </section>
+    		
+            {% endblock fos_user_content %} 
+    		
+
+{% endblock content %}

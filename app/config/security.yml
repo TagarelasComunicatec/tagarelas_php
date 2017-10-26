@@ -6,21 +6,23 @@ security:
     role_hierarchy:
         ROLE_USER:        ROLE_USER
         ROLE_ADMIN:       ROLE_ADMIN
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN
 
     providers:
-          my_custom_hwi_provider:
-            id: hwi_oauth.user.provider.entity
+        in_memory:
+            memory: ~
+        
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
 
     firewalls:
         main:
             pattern: ^/
+            
             form_login:
-                provider:  my_custom_hwi_provider
+                provider:  fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
-                # if you are using Symfony < 2.8, use the following config instead:
-                # csrf_provider: form.csrf_provider
-
+            
             logout:       true
             anonymous:    true
             
@@ -30,14 +32,16 @@ security:
                 resource_owners:
                     facebook:           "/login/check-facebook"
                     google:             "/login/check-google"
-                login_path:             /
-                use_forward:           false
-                failure_path:          "/login"
-
+                login_path:             "/login"
+                use_forward:            false
+                failure_path:           "/login"
+                always_use_default_target_path: false
+                default_target_path: /feed
                 oauth_user_provider:
                     service:  hwi_oauth.user.provider.entity 
 
     access_control:
+        - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user, roles: ROLE_USER }
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }

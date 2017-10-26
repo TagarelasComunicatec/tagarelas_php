@@ -21,7 +21,7 @@ parameters:
     
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -90,11 +90,10 @@ swiftmailer:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: "AppBundle/Openfire/TgUser"
+    user_class: AppBundle\Openfire\User
     registration:
         confirmation:
             enabled: true
-    user_class: "AppBundle/Openfire/User"
     from_email:
         address: tagarelas.comunicatec@gmail.com
         sender_name: "Equipe Tagarelas" 

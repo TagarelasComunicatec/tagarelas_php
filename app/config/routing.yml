@@ -1,38 +1,39 @@
-group:
-    resource: "@GroupBundle/Resources/config/routing.yml"
-    prefix:   /
-
-chat:
-    resource: "@ChatBundle/Resources/config/routing.yml"
-    prefix:   /
 
 admin:
-    resource: "@AdminBundle/Resources/config/routing.yml"
-    prefix:   /
-
-search:
-    resource: "@SearchBundle/Resources/config/routing.yml"
-    prefix:   /
-
-feed:
-    resource: "@FeedBundle/Resources/config/routing.yml"
-    prefix:   /
-
-profile:
-    resource: "@ProfileBundle/Resources/config/routing.yml"
-    prefix:   /
-
-session:
-    resource: "@SessionBundle/Resources/config/routing.yml"
-    prefix:   /
+    resource: "@AdminBundle/Controller/AdminController.php"
+    type:     annotation
 
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+chat:
+    resource: "@ChatBundle/Controller/ChatController.php"
+    type:     annotation
+
+feed:
+    resource: "@FeedBundle/Controller/FeedController.php"
+    type:     annotation
+
+group:
+    resource: "@GroupBundle/Controller/GroupController.php"
+    type:     annotation
+
+profile:
+    resource: "@ProfileBundle/Controller/ProfileController.php"
+    type:     annotation
+
+search:
+    resource: "@SearchBundle/Controller/SearchController.php"
+    type:     annotation
+    
+session:
+    resource: "@SessionBundle/Controller/SessionController.php"
+    type:     annotation
       
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
-    prefix:   /connect
+    prefix:   /redirect
 
 hwi_oauth_connect:
     resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
@@ -40,7 +41,7 @@ hwi_oauth_connect:
 
 hwi_oauth_login:
     resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-    prefix:   /login   
+    prefix:   /logon   
 
 facebook_login:
     path: /login/check-facebook
@@ -50,7 +51,8 @@ google_login:
     
 the:
     resource: "@TheBundle/Resources/config/routing.yml"
-    prefix:   /  
+    prefix:   /the  
+
 
 # fos_user routing
 fos_user:
