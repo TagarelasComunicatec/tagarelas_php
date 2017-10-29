@@ -30,7 +30,17 @@ search:
 session:
     resource: "@SessionBundle/Controller/SessionController.php"
     type:     annotation
-      
+
+
+#--------------------------------------------
+# Vendor Area
+#--------------------------------------------
+
+# fos_user routing
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+# hwi_oauth routing     
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
     prefix:   /redirect
@@ -54,9 +64,6 @@ the:
     prefix:   /the  
 
 
-# fos_user routing
-fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
   
-logout:
-    path: /logout
+

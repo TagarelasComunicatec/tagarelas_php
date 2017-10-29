@@ -22,9 +22,21 @@ security:
             form_login:
                 provider:  fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
-            
-            logout:       true
+                login_path: /login
+                check_path: /login_check
+                always_use_default_target_path: false
+                default_target_path: /feed
+            logout:       
+                target:   /login
             anonymous:    true
+            switch_user:  true
+        
+        dev:
+          pattern: ^/(_(profiler|wdt|error)|css|images|js)/
+          security: false
+
+        default:
+          anonymous: ~
             
         secured_area:
             anonymous: ~
@@ -39,7 +51,12 @@ security:
                 default_target_path: /feed
                 oauth_user_provider:
                     service:  hwi_oauth.user.provider.entity 
+            logout:
+                path:   /logout
+                target: /login
 
+
+                      
     access_control:
         - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user, roles: ROLE_USER }

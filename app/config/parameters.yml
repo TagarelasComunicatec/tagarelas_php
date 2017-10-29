@@ -14,7 +14,7 @@ parameters:
     mailer_host: 127.0.0.1   
     mailer_user: null
     mailer_password: null
-    secret: ThisTokenIsNotSoSecretChangeIt
+    secret: "P1m&nT&l"
 
 # parametros para o acesso ao Facebook e Google    
     site: "http://tagarelas.uniriotec.br/"

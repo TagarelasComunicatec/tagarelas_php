@@ -11,6 +11,7 @@ use AppBundle\Utility\AppRest;
 use AppBundle\Openfire\Ofgroupuser;
 use AppBundle\Openfire\Ofuserprop;
 use AppBundle\Entity\Rule;
+use Symfony\Component\HttpFoundation\Request;
 
 //@@TODO Preparar Login senha usa Blowfish cb
 //@@TODO Alterar openfire para secret Authorization -> 123456
@@ -40,7 +41,9 @@ class ProfileService {
 	private   $container;
 	private   $logger;
 	
-	public function __construct(EntityManager $entityManager, Container $cont, Logger $log){
+	public function __construct(EntityManager $entityManager, 
+	                            Container $cont, 
+	                            Logger $log){
 		$this->container = $cont;
 		$this->logger    = $log;
 		$this->em        = $entityManager;
@@ -111,7 +114,7 @@ class ProfileService {
 	    	}
 	    	
 	    } catch(\Exception $e){
-	    	$this->logger.info("Informação já existe na tabela");
+	        	$this->logger->info("Informação já existe na tabela");
 	    }
 	}
 	
@@ -156,14 +159,10 @@ class ProfileService {
 					$request->get("email")
 			);
 			
-			/* Destrqva o usuario para uso */
-			
-			AppRest::doConnectRest()->
-			         unlockUser($request->get('shortName'));
 			// ====================================================
 			// Salva registro em FosUser para checar login e senha.
 			// ====================================================
-			// $this->saveFosUser($request);
+			$this->saveFosUser($request);
 			
 			$this->em->flush() ;
 			
@@ -174,14 +173,47 @@ class ProfileService {
 		
 		} catch (\Exception $e) {
 			$result	= ProfileService::FAIL_SAVE; 
-			$this->logger->error("Erro em salvar o usuario $e");
+			$this->logger->err("Erro em salvar o usuario -> $e");
 			throw $e;
 	    }
 	    return $result;
 	    
 	}
-
-	private function savePlainPassword($username,$password){
+    
+	/**
+	 * Salva os dados de FosUser
+	 * @param Request $request
+	 */
+	private function saveFosUser(Request $request){
+	    try {
+        	    $userManager = $this->container->get("fos_user.user_manager");
+        	    $user = $userManager->createUser();
+        	    $user->setUsername($request->get('shortName'));
+        	    $user->setNickname($request->get('shortName'));
+        	    $user->setUsernameCanonical($request->get('shortName'));
+        	    $user->setRealname($request->get('name'));
+        	    
+        	    $user->setEmail($request->get('email'));
+        	    $user->setEmailCanonical($request->get('email'));
+        	    
+        	    $user->setEnabled(true);
+        	    $role = array(0 => "ROLE_USER");
+        	    $user->setRoles($role);
+        	    $user->setPlainPassword($request->get("password"));
+        	   
+        	    $userManager->updateUser($user);
+	    } catch (\Exception $e){
+	        $this->logger->err("Erro em salvar FOSUSERBUNDLE -> $e");
+	        throw $e;
+	    }
+	}
+	
+	/**
+	 * Atualiza a senha em plain passowrd de Ofuser
+	 * @param string $username
+	 * @param string $password
+	 */
+	private function savePlainPassword($username= '', $password = ''){
 		$this->em->createQueryBuilder()
 			 	 ->update('AppBundle:Ofuser', 'u')
 				 ->set('u.plainpassword',"'". $password."'")
@@ -193,19 +225,12 @@ class ProfileService {
 		$this->em->flush() ;
 	}
 	
-	private function saveFosUser($request){
-	    $userManager = $this->container->get("fs_user.user_manager");
-	    $user = $userManager->createUser();
-	    $user->setUsername($request->get('shortName'));
-	    $user->setEmail($request->get('email'));
-	    $user->setPassword($request->get("password"));
-	    $userManager->updateUser($user);
-	}
-	
+
 	
 	/**
 	 * Realize the login
 	 * @return number LOGIN_CORRECT or LOGIN_UNCORRECT
+	 * @deprecated - Utiizada a rotina de FOSUSERBUNDLE
 	 */
 	public function loginUser(){
 		$request     = $this->container->get('request_stack')->getCurrentRequest();
@@ -216,8 +241,15 @@ class ProfileService {
 		}
 		return $result;
 	}
-
-	private function verifyUser($request,$user){
+    
+	/**
+	 * Rotina de verificação de usuario
+	 * @param Request $request
+	 * @param array $user
+	 * @return number
+	 * @deprecated - Utilizada a rotina de FOSUSERBUNDLE
+	 */
+	private function verifyUser(Request $request, $user = [] ){
 		$return	= ProfileService::LOGIN_UNCORRECT;
 		if( $request->get('password') === $user["password"]){
 			$this->moveUserToSession($user);
@@ -226,6 +258,12 @@ class ProfileService {
 		return $return;
 	}
 	
+	
+	/**
+	 * Move dados de usuario para sessao
+	 * @param array $user
+	 * @deprecated  Utilizado a rotina de FOSUSERBUNDLE
+	 */
 	private function moveUserToSession(Array $user){
 		$this->logger->info("Movendo usuario para a Sessão");
 		$request     = $this->container->get('request_stack')->getCurrentRequest();

@@ -4,4 +4,5 @@ services:
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
      profile.services:
         class: ProfileBundle\Service\ProfileService
-        arguments: [ "@doctrine.orm.entity_manager" , "@service_container", "@logger" ] 
+        arguments: [ "@doctrine.orm.entity_manager" , 
+                     "@service_container", "@logger" ] 
