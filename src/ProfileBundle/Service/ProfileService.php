@@ -49,6 +49,10 @@ class ProfileService {
 		$this->em        = $entityManager;
 	}
 	
+	/**
+	 * Carrega todos os ususariosd de OfUser
+	 * @return array de Usuarios mo formato OfUser
+	 */
 	public function loadAllUsers(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$session = $request->getSession();
@@ -72,18 +76,6 @@ class ProfileService {
 				}
 			}
 			return $result;
-	}
-	
-	public function findUserByEmail($email){
-		$this->logger->info("Acessando usuario by email ->" . $email);
-		$qb = $this->em->createQueryBuilder();
-		$qb->select('u.username,u.plainpassword as password,u.name,u.email')
-			->from('AppBundle:Ofuser', 'u')
-			->where('u.email LIKE :email')
-	   	    ->setParameter('email', $email );
-		
-		$myReturn =  $qb->getQuery()->getResult();
-		return $myReturn;
 	}
 
 	/**
@@ -119,20 +111,15 @@ class ProfileService {
 	}
 	
 	/**
-	 * Locate Ofuser by username
-	 * @param unknown $username
-	 * @return array
+	 * Locate FosUser by username ou Email
+	 * @param string $username
+	 * @return User class
 	 */
-	public function findUserByUsername($username){
-		$qb = $this->em->createQueryBuilder();
-		$qb->select('u.name,u.username, u.email')
-		->from('AppBundle:Ofuser', 'u')
-		->where('u.username LIKE :username')
-		->setParameter('username', $username );
-	
-		$myReturn =  $qb->getQuery()->getResult();
-		$this->logger->info("result da consulta ->" . json_encode($myReturn));
-		return $myReturn;
+	public function findUserByUsernameOrEmail($username=''){
+	    $usermanager = $this->container->get('fos_user.user_manager');
+	    $user = $usermanager->findUserByUsernameOrEmail($username);
+		$this->logger->info("result da consulta ->" . json_encode($user));
+		return $user;
 	}
 	/**
 	 * Save User
@@ -154,7 +141,7 @@ class ProfileService {
 			AppRest::doConnectRest()->
 			addUser(
 					$request->get('shortName'),
-					$request->get("password"),
+				    $this->container->getParameter("openfire_secret"),
 					$request->get('name'),
 					$request->get("email")
 			);
@@ -199,7 +186,6 @@ class ProfileService {
         	    $user->setEnabled(true);
         	    $role = array(0 => "ROLE_USER");
         	    $user->setRoles($role);
-        	    $user->setPlainPassword($request->get("password"));
         	   
         	    $userManager->updateUser($user);
 	    } catch (\Exception $e){
@@ -207,96 +193,28 @@ class ProfileService {
 	        throw $e;
 	    }
 	}
-	
-	/**
-	 * Atualiza a senha em plain passowrd de Ofuser
-	 * @param string $username
-	 * @param string $password
-	 */
-	private function savePlainPassword($username= '', $password = ''){
-		$this->em->createQueryBuilder()
-			 	 ->update('AppBundle:Ofuser', 'u')
-				 ->set('u.plainpassword',"'". $password."'")
-				 ->where('u.username = ?1')
-				 ->setParameter(1, $username)
-				 ->getQuery()
-				 ->execute();
-		
-		$this->em->flush() ;
-	}
-	
-
-	
-	/**
-	 * Realize the login
-	 * @return number LOGIN_CORRECT or LOGIN_UNCORRECT
-	 * @deprecated - Utiizada a rotina de FOSUSERBUNDLE
-	 */
-	public function loginUser(){
-		$request     = $this->container->get('request_stack')->getCurrentRequest();
-		$users       = $this->findUserByEmail($request->get('email'));
-		$result = ProfileService::LOGIN_UNCORRECT;
-		foreach ($users as $user){
-			$result = $this->verifyUser($request, $user);
-		}
-		return $result;
-	}
     
-	/**
-	 * Rotina de verificação de usuario
-	 * @param Request $request
-	 * @param array $user
-	 * @return number
-	 * @deprecated - Utilizada a rotina de FOSUSERBUNDLE
-	 */
-	private function verifyUser(Request $request, $user = [] ){
-		$return	= ProfileService::LOGIN_UNCORRECT;
-		if( $request->get('password') === $user["password"]){
-			$this->moveUserToSession($user);
-			$return = ProfileService::LOGIN_CORRECT;
-		}
-		return $return;
-	}
-	
-	
-	/**
-	 * Move dados de usuario para sessao
-	 * @param array $user
-	 * @deprecated  Utilizado a rotina de FOSUSERBUNDLE
-	 */
-	private function moveUserToSession(Array $user){
-		$this->logger->info("Movendo usuario para a Sessão");
-		$request     = $this->container->get('request_stack')->getCurrentRequest();
-		$session = $request->getSession();
-		$session->start();
-		$session->set('username', $user['username']);
-		$session->set('name', $user['name']);
-		$session->set('email', $user['email']);
-	}
-	
 	/**
 	 * Save the new Password from User
 	 * @return number - SUCESS or FAIL 
 	 */
 	public function saveChangedPassword(){
 		try{
-			
-			$request  = $this->container->get('request_stack')->getCurrentRequest();
-			$session = $request->getSession();
-			$username = $request->get("username");
-			$password = $request->get("password");
-			$name     = $session->get("name");
-			$email    = $session->get("email");
-			AppRest::doConnectRest()->updateUser($username, $password,$name,$email);
-			$this->savePlainPassword($username,$password);
+		    $request = $this->container->get('request_stack')->getCurrentRequest();
+		    $user = $this->container->get("user");
+		    $password = $request->get("password");
+		    $userManager = $this->container->get("fos_user.user_manager");
+		    $user->setPlainPassword($password);
+			$userManager->updatePassword($user);
 		} catch (\Exception $e){
-			$this->logger->error("Conteudo de error by reference " . $e->__toString());
+			$this->logger->error("saveChangePassword - Erro em FOSUSERBUNDLE ->" . $e->__toString());
 			return ProfileService::FAIL_SAVE;
 		}
 	}
 	
 	/**
 	 * Delete user from database
+	 * @deprecated
 	 */
 	public function cancelUser(){
 		$request  = $this->container->get('request_stack')->getCurrentRequest();
@@ -305,51 +223,55 @@ class ProfileService {
 	}
 	
 	/**
-	 * Save user to database
+	 * Update user data to FOSUSER  table
 	 * @return number SUCCESS or FAIL
 	 */
-	public function saveUser(){
+	public function updateUserData(){
 		try{
-			$request  = $this->container->get('request_stack')->getCurrentRequest();
-			$userName = $request->get("username");
+		    /*
+		     * load data from container (Dependence Injection)
+		     */
+		    $request  = $this->container->get('request_stack')->getCurrentRequest();
+			$user  = $this->container->get("user");
+			$userManager = $this->container->get("fos_user.user_manager");
+			/*
+			 * save avatar file.
+			 */
+			$avatar = $this->persistImage($user);
+			$user->setRealname($request->get("name"));
+			$user->setEmailCanonical($request->get("email"));
+			$user->setAvatar($avatar);
 			/*
 			 * update the user data
 			 */
-			$this->em->createQueryBuilder()
-						->update('AppBundle:Ofuser', 'u')
-						->set('u.name',"'". $request->get("name")."'")
-						->set('u.email',"'". $request->get("email")."'")
-						->where('u.username = ?1')
-						->setParameter(1, $request->get('username'))
-						->getQuery()
-						->execute();			
-			$this->em->flush() ;   
+			$userManager->updateUser();
 			
 			/*
 			 * Uodate the Avatar
 			 */
-			$avatar = $this->persistImage();
-			$userAttribute = new Ofuserprop();
-			$userAttribute->doLoadAll($userName, ProfileService::AVATAR, $avatar);
-			$this->em->merge($userAttribute);
-			$this->em->flush ();
 			return ProfileService::SUCCESS_SAVE;
 			
 		} catch(\Exception $e){
-			$this->logger->error("Conteudo de error by reference " . $e->__toString());
+			$this->logger->error("updateUserData - Erro em FOSUSERBUNDLE ->" . $e->__toString());
 			return ProfileService::FAIL_SAVE;
 		}
 	}
-	
+
+	/**
+	 * Persist the image user of avatar to FOSUSERBUNDLE
+	 * @return string - cript name of file.
+	 */
 	private function persistImage(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
+		$user  = $this->container->get("user");
 		$file = $request->files->get("file");
 		$path = $this->container->getParameter('profile_images_directory') .'/';
 		if (is_null($file)) {
 			return 'default.png';
 		}
 		$filename = md5(uniqid()).'.'.$file->getClientOriginalExtension();
-		$this->logger->info("arquivo de imagem salvo:" . $filename);
+		$this->logger->info("persistImage -> user: ". $user->getUsername() .
+		                    " arquivo de imagem salvo:" . $filename);
 		
 		$file->move( $path, $filename);
 		return $filename;

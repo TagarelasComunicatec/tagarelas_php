@@ -16,6 +16,9 @@ parameters:
     mailer_password: null
     secret: "P1m&nT&l"
 
+# parametros para o acesso do openfire
+    openfire_secret: TaGaReLaS
+
 # parametros para o acesso ao Facebook e Google    
     site: "http://tagarelas.uniriotec.br/"
   

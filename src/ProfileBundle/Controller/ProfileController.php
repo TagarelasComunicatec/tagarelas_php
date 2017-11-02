@@ -19,31 +19,6 @@ class ProfileController extends Controller {
     }
     
     /** 
-     * @Route("/profile/checkloginuser", name="profile_loginUser")
-     */ 
-    public function  loginUserAction(){
-        	$profileService = $this->get('profile.services');
-        	$myReturn = [ ];
-        	try{
-        		$result = $profileService->loginUser();
-        		$myReturn = array (
-        				"responseCode" => 200,
-        				"result" => $result,
-        		);
-        	} catch (\Exception $e){
-        		$myReturn = array (
-        				"responseCode" => 400,
-        				"result" => $e->getTraceAsString(),
-        		);
-        	}
-        	
-        	$returnJson = json_encode ( $myReturn );
-        	return new Response ( $returnJson, 200, array (
-        			'Content-Type' => 'application/text'
-        	) );
-    }
-    
-    /** 
      * @Route("/profile/edit", options={"expose"=true}, name="profile_edit")
      */
     public function editAction(){
@@ -104,7 +79,7 @@ class ProfileController extends Controller {
         	$request     = $this->container->get('request_stack')->getCurrentRequest();
         	$session = $request->getSession();
         	$profileService = $this->get ( 'profile.services' );
-        	$result = $profileService->findUserByUsername($session->get("username"));
+        	$result = $profileService->findUserByUsernameOrEmail($session->get("username"));
         	$returnCode = (count ( $result ) > 0) ?
         	        ProfileService::USERS_FOUND : ProfileService::USERS_NOT_FOUND;
         	$myReturn = array (
@@ -146,7 +121,7 @@ class ProfileController extends Controller {
         	$profileService = $this->get('profile.services');
         	$myReturn = [ ];
         	try {
-        			$result    = $profileService->findUserByEmail($email);
+        	        $result    = $profileService->findUserByUsernameOrEmail($email);
         			$returnCode = (count($result) > 0 )? ProfileService::EMAIL_NOT_FOUND:
         												 ProfileService::EMAIL_FOUND;
         			$myReturn = array (
@@ -207,7 +182,7 @@ class ProfileController extends Controller {
     public function saveUserAction() {
         	$profileService = $this->get('profile.services');
         	try{
-        		$profileService->saveUser();
+        	    $profileService->updateUserData();
         		$myReturn = array (
         				"responseCode" => 200,
         				"result" => ProfileService::SUCCESS_SAVE,
