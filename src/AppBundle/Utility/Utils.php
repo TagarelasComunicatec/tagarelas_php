@@ -22,4 +22,24 @@ class Utils{
 		}
 		return $result;
 	}
+	/**
+	 * Transforma a data de String no formato
+	 * yyyy-mm-dd hh:i:ss 0000 em long
+	 * @param string $date
+	 * @return long
+	 * 
+	 * Data Type Conventions for Openfire
+	 * ===================================================================
+     * Date column type support varies widely across databases. 
+     * Therefore, Openfire specially encodes dates as VARCHAR values. 
+     * Each date is a Java long value which is 0-padded to 15 characters. 
+     * The long value is the internal representation of Java Date objects,
+     * which can be obtained with code such as the following (in JAVA):
+     * long currentDate = new Date().getTime(); 
+     * ===================================================================
+	 */
+	public static function dateAsLong($date = ''){
+	    $dateTime= new \DateTime($date);
+	    return $dateTime->getTimeStamp();
+	}
 }

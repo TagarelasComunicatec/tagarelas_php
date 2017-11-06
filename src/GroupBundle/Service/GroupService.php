@@ -45,10 +45,10 @@ class GroupService {
 	public function loadAllGroups($limit = 0){
 		$qb = $this->em->createQueryBuilder();
 		$qb->select('g.groupname,g.description')
-		   ->from('AppBundle:Group', 'g')
-		   ->join('AppBundle:GroupUser', 'gu', Join::WITH,'gu.idGroup = g.id')
-		   ->groupBy('g.id,g.groupName')
-		   ->orderBy('g.groupName');
+		   ->from('AppBundle:Ofgroup', 'g')
+		   ->join('AppBundle:Ofgroupuser', 'gu', Join::WITH,'gu.groupname = g.groupname')
+		   ->groupBy('g.groupname')
+		   ->orderBy('g.groupname');
 		
 		 if (0 != $limit)
 		   	$qb->setMaxResults($limit);
@@ -74,6 +74,7 @@ class GroupService {
 					   ->select('gu.groupname as groupname ,gu.username as username, gu.isAdministrator as admin')
 					   ->from('AppBundle:Ofgroupuser', 'gu')
 					   ->where('gu.username = :username')
+					   ->orderBy('g.groupname')
 					   ->setParameter("username", $username);
 		
 		if (0 != $limit)

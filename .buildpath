@@ -116,6 +116,11 @@
 			<attribute name="composer" value="vendor"/>
 		</attributes>
 	</buildpathentry>
+	<buildpathentry kind="src" path="vendor/gnello/php-openfire-restapi/src">
+		<attributes>
+			<attribute name="composer" value="vendor"/>
+		</attributes>
+	</buildpathentry>
 	<buildpathentry kind="src" path="vendor/guzzlehttp/guzzle/src">
 		<attributes>
 			<attribute name="composer" value="vendor"/>

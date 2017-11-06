@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d47edc8c2832836b91d636f7d87c76a3",
+    "content-hash": "a3500f62edf3136c4830d4889ff189b3",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1279,7 +1279,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2017-10-16 09:08:26"
+            "time": "2017-10-16T09:08:26+00:00"
         },
         {
             "name": "gidkom/php-openfire-restapi",
@@ -1323,7 +1323,52 @@
                 "openfire",
                 "xmpp"
             ],
-            "time": "2017-08-29 10:08:34"
+            "time": "2017-08-29T10:08:34+00:00"
+        },
+        {
+            "name": "gnello/php-openfire-restapi",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gnello/php-openfire-restapi.git",
+                "reference": "833a9d305e752a61b47533c0c6eb1b4188288129"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gnello/php-openfire-restapi/zipball/833a9d305e752a61b47533c0c6eb1b4188288129",
+                "reference": "833a9d305e752a61b47533c0c6eb1b4188288129",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gnello\\OpenFireRestAPI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Luca Agnello",
+                    "email": "luca@gnello.com"
+                }
+            ],
+            "description": "Manage OpenFire Server using Rest API",
+            "homepage": "https://github.com/gnello/php-openfire-restapi",
+            "keywords": [
+                "chat",
+                "openfire"
+            ],
+            "time": "2017-04-22T11:41:59+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

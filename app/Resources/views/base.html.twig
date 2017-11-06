@@ -185,6 +185,7 @@
 {% endblock %}
 
 {% block links %}
+	
 		<div id='divHost' 				       url="{{   app.request.scheme ~'://' ~ app.request.httpHost ~ app.request.getBaseURL()  }}"></div>
         <div id='divEditProfile'            ajaxurl="{{ path('profile_edit') }}"></div>
         <div id='divLoadAllUsers'           ajaxurl="{{ path('profile_loadallusers') }}"></div>
@@ -201,11 +202,10 @@
 		<div id='divCheckShortNamePath'     ajaxurl="{{ path('profile_checkshortname') }}"></div>
 		<div id='divSaveNewProfile'         ajaxurl="{{ path('profile_new') }}"></div>
 		<div id='divFeedPath'               ajaxurl="{{ path('feed_homepage') }}"></div>
-		<div id='divCheckLoginPath'         ajaxurl="{{ path('profile_loginUser') }}"></div>
 		<div id='divLoadUserGroups'         ajaxurl="{{ path('group_loadUserGroups') }}"></div>
 		<div id='divGroupUploadImage' 	   ajaxurl="{{ path('group_uploadimage') }}"></div>
-		<div id='divloginPath' 			   ajaxurl="{{   app.request.scheme ~'://' ~ app.request.httpHost ~ app.request.getBaseURL() ~ "/login"}}"></div>
-		
+	    <div id='divCheckLoginPath'         ajaxurl="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ app.request.getBaseURL() ~ "/check-login"}}"></div>
+		<div id='divloginPath' 			   ajaxurl="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ app.request.getBaseURL() ~ "/login"}}"></div>
 
 {% endblock %}
 

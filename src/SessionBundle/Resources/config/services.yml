@@ -1,7 +1,4 @@
-services:
-#    session.example:
-#        class: SessionBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+services:  
      session.services:
         class: SessionBundle\Service\SessionService
         arguments: [ "@doctrine.orm.entity_manager" , "@service_container", "@logger" ] 
