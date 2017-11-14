@@ -222,8 +222,11 @@ $( function() {
 			
 			},
 		
-			error: function(){
+			error: function(xhr, status, error){
 				if (window.ajaxLoading) window.ajaxLoading("hide");
+				var err = eval("(" + xhr.responseText + ")");
+				global.msgbox.data('messageBox').danger(window.important, 
+						global.error.connection + checkShortNamePath + ". "+ err + ". "+ global.error.tryagain);
 			},
 
 			success: function(returned){ 
@@ -236,15 +239,21 @@ $( function() {
 				$("#email").val(user.email);
 			},
 			statusCode: {
-				404: function() {
+				404: function(xhr, status, error) {
 					global.msgbox.data('messageBox').danger(window.important, 
 							global.error.connection + checkShortNamePath + ". "+ global.error.tryagain);
 				},
-			    500: function() {
+			    500: function(xhr, status, error) {
 			      	if (window.ajaxLoading) window.ajaxLoading("hide");
 				       global.msgbox.data('messageBox').danger(window.important, 
-						  global.error.connection + urlLoadAllUsers + ". (500)");
-			    }
+						  global.error.connection + $("#divLoadUser").attr("ajaxurl") + ". (500)");
+			    },
+				400: function(xhr, status, error){
+					var err = eval("(" + xhr.responseText + ")");
+					if (window.ajaxLoading) window.ajaxLoading("hide");
+				    global.msgbox.data('messageBox').danger(window.important, 
+					   global.error.connection + $("#divLoadUser").attr("ajaxurl") + ". " + err +  ". (400)");
+				}
 			}
 		});
 
@@ -393,7 +402,7 @@ $( function() {
 			    500: function() {
 			      	if (window.ajaxLoading) window.ajaxLoading("hide");
 				       global.msgbox.data('messageBox').danger(window.important, 
-						  global.error.connection + urlLoadAllUsers + ". (500)");
+						  global.error.connection  + ". (500)");
 			    }
 			}
 		});

@@ -1,23 +1,42 @@
 <?php
 namespace AppBundle\Utility;
-use  Gidkom\OpenFireRestApi\OpenFireRestApi;
+
+use Symfony\Component\DependencyInjection\Container;
+use AppBundle\Entity\RestApi;
+
 class AppRest {
-	
-	static function doConnectRest(){
+    
+	static function doConnectRest(RestApi $restapi){
 		// Create the Openfire Rest api object
-		$api = new OpenFireRestApi();
+	    $api = new \Gidkom\OpenFireRestApi\OpenFireRestApi();
 		
 		// Set the required config parameters
 		
-		$api->secret = "P1m&nT&l";
+		$api->secret = $restapi->getSecret();
 		
-		$api->host = "localhost";
-		$api->port = "9090";  // default 9090
+		$api->host = $restapi->getHost();
+		$api->port = $restapi->getPort();  
 		
 		// Optional parameters (showing default values)
 		
-		$api->useSSL = false;
-		$api->plugin = "/plugins/restapi/v1";  // plugin
+		$api->useSSL = $restapi->getUseSSL();
+		$api->plugin = $restapi->getPlugin();  // plugin
 		return $api;
 	}
+	
+	static function doConnectRestToSession(RestApi $restapi){
+	    $api = new \Gnello\OpenFirerestapi\API(
+	        $restapi->getHost(), 
+	        $restapi->getPort(), 
+	       $restapi->getSecret());
+	    
+	    $api->Settings()->setServerName($restapi->getServer());
+	    $api->Settings()->setHost($restapi->getHost());
+	    $api->Settings()->setPort($restapi->getPort());
+	    $api->Settings()->setSSL($restapi->getUseSSL());
+	    $api->Settings()->setPlugin($restapi->getPlugin());
+	    
+	    return $api;
+	}
+	
 }

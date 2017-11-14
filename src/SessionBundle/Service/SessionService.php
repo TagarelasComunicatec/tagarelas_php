@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Entity\Rule;
 use AppBundle\Entity\SessionUser;
 use AppBundle\Entity\SessionGroup;
+use AppBundle\Utility\Utils;
+use AppBundle\Utility\AppRest;
 
 //@@TODO Session = ChatRoom no Openfire.
 //@@TODO Alterar método save utilizando REST API.
@@ -138,39 +140,36 @@ class SessionService {
 		return $myReturn;
 	}
 	public function save() {
-		$request = $this->container->get ( 'request_stack' )->getCurrentRequest ();
-		$this->em->flush ();
-		$sessionName = $request->get ( "sessionName" );
-		if (count ( $this->findSessionByName ( $sessionName ) ) > 0) {
-			throw new \Exception ( 'Nome da Sessão já está cadastrada. ' . 'Não foi possível cadastrar a sessão. ' );
-		}
-		
-		$userId = $this->container->get ( 'session' )->get ( 'userId' );
-		$users = $request->get ( "users" );
-		$groups = $request->get ( "groups" );
-		
-		$session = new \AppBundle\Entity\Session ();
-		
-		$session->loadByRequest ( $request )
-				->setCreatedBy ( $userId )
-				->setIdMediator( $userId )
-				->setIsDeleted(false);
-		
-		$this->em->getConnection ()->beginTransaction (); // manipulacao de tabelas
 		try {
-			$this->em->persist ( $session );
-			/* Persist the administrator */
-			$this->persistSessionGroups($session, $groups, $userId);
-			/* Persist the groups elements */
-			$this->persistSessionMembers ( $session, $userId, $users );
-			$this->em->flush ();
-			$this->em->getConnection ()->commit ();
+		    $restapi = RestApi::getInstance()
+        		    ->setSecret($this->container->getParameter("restapi.secret"))
+        		    ->setHost($this->container->getParameter("restapi.host"))
+        		    ->setPort($this->container->getParameter("restapi.port"))
+        		    ->setUseSSL($this->container->getParameter("restapi.useSSL"))
+        		    ->setServer(($this->container->getParameter("restapi.server")))
+        		    ->setplugin($this->container->getParameter("restapi.plugin"));
+		    
+		    $api = AppRest::doConnectRestToSession($restapi);
+		    $payload = $api->Payloads()->createChatRoomPayload();
+		    $payload->setRoomName('myfirstchatroom');
+		    $payload->setNaturalName('my_first_chat_room');
+		    $payload->setDescription('This is my first chat room!');
+		    $payload->setAdmins(array('admin'));
+		    $payload->setOutcastGroups(array('outcast1','outcast2'));
+		    $payload->setCanAnyoneDiscoverJID(false);
+		    $payload->setCanOccupantsChangeSubject(false);
+		    $payload->setPassword('12345');
+		    
+		    $result = $api->ChatRooms()->createChatRoom($payload);
+		    
+		    $this->logger->info ( "Sessao salva com sucesso." );
 			return Rule::SUCCESS_SAVE;
 		} catch ( \Exception $e ) {
-			$this->em->getConnection ()->rollBack ();
+
 			$this->logger->error ( "Sessao nao foi salva " . $e->__toString () );
 			return Rule::FAIL_SAVE;
-		}
+		} 
+		return Rule::SUCCESS_SAVE;
 	}
 	
 	private function persistSessionGroups($session, $groups, $userId) {

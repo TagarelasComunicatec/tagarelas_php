@@ -122,8 +122,8 @@ class ProfileController extends Controller {
         	$myReturn = [ ];
         	try {
         	        $result    = $profileService->findUserByUsernameOrEmail($email);
-        			$returnCode = (count($result) > 0 )? ProfileService::EMAIL_NOT_FOUND:
-        												 ProfileService::EMAIL_FOUND;
+        			$returnCode = ($result == null) ? ProfileService::EMAIL_NOT_FOUND:
+        											 ProfileService::EMAIL_FOUND;
         			$myReturn = array (
         				"responseCode" => 200,
         				"result" => $returnCode,
@@ -132,8 +132,9 @@ class ProfileController extends Controller {
         	} catch( \Exception $e){
         		$myReturn = array (
         				"responseCode" => 400,
+        		        "messageError" => $e->getMessage(),
         				"result" => $e->getTraceAsString(),
-        				"method" => $request->getMethod()
+      				"method" => $request->getMethod()
         				);
         	}
     	
@@ -153,7 +154,7 @@ class ProfileController extends Controller {
         	$profileService = $this->get('profile.services');
         	$myReturn = [ ];
         	try {
-        		$result    = $profileService->findUserByUsername($shortName);
+        	    $result    = $profileService->findUserByUsernameOrEmail($shortName);
         		$returnCode = (count($result) > 0 )? ProfileService::SHORTNAME_NOT_FOUND:
         		ProfileService::SHORTNAME_FOUND;
         		$myReturn = array (
@@ -181,6 +182,7 @@ class ProfileController extends Controller {
      */
     public function saveUserAction() {
         	$profileService = $this->get('profile.services');
+       
         	try{
         	    $profileService->updateUserData();
         		$myReturn = array (
@@ -214,12 +216,13 @@ class ProfileController extends Controller {
         	} catch (\Exception $e){
         		$myReturn = array (
         				"responseCode" => 400,
+        		        "Descricao do Erro" => $e->getMessage(),
         				"result" => $e->getTraceAsString(),
         				);
-         	}
+         }
      
-         	$returnJson = json_encode ( $myReturn );
-        	return new Response ( $returnJson, 200, array (
+         $returnJson = json_encode ( $myReturn );
+         return new Response ( $returnJson, 200, array (
         			'Content-Type' => 'application/text'
         	) );    	
     }

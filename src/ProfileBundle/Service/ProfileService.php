@@ -12,6 +12,7 @@ use AppBundle\Openfire\Ofgroupuser;
 use AppBundle\Openfire\Ofuserprop;
 use AppBundle\Entity\Rule;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\RestApi;
 
 //@@TODO Preparar Login senha usa Blowfish cb
 //@@TODO Alterar openfire para secret Authorization -> 123456
@@ -118,8 +119,7 @@ class ProfileService {
 	public function findUserByUsernameOrEmail($username=''){
 	    $usermanager = $this->container->get('fos_user.user_manager');
 	    $user = $usermanager->findUserByUsernameOrEmail($username);
-		$this->logger->info("result da consulta ->" . json_encode($user));
-		return $user;
+	    return $user;
 	}
 	/**
 	 * Save User
@@ -131,14 +131,22 @@ class ProfileService {
 		$email   = $request->get("email");
 		$result	 = ProfileService::FAIL_SAVE; 
 		
-		if (count($this->findUserByEmail($email)) >0){
+		if ($this->findUserByUsernameOrEmail($email) != null){
 			throw new \Exception('Email já está cadastrado. ' .
 								 'Não foi possível cadastrar usuário. '.
 					             'Entre em contato com o Suporte Tagarelas');
 		}
 		
 		try{
-			AppRest::doConnectRest()->
+		    $restapi = RestApi::getInstance()
+		              ->setSecret($this->container->getParameter("restapi_secret"))
+		              ->setHost($this->container->getParameter("restapi_host"))
+		              ->setPort($this->container->getParameter("restapi_port"))
+		              ->setUseSSL($this->container->getParameter("restapi_useSSL"))
+		              ->setServer(($this->container->getParameter("restapi_server")))
+		              ->setplugin($this->container->getParameter("restapi_plugin"));
+		    
+		    AppRest::doConnectRest($restapi)->
 			addUser(
 					$request->get('shortName'),
 				    $this->container->getParameter("openfire_secret"),
@@ -152,10 +160,7 @@ class ProfileService {
 			$this->saveFosUser($request);
 			
 			$this->em->flush() ;
-			
-		    /* Save in plainPassword */
-			$this->savePlainPassword( $request->get('shortName'), 
-			                          $request->get("password"));         
+			 
 			$result	= ProfileService::SUCCESS_SAVE;
 		
 		} catch (\Exception $e) {
@@ -179,7 +184,7 @@ class ProfileService {
         	    $user->setNickname($request->get('shortName'));
         	    $user->setUsernameCanonical($request->get('shortName'));
         	    $user->setRealname($request->get('name'));
-        	    
+        	    $user->setPlainPassword($request->get('password'));
         	    $user->setEmail($request->get('email'));
         	    $user->setEmailCanonical($request->get('email'));
         	    

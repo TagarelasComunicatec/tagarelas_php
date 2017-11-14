@@ -19,6 +19,15 @@ parameters:
 # parametros para o acesso do openfire
     openfire_secret: TaGaReLaS
 
+#RestApi
+    restapi_secret             : "P1m&nT&l"
+    restapi_host               : "localhost"
+    restapi_port               : "9090"
+    restapi_useSSL             : false
+    restapi_server             : "localhost"
+    restapi_plugin             : "/plugins/restapi/v1"  
+
+
 # parametros para o acesso ao Facebook e Google    
     site: "http://tagarelas.uniriotec.br/"
   
@@ -36,3 +45,5 @@ twig:
     globals:
         facebook_client_id: "142500026247029"
         site: "tagarelas.uniriotec.br"
+        
+      
