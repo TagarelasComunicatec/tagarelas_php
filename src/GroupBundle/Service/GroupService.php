@@ -14,6 +14,7 @@ use Doctrine\ORM\Query\Expr\Join;
 use Monolog\Logger;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Session\Session;
+use AppBundle\Entity\RestApi;
 
 
 
@@ -64,7 +65,8 @@ class GroupService {
 	public function loadUserGroups(){
 		$request  = $this->container->get('request_stack')->getCurrentRequest();
 		$limit    = intval($request->get("limit"));
-		$username =  $this->container->get('session')->get('username');
+		$username =   $this->container->get('security.token_storage')->getToken()->getUser();; 
+		$this->logger->info('group->$username:' .  var_export($username, true));
 		/*
 		 * ----------------------------------------------------------
 		 * Carrega os usuarios com o sustaus definidos em ofgroupprop
@@ -74,7 +76,7 @@ class GroupService {
 					   ->select('gu.groupname as groupname ,gu.username as username, gu.isAdministrator as admin')
 					   ->from('AppBundle:Ofgroupuser', 'gu')
 					   ->where('gu.username = :username')
-					   ->orderBy('g.groupname')
+					   ->orderBy('gu.groupname')
 					   ->setParameter("username", $username);
 		
 		if (0 != $limit)
@@ -228,7 +230,15 @@ class GroupService {
 						'Não foi possível cadastrar o grupo. ');
 			}
 		   
-			AppRest::doConnectRest()->createGroup($groupName);
+			$restapi = RestApi::getInstance()
+            			->setSecret($this->container->getParameter("restapi_secret"))
+            			->setHost($this->container->getParameter("restapi_host"))
+            			->setPort($this->container->getParameter("restapi_port"))
+            			->setUseSSL($this->container->getParameter("restapi_useSSL"))
+            			->setServer(($this->container->getParameter("restapi_server")))
+            			->setplugin($this->container->getParameter("restapi_plugin"));
+			
+			AppRest::doConnectRest($restapi)->createGroup($groupName);
 			$this->em->flush ();
 			$avatar = $this->persistImage();
 			$groupAttribute = new Ofgroupprop();;

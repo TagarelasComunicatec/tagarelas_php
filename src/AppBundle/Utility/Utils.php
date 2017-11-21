@@ -13,7 +13,7 @@ class Utils{
         $delimiter = $delimiter == null ? '|': $delimiter;
 		$result = array();
 		if ($myString == null)
-			return result();
+			return $result;
 		
 		if (strrpos($myString,$delimiter)=== false){
 			$result.put($myString);
