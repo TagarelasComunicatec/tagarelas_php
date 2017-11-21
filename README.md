@@ -14,7 +14,7 @@ You need install the [Composer application][18] and run the command **c:\...\tag
 
 For more details on how work to SNT read the manual in [tagarelas WIKI][19].
 
-What's inside?
+What's inside?   
 --------------
 
 The Social Network Tagarelas is configured with the following defaults:
