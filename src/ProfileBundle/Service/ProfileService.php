@@ -85,7 +85,19 @@ class ProfileService {
 	 * @param string $groupname
 	 */
 	public function addUserToGroup($username,$groupname, $groupService = null){
-		$isAdministrator = ($this->container->get('session')->get('username') == $username) ?
+	    
+	    $usernameLogged =  '';
+	    
+	    if( $this->container->get( 'security.authorization_checker' )->isGranted( 'IS_AUTHENTICATED_FULLY' ) )
+	    {
+	        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+	        $usernameLogged = $user->getUsername();
+	    }
+	    
+	    
+	    $this->logger->info("ProfileService.addUserToGroup usernameLogged -> $usernameLogged");
+	    
+	    $isAdministrator = ($usernameLogged == $username) ?
 		                   Ofgroupuser::IS_ADMINISTRATOR :  Ofgroupuser::IS_USER;
 		
 	    $this->logger->info("Conteudo de username - groupname -  isAdministrator -> " .$username. '-'. $groupname.'-'.$isAdministrator);

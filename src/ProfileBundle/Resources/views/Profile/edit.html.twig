@@ -57,22 +57,34 @@ Tagarelas - Meu Perfil - Editar
 				    <input type='hidden' id='editProfile' >
 					<div class="col-xs-12 col-sm-4 form-group">
 						<label>Apelido</label>
-						<input id="shortName" type="text" readonly class="form-control" value="">
+						<input id="shortName" type="text" readonly class="form-control" value="{{ app.user.username }}">
 					</div>
 					
 					<div class="col-xs-12 col-sm-4 form-group">
 						<label>Nome Completo</label>
-						<input id="name" type="text" class="form-control" value="">
+						<input id="name" type="text" class="form-control" value="{{ app.user.realName }}">
 					</div>
 					
 					<div class="col-xs-12 col-sm-4 form-group">
 						<label>Email</label>
-						<input id="email" type="email" class="form-control" value="">
+						<input id="email" type="email" class="form-control" value="{{ app.user.email}}">
 					</div>
 					<div class="col-xs-12 form-group">
 						<label>Avatar</label>
 						<br>
 						<div class="col-xs-12 form-group">
+						     {% if app.user.avatar is not null %}
+                    			<div class="col-xs-12 col-sm-4 text-center form-group">
+			                    <div class="panel-heading clearfix">
+                                        <h3 class="panel-title pull-left">Foto Atual</h3>
+                                 </div>
+                                 <div class="file-tab panel-body">
+                                       <!-- The file is stored here. -->
+                                       <img src='{{ app.user.avatar }}' width= '208px' height='240px' />
+                     	          </div>
+                    			 </div>
+			         	     {% endif %}
+                     	
 							<div class="col-xs-12 col-sm-4 text-center form-group">
 								<!--  image Upload Start -->
  
@@ -80,6 +92,7 @@ Tagarelas - Meu Perfil - Editar
                                         <div class="panel-heading clearfix">
                                             <h3 class="panel-title pull-left">Carregar Imagem</h3>
                                         </div>
+                                     
                                         <div class="file-tab panel-body">
                                             <label class="btn btn-default btn-file">
                                                 <span>Browse</span>
@@ -87,16 +100,16 @@ Tagarelas - Meu Perfil - Editar
                                                 <input type="file" id='avatar'  name="avatar">
                                             </label>
                                             <button type="button" class="btn btn-default">Remove</button>
-                                        </div>
+                                        
+                                			<p>ou</p>
+											<p>
+												<label class="checkbox-inline">
+													<input type="checkbox"> Usar foto do Facebook
+												</label>
+											</p>
+										</div>
                                     </div>
- 
  									<!--  image upload End -->
-								<p>ou</p>
-								<p>
-									<label class="checkbox-inline">
-										<input type="checkbox"> Usar foto do Facebook
-									</label>
-								</p>
 							</div>
 						</div>
 					</div>
