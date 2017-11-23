@@ -33,7 +33,10 @@ Tagarelas - Criar Sessão
 							<input id='datetimeSession'  class="form-control" type="text" data-field="datetime" readonly>
 							<div id="dtBox"></div>
 						</div>
-						
+						<div class="form-group">
+							<label>Duração da Sessão (em minutos)</label>
+							<input id='DurationSession'  class="form-control" type="number" step="5"  min="0" size=50%>
+						</div>
 						<div class="form-group">
 							<label>Assunto a ser discutido</label>
 							<textarea id="description" class="form-control textarea-block-resize"></textarea>
@@ -64,19 +67,46 @@ Tagarelas - Criar Sessão
 							<p>Convide amigos individualmente ou que não fazem parte de algum grupo</p>
 							 <input class="magicsearch"   style='width:100% !important'   
 							 		   id="allMembers" placeholder="Adicionar / Procurar membros...">
-						</div>						</div>
-						<div class="previa-membros-adicionados col-xs-12">
-							<ul>
-							</ul>
 						</div>
-						<div class="form-group">
-							<p><b>Total de Participantes Convidados:<span id='totalParticipantes'>0</span></b></p>
-							<p>
-								Todos os membros do(s) grupo(s):    <span id='totalMembrosGrupos'>0</span>
-								<br>
-								Amigo(s) convidado(s):              <span id="totalDeMembros">0</span>
-							</p>
-						</div>
+					</div>
+
+                    
+                     <div class="col-xs-12 col-sm-6 panel panel-default">
+                            <div class="panel-heading clearfix">
+                                 <h3 class="panel-title pull-left">Opções da Sessão</h3>
+                            </div>
+                    		<input type="checkbox" name="roomconfig_publicroom" value="true" id="public" checked>
+                    		<label for="public">Listar sessão no Feed de Notícias</label> <BR/>
+           					<input type="checkbox" name="roomconfig_moderatedroom" value="true" id="moderated" checked>
+                    		<label for="moderated">Tornar a sessão moderada</label> <BR/>
+          					<input type="checkbox" name="roomconfig_membersonly" value="true" id="membersOnly" checked>
+                    		<label for="membersOnly">Tornar a sessão apenas para os convidados</label> <BR/>
+           					<input type="checkbox" name="roomconfig_allowinvites" value="true" id="allowinvites" >
+                    		<label for="allowinvites">Permitir que ocupantes convidem outros</label> <BR/>
+           					<input type="checkbox" name="roomconfig_changesubject" value="true" id="changesubject" >
+                    		<label for="changesubject">Permitir que ocupantes mudem o assunto</label> <BR/>
+            				<input type="checkbox" name="roomconfig_reservednick" value="true" id="reservednick" checked>
+                    		<label for="reservednick">Apenas logar com um apelido registrado</label> <BR/>
+            				<input type="checkbox" name="roomconfig_canchangenick" value="true" id="canchangenick" checked>
+                    		<label for="canchangenick">Permite que ocupantes alterem seus apelidos</label> <BR/>
+          					<input type="checkbox" name="roomconfig_registration" value="true" id="registration" >
+                    		<label for="registration">Permite que outros usuarios se registrem nesta sala</label> <BR/>
+            				<input type="checkbox" name="roomconfig_enablelogging" value="true" id="enablelogging" checked>
+                    		<label for="enablelogging">Registrar Conversações da Sessão</label><BR/>
+                    </div>
+	 				<p> &nbsp; <br/></p>
+	 					
+					 <div class="col-xs-12 col-sm-6">
+        					<div class="form-group">
+        							<p><b>Total de Participantes Convidados:<span id='totalParticipantes'>0</span></b></p>
+        							<p>
+        								Todos os membros do(s) grupo(s):    <span id='totalMembrosGrupos'>0</span>
+        								<br>
+        								Amigo(s) convidado(s):              <span id="totalDeMembros">0</span>
+        							</p>
+        					</div>
+					</div>					
+										
 					<div class="col-xs-12 form-group">
 						<button type="button" id='insertNewSession' 
 										class="clearfix btn btn-success">Salvar</button>

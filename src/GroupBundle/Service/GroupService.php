@@ -45,7 +45,7 @@ class GroupService {
 	
 	public function loadAllGroups($limit = 0){
 		$qb = $this->em->createQueryBuilder();
-		$qb->select('g.groupname,g.description')
+		$qb->select('g.groupname,g.description, count(g.groupname) as totalMembers')
 		   ->from('AppBundle:Ofgroup', 'g')
 		   ->join('AppBundle:Ofgroupuser', 'gu', Join::WITH,'gu.groupname = g.groupname')
 		   ->groupBy('g.groupname')

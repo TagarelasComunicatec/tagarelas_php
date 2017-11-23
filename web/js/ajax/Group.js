@@ -234,9 +234,9 @@ $( function() {
 				var dataout = $.parseJSON(returned);
 				$('#sessionGroups').magicsearch({
 		            dataSource: dataout.result,
-		            fields: ['groupName', 'totalMembers'],
+		            fields: ['groupname', 'totalMembers'],
 		            id: 'id',
-		            format: '%groupName% · %totalMembers% ',
+		            format: '%groupname% · %totalMembers% ',
 		            multiple: true,
 		            multiField: 'groupName',
 		            dropdownBtn: true,

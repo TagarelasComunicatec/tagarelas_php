@@ -130,9 +130,9 @@ class SessionService {
 	
 	public function findSessionByName($sessionName) {
 		$qb = $this->em->createQueryBuilder ();
-		$qb->select ( 's.id,s.sessionName,s.description' )
-		   ->from ( 'AppBundle:Session', 's' )
-		   ->where ( 's.sessionName LIKE :sessionName' )
+		$qb->select ( 's.name' )
+		   ->from ( 'AppBundle:Ofmucroom', 's' )
+		   ->where ( 's.name LIKE :sessionName' )
 		   ->setParameter ( 'sessionName', $sessionName );
 		
 		$myReturn = $qb->getQuery ()->getResult ();
@@ -141,7 +141,7 @@ class SessionService {
 	}
 	public function save() {
 		try {
-		    $restapi = RestApi::getInstance()
+		    $restapi = AppRest::getInstance()
         		    ->setSecret($this->container->getParameter("restapi.secret"))
         		    ->setHost($this->container->getParameter("restapi.host"))
         		    ->setPort($this->container->getParameter("restapi.port"))
