@@ -109,8 +109,10 @@ $( function() {
 	global.error.sessionDescription = "Informe corretamente o assunto da Sessão";
 	global.error.sessionNotFound    = "Nome da Sessão já está cadastrado";
 	global.error.sessionDateTime    = "Informe a data e hora da sessão";
-	global.error.sessionGroups	    = "Informe os grupos e/ou membros que farão parte da sessão"
-	global.error.sessionVisibility	= "Informe se a visibilidade da sessão é pública ou privada"
+	global.error.sessionGroups	    = "Informe os grupos e/ou membros que farão parte da sessão";
+	global.error.sessionVisibility	= "Informe se a visibilidade da sessão é pública ou privada";
+	global.error.sessionDuration    = "Informe a duração da sessão (em minutos)",
+		
 		
 	global.saveOk				= "Informação foi salva com sucesso";
 	global.saveError			= "A informação não foi salva. Tente mais tarde";

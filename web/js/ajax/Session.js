@@ -74,18 +74,21 @@ $( function() {
 		if (! $("#sessionName").val()){
 			theMessage = global.error.sessionName;
 			
-		} else if ( ! $("#datetimeSession").val() ){
+		} else if ( !$("#datetimeSession").val() ){
 			theMessage = global.error.sessionDateTime;
 		
-		} else if ( ! $("#description").val() ){
+		} else if ( !$("#description").val() ){
 			theMessage = global.error.sessionDescription;
 			
-		} else if (!$("input[name='visibility']:checked").val()){
+		} else if ( !$("input[name='visibility']:checked").val()){
 			theMessage = global.error.sessionVisibility;
 			
+        } else if ( !$("#durationSession").val() ){
+			theMessage = global.error.sessionDuration
+		
         } else if ( (jsGroup.totalMembersGroups + jsProfile.totalMembers) === 0){
 			theMessage = global.error.sessionGroups
-			
+		
 		} else {
 			return true;
 		}
@@ -108,17 +111,32 @@ $( function() {
 		var groups		    = jsGroup.membersSelected;
 		var visibility		= $("input[name='visibility']:checked").val();
 		var description		= $("#description").val();
+		var totalUsers      = jsGroup.totalMembersGroups + 
+						      jsProfile.totalMembers
+		
 		var myData          = {'sessionName' 			: sessionName,
 					           'datetimeSession'	   	: datetimeSession,
 					           'users'					: users,
 					           'groups'					: groups,
 					           'visibility'				: visibility,
 					           'description'			: description,	
+					           'durationSession'        : $("#durationSession").val(), 
+					           'public'                 : $('#public').val(),  
+							   'moderated'              : $('#moderated').val(),
+							   'membersonly'            : $('#membersonly').val(),
+							   'allowinvites'           : $('#allowinvites').val(),
+							   'changesubject'          : $('#changesubject').val(),
+							   'reservednick'           : $('#reservednick').val(),
+							   'canchangenick'          : $('#canchangenick').val(),
+							   'registration'           : $('#registration').val(),
+							   'enablelogging'          : $('#enablelogging').val(),
+							   'totalusers'				: totalUsers,
+							   
 					           };
+		
 		var saveNewSessionUrl =  $("#divSaveNewSession").attr("ajaxurl");
 		
-		  $.ajax({
-				
+	    $.ajax({
 				url: saveNewSessionUrl,
 				data: myData,
 				type: 'POST',
@@ -128,6 +146,8 @@ $( function() {
 				},
 			
 				error: function(){
+					global.msgbox.data('messageBox').danger(window.important, 
+							global.error.connection + urlLoadAllUsers + ". (Error Ajax Block) ");
 				},
 
 				success: function(returned){ 
@@ -169,7 +189,7 @@ $( function() {
 			url: pageUrlSession,
 			data: myData,
 			type: 'POST',
-			cache: true,
+			cache: false,
 	
 			beforeSend: function( ) {
 				$(divPosicao).empty();

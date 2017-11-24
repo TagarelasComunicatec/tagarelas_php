@@ -5,12 +5,8 @@ namespace SessionBundle\Service;
 use Symfony\Component\DependencyInjection\Container;
 use Doctrine\ORM\EntityManager;
 use Monolog\Logger;
-use AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Entity\Rule;
-use AppBundle\Entity\SessionUser;
-use AppBundle\Entity\SessionGroup;
-use AppBundle\Utility\Utils;
 use AppBundle\Utility\AppRest;
 
 //@@TODO Session = ChatRoom no Openfire.
@@ -141,26 +137,36 @@ class SessionService {
 	}
 	public function save() {
 		try {
-		    $restapi = AppRest::getInstance()
-        		    ->setSecret($this->container->getParameter("restapi.secret"))
-        		    ->setHost($this->container->getParameter("restapi.host"))
-        		    ->setPort($this->container->getParameter("restapi.port"))
-        		    ->setUseSSL($this->container->getParameter("restapi.useSSL"))
-        		    ->setServer(($this->container->getParameter("restapi.server")))
-        		    ->setplugin($this->container->getParameter("restapi.plugin"));
+		    $request = $this->container->get('request_stack')->getCurrentRequest();
 		    
-		    $api = AppRest::doConnectRestToSession($restapi);
-		    $payload = $api->Payloads()->createChatRoomPayload();
-		    $payload->setRoomName('myfirstchatroom');
-		    $payload->setNaturalName('my_first_chat_room');
-		    $payload->setDescription('This is my first chat room!');
-		    $payload->setAdmins(array('admin'));
-		    $payload->setOutcastGroups(array('outcast1','outcast2'));
-		    $payload->setCanAnyoneDiscoverJID(false);
-		    $payload->setCanOccupantsChangeSubject(false);
-		    $payload->setPassword('12345');
+		    $restapi = \AppBundle\Entity\RestApi::getInstance()
+		    ->setSecret($this->container->getParameter("restapi_secret"))
+		    ->setHost($this->container->getParameter("restapi_host"))
+		    ->setPort($this->container->getParameter("restapi_port"))
+		    ->setUseSSL($this->container->getParameter("restapi_useSSL"))
+		    ->setServer(($this->container->getParameter("restapi_server")))
+		    ->setplugin($this->container->getParameter("restapi_plugin"));
 		    
-		    $result = $api->ChatRooms()->createChatRoom($payload);
+		    $usernameLogged =  '';
+		    
+		    if( $this->container->get( 'security.authorization_checker' )->isGranted( 'IS_AUTHENTICATED_FULLY' ) )
+		    {
+		        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+		        $usernameLogged = $user->getUsername();
+		    }
+		    
+		    
+		    $this->logger->info("ProfileService.addUserToGroup usernameLogged -> $usernameLogged");
+		    
+		    
+        	$session = new \AppBundle\Entity\Session(); 
+        	$session->loadFromRequest($request);
+        	$api = AppRest::doConnectRestToSession($restapi);
+        	$payload = $api->Payloads()->createChatRoomPayload();
+            $payload =$session->moveToPayload($payload,
+                                              $usernameLogged);
+            
+     	    $api->ChatRooms()->createChatRoom($payload);
 		    
 		    $this->logger->info ( "Sessao salva com sucesso." );
 			return Rule::SUCCESS_SAVE;
@@ -173,25 +179,11 @@ class SessionService {
 	}
 	
 	private function persistSessionGroups($session, $groups, $userId) {
-		foreach ( $groups as $group ) {
-			$sessionGroup = new SessionGroup();
-			$sessionGroup->setIdSession ( $session->getId () )
-						 ->setIdGroup ( $group ["id"] )
-			             ->setCreatedBy ( $userId )
-					     ->setRules ( Rule::USER );
-			$this->em->persist ( $sessionGroup );
-		}
+		
 	}
 	
 	
 	private function persistSessionMembers($session, $userId, $users) {
-		foreach ( $users as $user ) {
-			$sessionUser = new SessionUser ();
-			$sessionUser->setIdSession ( $session->getId () )
-						->setIdUser ( $user ["id"] )
-						->setCreatedBy ( $userId )
-						->setRules ( Rule::USER );
-			$this->em->persist ( $sessionUser );
-		}
+		
 	}
 }

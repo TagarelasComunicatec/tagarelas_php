@@ -3,6 +3,8 @@ namespace AppBundle\Utility;
 
 use Symfony\Component\DependencyInjection\Container;
 use AppBundle\Entity\RestApi;
+use Gnello\OpenFireRestAPI\API;
+use Gnello\OpenFireRestAPI\AuthenticationToken;
 
 class AppRest {
     
@@ -25,11 +27,14 @@ class AppRest {
 	}
 	
 	static function doConnectRestToSession(RestApi $restapi){
-	    $api = new \Gnello\OpenFirerestapi\API(
-	        $restapi->getHost(), 
-	        $restapi->getPort(), 
-	       $restapi->getSecret());
+	    $authenticationToken = 
+	         new AuthenticationToken( $restapi->getSecret());
+	    $api = new API(
+	                      $restapi->getHost(), 
+	                      $restapi->getPort(), 
+	                      $authenticationToken);
 	    
+	    $api->Settings()->setDebug(true);
 	    $api->Settings()->setServerName($restapi->getServer());
 	    $api->Settings()->setHost($restapi->getHost());
 	    $api->Settings()->setPort($restapi->getPort());
