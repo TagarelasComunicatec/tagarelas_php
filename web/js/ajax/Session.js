@@ -71,31 +71,31 @@ $( function() {
 	jsSession.checkFields = function(){
 		var theMessage = ""; 
 		
-		if (! $("#sessionName").val()){
-			theMessage = global.error.sessionName;
+		if (jsSession.sessionNameFound == true){
+			theMessage += global.error.sessionName + " <BR/>";
 			
 		} else if ( !$("#datetimeSession").val() ){
-			theMessage = global.error.sessionDateTime;
+			theMessage += global.error.sessionDateTime + " <BR/>";
 		
 		} else if ( !$("#description").val() ){
-			theMessage = global.error.sessionDescription;
+			theMessage +=  global.error.sessionDescription + " <BR/>";
 			
 		} else if ( !$("input[name='visibility']:checked").val()){
-			theMessage = global.error.sessionVisibility;
+			theMessage +=  global.error.sessionVisibility + " <BR/>";
 			
         } else if ( !$("#durationSession").val() ){
-			theMessage = global.error.sessionDuration
+			theMessage +=  global.error.sessionDuration + " <BR/>";
 		
         } else if ( (jsGroup.totalMembersGroups + jsProfile.totalMembers) === 0){
-			theMessage = global.error.sessionGroups
+			theMessage +=  global.error.sessionGroups + " <BR/>";
 		
 		} else {
 			return true;
 		}
-		
-		/* error condition */
-		global.msgbox.data('messageBox').danger(window.important,theMessage);
-		
+		if (theMessage.length > 0){
+			/* error condition */
+			global.msgbox.data('messageBox').danger(window.important,theMessage);
+		}
 		return false;
 		
 	};
@@ -157,7 +157,7 @@ $( function() {
 						global.msgbox.data('messageBox').info(window.important, 
 								 global.saveOk);
 					} else  
-						global.msgbox.data('messageBox').error(window.important, 
+						global.msgbox.data('messageBox').danger(window.important, 
 								global.saveError);
 					return;
 				},
@@ -185,6 +185,8 @@ $( function() {
 		var pageUrlSession      = $("#divCheckSessionName").attr("ajaxurl");
 	
 		var myData = {'sessionName' : sessionName};
+		jsSession.sessionNameFound 	= false;
+		
 		$.ajax({
 			url: pageUrlSession,
 			data: myData,
@@ -207,7 +209,7 @@ $( function() {
 			},
 
 			success: function(returned){ 
-				//debugger;
+				
 				$(divPosicao).empty();
 				imgError = inicioImgHtmlTag +  closing  
 				 			 + " title='"	
@@ -215,13 +217,14 @@ $( function() {
 							 + fimImgHtmlTag;
 				
 				var dataout = $.parseJSON(returned);
-				jsSession.sessionNameFound = false;
-				if($.trim(dataout.result) === global.recordFound){
-					jsSession.sessionNameFound = true;
+				
+				if($.trim(dataout.result) == global.recordNotFound){
 					$(divPosicao).append(imgOk);
-				} else  
+				} else  {
+					jsSession.sessionNameFound = true
 					$(divPosicao).append(imgError);
-				 
+				}
+				
 				return;
 			},
 			

@@ -30,6 +30,14 @@ class RestApi {
 	    return static::$instance;
 	}
    
+	public function __toString(){
+	    return ' Secret: '. $this->secret . 
+	           ' Host: ' . $this->host .
+	           ' Port: ' . $this->port .
+	           ' useSSL: ' . $this->useSSL .
+	           ' server: ' . $this->server . 
+	           ' plugin: ' . $this->plugin;
+	}
 
     /**
      * @return string

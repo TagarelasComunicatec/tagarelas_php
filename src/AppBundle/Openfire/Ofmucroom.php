@@ -3,6 +3,7 @@
 
 namespace AppBundle\Openfire;
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Utility\Utils;
 
 /**
  * Ofmucroom
@@ -184,6 +185,52 @@ class Ofmucroom
      */
     private $allowpm;
 
+    
+    private function calcRolesToBroadcast(){
+        $roles = 0; 
+        $roles += ($this->publicroom);
+        $roles += ($this->moderated);
+        $roles += ($this->membersonly);
+        $roles += ($this->caninvite);
+        $roles += ($this->candiscoverjid);
+        $roles += ($this->logenabled);
+        $roles += ($this->usereservednick);
+        $roles += ($this->canchangenick);
+        $roles += ($this->canregister);
+        $roles += ($this->allowpm);
+        $roles += ($this->canchangesubject);
+        
+        return $roles;
+        
+    }
+    
+    
+    public function loadFromRequest($request, $username=''){
+        $this->serviceid        = 1;
+        $this->roomid           = 1;
+        $this->name             = $request->get('sessionName');
+        $this->creationdate     = Utils::dateAsLong($request->get('datetimeSession'));
+        $this->modificationdate = Utils::dateAsLong($request->get('datetimeSession'));
+        $this->naturalname      = $request->get('sessionName');
+        $this->description      = $request->get('description');
+        $this->maxusers         = $request->get('totalusers');
+        $this->lockeddate       = Utils::dateAsLong($request->get('datetimeSession'));
+        $this->publicroom       = ($request->get('visibility')      == 'PUBLICO')? 1:0;
+        $this->moderated        = ($request->get('moderated')       == 'true')? 1:0;
+        $this->membersonly      = ($request->get('membersonly')     == 'true')? 1:0;
+        $this->caninvite        = 0;
+        $this->candiscoverjid   = 0;
+        $this->logenabled       = ($request->get('enablelogging')   == 'true')? 1:0;
+        $this->subject          = ($request->get('description'));
+        $this->usereservednick  = ($request->get('reservednick')    == 'true')? 1:0;
+        $this->canchangenick    = ($request->get('canchangenick')   == 'true')? 1:0;
+        $this->canregister      = ($request->get('registration')    == 'true')? 1:0;
+        $this->allowpm          = 0;
+        $this->canchangesubject = 0;
+        
+        $this->rolestobroadcast = $this->calcRolesToBroadcast();
+        
+    }
+    
 
 }
-

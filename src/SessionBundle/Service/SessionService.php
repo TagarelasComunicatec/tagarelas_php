@@ -8,6 +8,7 @@ use Monolog\Logger;
 use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Entity\Rule;
 use AppBundle\Utility\AppRest;
+use AppBundle\Openfire\Ofmucroom;
 
 //@@TODO Session = ChatRoom no Openfire.
 //@@TODO Alterar método save utilizando REST API.
@@ -137,39 +138,21 @@ class SessionService {
 	}
 	public function save() {
 		try {
+
 		    $request = $this->container->get('request_stack')->getCurrentRequest();
 		    
-		    $restapi = \AppBundle\Entity\RestApi::getInstance()
-		    ->setSecret($this->container->getParameter("restapi_secret"))
-		    ->setHost($this->container->getParameter("restapi_host"))
-		    ->setPort($this->container->getParameter("restapi_port"))
-		    ->setUseSSL($this->container->getParameter("restapi_useSSL"))
-		    ->setServer(($this->container->getParameter("restapi_server")))
-		    ->setplugin($this->container->getParameter("restapi_plugin"));
-		    
-		    $usernameLogged =  '';
-		    
-		    if( $this->container->get( 'security.authorization_checker' )->isGranted( 'IS_AUTHENTICATED_FULLY' ) )
-		    {
+		    if( $this->container->get( 'security.authorization_checker' )
+		        ->isGranted( 'IS_AUTHENTICATED_FULLY' ) ) {
 		        $user = $this->container->get('security.token_storage')->getToken()->getUser();
 		        $usernameLogged = $user->getUsername();
 		    }
 		    
-		    
-		    $this->logger->info("ProfileService.addUserToGroup usernameLogged -> $usernameLogged");
-		    
-		    
-        	$session = new \AppBundle\Entity\Session(); 
-        	$session->loadFromRequest($request);
-        	$api = AppRest::doConnectRestToSession($restapi);
-        	$payload = $api->Payloads()->createChatRoomPayload();
-            $payload =$session->moveToPayload($payload,
-                                              $usernameLogged);
-            
-     	    $api->ChatRooms()->createChatRoom($payload);
-		    
-		    $this->logger->info ( "Sessao salva com sucesso." );
-			return Rule::SUCCESS_SAVE;
+		    $this->logger->info("SessionService.save usernameLogged -> $usernameLogged");
+            $ofmucroom = new Ofmucroom();
+            $ofmucroom->loadFromRequest($request);
+            $this->em->persist($ofmucroom);
+            $this->em->flush();
+		  		    
 		} catch ( \Exception $e ) {
 
 			$this->logger->error ( "Sessao nao foi salva " . $e->__toString () );

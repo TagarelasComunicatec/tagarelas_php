@@ -235,10 +235,10 @@ $( function() {
 				$('#sessionGroups').magicsearch({
 		            dataSource: dataout.result,
 		            fields: ['groupname', 'totalMembers'],
-		            id: 'id',
+		            id: 'groupname',
 		            format: '%groupname% · %totalMembers% ',
 		            multiple: true,
-		            multiField: 'groupName',
+		            multiField: 'groupname',
 		            dropdownBtn: true,
 		            multiStyle: {
 		                space: 5,

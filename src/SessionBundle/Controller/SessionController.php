@@ -62,8 +62,8 @@ class SessionController extends Controller
     	
     	try {
     		$result    = $sessionService->findSessionByName($email);
-    		$returnCode = (count($result) > 0 )? SessionService::SESSION_NOT_FOUND:
-    											 SessionService::SESSION_FOUND;
+    		$returnCode = (count($result) > 0 )? SessionService::SESSION_FOUND:
+    											 SessionService::SESSION_NOT_FOUND;
     		$myReturn = array (
     				"responseCode" => 200,
     				"result" => $returnCode,
