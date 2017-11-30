@@ -111,6 +111,182 @@ class Ofuser
     	//using Doctrine DateTime here
     	$this->modificationdate = (new \DateTime('now'))->format('Y-m-d');
     }
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStoredkey()
+    {
+        return $this->storedkey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServerkey()
+    {
+        return $this->serverkey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * @return number
+     */
+    public function getIterations()
+    {
+        return $this->iterations;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlainpassword()
+    {
+        return $this->plainpassword;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEncryptedpassword()
+    {
+        return $this->encryptedpassword;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreationdate()
+    {
+        return $this->creationdate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModificationdate()
+    {
+        return $this->modificationdate;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @param string $storedkey
+     */
+    public function setStoredkey($storedkey)
+    {
+        $this->storedkey = $storedkey;
+    }
+
+    /**
+     * @param string $serverkey
+     */
+    public function setServerkey($serverkey)
+    {
+        $this->serverkey = $serverkey;
+    }
+
+    /**
+     * @param string $salt
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+    }
+
+    /**
+     * @param number $iterations
+     */
+    public function setIterations($iterations)
+    {
+        $this->iterations = $iterations;
+    }
+
+    /**
+     * @param string $plainpassword
+     */
+    public function setPlainpassword($plainpassword)
+    {
+        $this->plainpassword = $plainpassword;
+    }
+
+    /**
+     * @param string $encryptedpassword
+     */
+    public function setEncryptedpassword($encryptedpassword)
+    {
+        $this->encryptedpassword = $encryptedpassword;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @param string $creationdate
+     */
+    public function setCreationdate($creationdate)
+    {
+        $this->creationdate = $creationdate;
+    }
+
+    /**
+     * @param string $modificationdate
+     */
+    public function setModificationdate($modificationdate)
+    {
+        $this->modificationdate = $modificationdate;
+    }
+
     
     
 

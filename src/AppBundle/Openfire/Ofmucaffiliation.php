@@ -10,8 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="ofmucaffiliation")
  * @ORM\Entity
  */
+ 
 class Ofmucaffiliation
 {
+    CONST  OWNER  = 10;
+    CONST  ADMIN  = 20;
+    CONST  MEMBER = 30;
+    CONST OUTCAST = 40;
+    CONST NONE    = 50;
     /**
      * @var integer
      *
@@ -37,6 +43,14 @@ class Ofmucaffiliation
      */
     private $affiliation;
 
+    
+    public function loadData($roomid = 0,
+                             $email = '',
+                             $affiliation=50){
+        $this->roomid = $roomid; 
+        $this->jid  = $email;
+        $this->affiliation = $affiliation; 
+    }
 
 }
 

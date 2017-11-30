@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use AppBundle\Entity\Rule;
 use AppBundle\Utility\AppRest;
 use AppBundle\Openfire\Ofmucroom;
+use AppBundle\Openfire\Ofmucaffiliation;
 
 //@@TODO Session = ChatRoom no Openfire.
 //@@TODO Alterar método save utilizando REST API.
@@ -26,7 +27,8 @@ class SessionService {
 	protected $em;
 	private $container;
 	private $logger;
-
+    private $roomid;
+    
 	public function __construct(EntityManager $entityManager, Container $cont, Logger $log) {
 		$this->em = $entityManager;
 		$this->container = $cont;
@@ -136,6 +138,64 @@ class SessionService {
 		
 		return $myReturn;
 	}
+	
+	/**
+	 * Retorna o proximo elemen6to de sessão
+	 */
+	private function getNextSession(){ 
+	    $newroomid =  $this->em->createQueryBuilder()
+	                            ->select('MAX(e.roomid)')
+	                            ->from('AppBundle:Ofmucroom' , 'e')
+	                            ->getQuery()
+	                            ->getSingleScalarResult();
+	    return $newroomid + 1; 
+	}
+	
+	/**
+	 * Salva o proprietário da sessão
+	 * @param User $user objeto usuário
+	 */
+    private function saveAffiliate($user){
+       $ofmucaffiliation = new Ofmucaffiliation();
+       $ofmucaffiliation -> loadData($this->roomid,
+                                  $user->getEmail(),
+                                  Ofmucaffiliation::OWNER);
+       $this->em->persist($ofmucaffiliation);
+       
+    }
+	
+    /**
+     * Salva os participantes da sessão iexcluindo o administrador
+     * @param User $user -  Objeto usuário.
+     */
+	private function saveMembers($user =''){
+	    //------------------------
+	    // Fase 1 processa grupos
+	    // -----------------------
+	    
+	    
+	    
+	    
+	    //-----------------------------
+	    // Fase 2 Salva membros avulsos
+	    // ----------------------------
+	    
+	}
+	
+	private function existMemberInRoom($roomid=0, $jid=''){
+	    $qb = $this->em->createQueryBuilder ();
+	    $result =  $qb->select('count(m.roomid)')
+                      ->from('Appbundle:Ofmember', 'm')
+                      ->where('m.rooid = :roomid')
+                      ->andwhere('m.jid = :jid')
+	                  ->setParameter('roomid',$roomid)
+	                  ->setParameter('jid', $jid) 
+	                  ->getQuery()
+	                  ->getSingleScalarResult();             
+	    return $result > 0;                     
+	}
+	
+	
 	public function save() {
 		try {
 
@@ -147,10 +207,22 @@ class SessionService {
 		        $usernameLogged = $user->getUsername();
 		    }
 		    
-		    $this->logger->info("SessionService.save usernameLogged -> $usernameLogged");
-            $ofmucroom = new Ofmucroom();
-            $ofmucroom->loadFromRequest($request);
+		    $this->roomid = $this->getNextSession();
+		    
+		    $this->logger
+		    ->info("SessionService.save newroomid gerado -> " . $this->roomid);
+		    
+		    $this->logger
+		        ->info("SessionService.save usernameLogged -> $usernameLogged");
+		    $this->logger
+		        ->info("SessionService.save useremail -> "  . $user->getEmail());
+		        
+		        
+		    $ofmucroom = new Ofmucroom();
+            $ofmucroom->loadFromRequest($request, $this->roomid);
             $this->em->persist($ofmucroom);
+            $this->saveAffiliate($user);
+            $this->saveMember($user);
             $this->em->flush();
 		  		    
 		} catch ( \Exception $e ) {

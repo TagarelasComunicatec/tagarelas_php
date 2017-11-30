@@ -205,9 +205,9 @@ class Ofmucroom
     }
     
     
-    public function loadFromRequest($request, $username=''){
+    public function loadFromRequest($request, $roomid=0){
         $this->serviceid        = 1;
-        $this->roomid           = 1;
+        $this->roomid           = $roomid;
         $this->name             = $request->get('sessionName');
         $this->creationdate     = Utils::dateAsLong($request->get('datetimeSession'));
         $this->modificationdate = Utils::dateAsLong($request->get('datetimeSession'));
