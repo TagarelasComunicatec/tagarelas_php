@@ -164,21 +164,45 @@ class SessionService {
        
     }
 	
-    /**
-     * Salva os participantes da sessão iexcluindo o administrador
-     * @param User $user -  Objeto usuário.
-     */
-	private function saveMembers($user =''){
-	    //------------------------
-	    // Fase 1 processa grupos
-	    // -----------------------
+	private function saveGroup($groups=[],$user=''){
+	    for ($i=0; $i < sizeof($groups); ++$i){
+	        $group = $groups[$i];
+	        $qb = $this->em->createQueryBuilder();
+	        $members = $qb->select('gu.username')
+	                      ->from("AppBundle:Ofgroupuser", "gu")
+	                      ->where("gu.groupname = :groupname")
+	                      ->setParameter("groupname",$group["groupname"])
+	                      ->getQuery()
+	                      ->getResult();
+	                      
+	        $this->logger
+	             ->info("SessionService.saveGroup members -> " . 
+	                    $members);
+	                      
+	        $this->saveUserMembers($members,$user);
+	    }
+	}
+	
+	private function saveUserMembers($members=[],$user=''){
+	  for ($i=0; $i < sizeof($members); ++$i){
+	      $member = $members[$i];
+	      if ($member["username"] != $user) {
+	          $ofuser = $this->em
+	                     ->find('Appbundle:Ofuser', $member["username"]);
+	          $this->saveSingleUSer($ofuser);
+	      }
+	  }
+	}
+	
+	private function saveSingleUSer($ofuser){
+	    /*
+	     * O cliente jã estã cadastrado na sessão
+	     */
+	    $jid = $ofuser->getEmail();
+	    if ($this->existMemberInRoom($this->roomid,$jid)){
+	        return;
+	    }
 	    
-	    
-	    
-	    
-	    //-----------------------------
-	    // Fase 2 Salva membros avulsos
-	    // ----------------------------
 	    
 	}
 	
@@ -201,6 +225,9 @@ class SessionService {
 
 		    $request = $this->container->get('request_stack')->getCurrentRequest();
 		    
+		    $groups  = $request->get("groups");
+		    $members = $request->get("users");
+		    
 		    if( $this->container->get( 'security.authorization_checker' )
 		        ->isGranted( 'IS_AUTHENTICATED_FULLY' ) ) {
 		        $user = $this->container->get('security.token_storage')->getToken()->getUser();
@@ -221,8 +248,11 @@ class SessionService {
 		    $ofmucroom = new Ofmucroom();
             $ofmucroom->loadFromRequest($request, $this->roomid);
             $this->em->persist($ofmucroom);
+            
             $this->saveAffiliate($user);
-            $this->saveMember($user);
+            $this->saveGroup($groups,$user);
+            $this->saveUsersMember($members,$user);
+            
             $this->em->flush();
 		  		    
 		} catch ( \Exception $e ) {
