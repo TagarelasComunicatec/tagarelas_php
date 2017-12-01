@@ -29,13 +29,21 @@ class SessionService {
 	private $logger;
     private $roomid;
     
+    /**
+     * Construtor do Serviço
+     * ---------------------
+     * @param EntityManager $entityManager
+     * @param Container $cont
+     * @param Logger $log
+     */
 	public function __construct(EntityManager $entityManager, Container $cont, Logger $log) {
 		$this->em = $entityManager;
 		$this->container = $cont;
 		$this->logger = $log;
 	}
 	/**
-	 * Load All Sessions 
+	 * Carrega todas as sessões
+	 * ------------------------ 
 	 * @param number $limit
 	 */
 	public function loadAllSession($limit = 0) {
@@ -53,7 +61,8 @@ class SessionService {
 	}
 	
 	/**
-	 * Load Sessions by status and user
+	 * Carrega as sessões por status
+	 * -----------------------------
 	 */
 	public function loadSessionByStatus(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
@@ -67,28 +76,6 @@ class SessionService {
 		}
 		return $myReturn;
 	}
-	
-	/**
-	 * Load Groups linked to Session
-	 * 
-	 * @param \AppBundle\Entity\Session $Session
-	 * @param string $userId
-	 * @param string $status
-	 * @param string $myReturn
-	 * @return array selected
-	 */
-	private function loadSessionGroupInformation($Session, $userId, $status, $myReturn){
-		
-		//$results = generateQuerySessionGroup($Session, $userId, $status);
-		
-		//foreach ($results as $result){
-			
-		//}
-				
-		
-		return $myReturn;
-	}
-	
 	
 	/**
 	 * @param Session      $session
@@ -126,7 +113,11 @@ class SessionService {
 		return  $qb->getQuery()->getResult();
 	}
 	
-	
+	/**
+	 * Localiza a Sessão pelo nome
+	 * @param unknown $sessionName
+	 * @return array
+	 */
 	public function findSessionByName($sessionName) {
 		$qb = $this->em->createQueryBuilder ();
 		$qb->select ( 's.name' )
@@ -164,6 +155,11 @@ class SessionService {
        
     }
 	
+    /**
+     * Salva grupos para sessão
+     * @param array $groups
+     * @param string $user
+     */
 	private function saveGroup($groups=[],$user=''){
 	    for ($i=0; $i < sizeof($groups); ++$i){
 	        $group = $groups[$i];
@@ -183,6 +179,11 @@ class SessionService {
 	    }
 	}
 	
+	/**
+	 * Salva convidados para a sessão
+	 * @param array $members
+	 * @param string $user
+	 */
 	private function saveUserMembers($members=[],$user=''){
 	  for ($i=0; $i < sizeof($members); ++$i){
 	      $member = $members[$i];
@@ -194,6 +195,10 @@ class SessionService {
 	  }
 	}
 	
+	/**
+	 * Salva um membro na sala de discussão
+	 * @param Ofuser $ofuser
+	 */
 	private function saveSingleUSer($ofuser){
 	    /*
 	     * O cliente jã estã cadastrado na sessão
@@ -206,6 +211,12 @@ class SessionService {
 	    
 	}
 	
+	/**
+	 * Verifica se existe o membro dentro da sessão.
+	 * @param number $roomid
+	 * @param string $jid
+	 * @return boolean
+	 */
 	private function existMemberInRoom($roomid=0, $jid=''){
 	    $qb = $this->em->createQueryBuilder ();
 	    $result =  $qb->select('count(m.roomid)')
@@ -219,7 +230,10 @@ class SessionService {
 	    return $result > 0;                     
 	}
 	
-	
+	/**
+	 * Salva a sessão (room)
+	 * @return number
+	 */
 	public function save() {
 		try {
 
@@ -263,12 +277,4 @@ class SessionService {
 		return Rule::SUCCESS_SAVE;
 	}
 	
-	private function persistSessionGroups($session, $groups, $userId) {
-		
-	}
-	
-	
-	private function persistSessionMembers($session, $userId, $users) {
-		
-	}
 }

@@ -37,12 +37,20 @@ class GroupService {
 	private   $container;
 	private   $logger;
 	
+	/**
+	 * Construtor da classe
+	 */
 	public function __construct(EntityManager $entityManager, Container $cont, Logger $log){
 		$this->em = $entityManager;
 		$this->container = $cont;
 		$this->logger = $log;
 	}
 	
+	/**
+	 * Carrega todos os grupos
+	 * @param number $limit
+	 * @return array
+	 */
 	public function loadAllGroups($limit = 0){
 		$qb = $this->em->createQueryBuilder();
 		$qb->select('g.groupname,g.description, count(g.groupname) as totalMembers')
@@ -57,11 +65,11 @@ class GroupService {
 		 $myReturn =  $qb->getQuery()->getResult();
 		 return $myReturn;
 	}
+
 	/**
 	 * Load user groups by status and user
 	 *
 	 */
-	
 	public function loadUserGroups(){
 		$request  = $this->container->get('request_stack')->getCurrentRequest();
 		$limit    = intval($request->get("limit"));
@@ -109,10 +117,13 @@ class GroupService {
 		return $myReturn;
 	}
 	
-	
-	
-	
-	public function loadStatusUser($groupname, $username){
+    /**
+     * Carrega os usuarios do grupo por status
+     * @param string $groupname
+     * @param string $username
+     * @return string
+     */	
+	public function loadStatusUser($groupname='', $username=''){
 
 		/*
 		 * ----------------------------------------------------------
@@ -134,8 +145,12 @@ class GroupService {
 		return $status["propvalue"];
 	}
 	
-	
-	private function loadAvatar($groupname){
+	/**
+	 * Carrega o Avatar do grupo
+	 * @param string $groupname
+	 * @return string
+	 */
+	private function loadAvatar($groupname=''){
 		$group = $this->em->createQueryBuilder()
 				   ->select('gp.groupname,gp.name, gp.propvalue')
 				   ->from('AppBundle:Ofgroupprop', 'gp')
@@ -152,9 +167,12 @@ class GroupService {
 		return $group["propvalue"]; 
 	}
 
-	
-	
-	private function loadTotalMembers($groupname){
+	/**
+	 * Carrega o total de membros do grupo
+	 * @param string $groupname
+	 * @return number
+	 */
+	private function loadTotalMembers($groupname=''){
 		$members = $this->em->createQueryBuilder()
 					->select('gu.groupname,count(gu.username) as totalMembers')
 					->from('AppBundle:Ofgroupuser', 'gu')
@@ -171,6 +189,7 @@ class GroupService {
 	}
 	
 	/**
+	 * Carrega as informações de grupuser
 	 * @param QueryBuilder $qb
 	 * @param Group        $group
 	 * @param int		   $userId
@@ -186,6 +205,7 @@ class GroupService {
 		return $myReturn;
 	}
 	/**
+	 * Gera a query para groupuser
 	 * @param Group        $group
 	 * @param int		   $user
 	 * @param int		   $status
@@ -203,6 +223,12 @@ class GroupService {
 		return  $qb->getQuery()->getResult();
 	}
 	
+	/**
+	 * Localiza o grupo por uma chave-valor
+	 * @param unknown $key
+	 * @param unknown $value
+	 * @return array
+	 */
 	public function findGroupByKey($key,$value){
 		$qb = $this->em->createQueryBuilder();
 		$qb->select('g.groupname,g.description')
@@ -220,7 +246,11 @@ class GroupService {
 		return $myReturn;
 	}
 	
-	
+	/**
+	 * Salva o grupo
+	 * @throws \Exception
+	 * @return number
+	 */
 	public function save(){
 		try{
 			$request = $this->container->get('request_stack')->getCurrentRequest();
@@ -253,6 +283,10 @@ class GroupService {
 
 	}
 
+	/**
+	 * grava a imagem do avatar no diretorio de imagem correspondente
+	 * @return string
+	 */
 	private function persistImage(){
 		$request = $this->container->get('request_stack')->getCurrentRequest();
 		$file = $request->files->get("file");
