@@ -10,6 +10,7 @@ use AppBundle\Entity\Rule;
 use AppBundle\Utility\AppRest;
 use AppBundle\Openfire\Ofmucroom;
 use AppBundle\Openfire\Ofmucaffiliation;
+use AppBundle\Openfire\Ofmucmember;
 
 //@@TODO Session = ChatRoom no Openfire.
 //@@TODO Alterar método save utilizando REST API.
@@ -28,6 +29,7 @@ class SessionService {
 	private $container;
 	private $logger;
     private $roomid;
+    private $jidsProcessados = [];
     
     /**
      * Construtor do Serviço
@@ -160,7 +162,7 @@ class SessionService {
      * @param array $groups
      * @param string $user
      */
-	private function saveGroup($groups=[],$user=''){
+	private function saveGroup($groups,$user=''){
 	    for ($i=0; $i < sizeof($groups); ++$i){
 	        $group = $groups[$i];
 	        $qb = $this->em->createQueryBuilder();
@@ -170,11 +172,11 @@ class SessionService {
 	                      ->setParameter("groupname",$group["groupname"])
 	                      ->getQuery()
 	                      ->getResult();
-	                      
+	         
 	        $this->logger
-	             ->info("SessionService.saveGroup members -> " . 
-	                    $members);
-	                      
+	             ->info("SessionService.saveGroup getType members -> " .
+	                 json_encode($members));
+
 	        $this->saveUserMembers($members,$user);
 	    }
 	}
@@ -189,7 +191,12 @@ class SessionService {
 	      $member = $members[$i];
 	      if ($member["username"] != $user) {
 	          $ofuser = $this->em
-	                     ->find('Appbundle:Ofuser', $member["username"]);
+	                     ->find('AppBundle:Ofuser', $member["username"]);
+	          
+	          $this->logger
+	                     ->info("SessionService.saveUserMembers OfUser -> " . 
+	                         $ofuser->__toString());
+	                     
 	          $this->saveSingleUSer($ofuser);
 	      }
 	  }
@@ -204,11 +211,19 @@ class SessionService {
 	     * O cliente jã estã cadastrado na sessão
 	     */
 	    $jid = $ofuser->getEmail();
-	    if ($this->existMemberInRoom($this->roomid,$jid)){
+	    if ($jid == null || 
+	        $this->existMemberInRoom($this->roomid,$jid)){
 	        return;
 	    }
-	    
-	    
+	    try {
+	            $ofmucmember = new Ofmucmember();
+	            $ofmucmember->loadData($this->roomid, $ofuser);
+	            $this->em->persist($ofmucmember);
+	            $this->jidsProcessados[] = $jid;
+	    } catch (\Exception $e){
+	        return;
+	    }
+	    return;
 	}
 	
 	/**
@@ -218,15 +233,28 @@ class SessionService {
 	 * @return boolean
 	 */
 	private function existMemberInRoom($roomid=0, $jid=''){
+
+	    /*
+	     * Verifica se o jid jã foi processado.
+	     */
+	    for ($i=0; $i < sizeof($this->jidsProcessados) ; ++ $i){
+	        if ($jid == $this->jidsProcessados[$i]){
+	            return true;
+	        }
+	    }
+	    
 	    $qb = $this->em->createQueryBuilder ();
 	    $result =  $qb->select('count(m.roomid)')
-                      ->from('Appbundle:Ofmember', 'm')
-                      ->where('m.rooid = :roomid')
+                      ->from('AppBundle:Ofmucmember', 'm')
+                      ->where('m.roomid = :roomid')
                       ->andwhere('m.jid = :jid')
 	                  ->setParameter('roomid',$roomid)
 	                  ->setParameter('jid', $jid) 
 	                  ->getQuery()
-	                  ->getSingleScalarResult();             
+	                  ->getSingleScalarResult(); 
+	    $this->logger
+	          ->info("SessionService.existMemberInRoom ? -> $result ");
+	    
 	    return $result > 0;                     
 	}
 	
@@ -238,6 +266,9 @@ class SessionService {
 		try {
 
 		    $request = $this->container->get('request_stack')->getCurrentRequest();
+		    
+		    //Impede de que um jid seja inserido mais de uma vez.
+		    $this->jidsProcessados = [];
 		    
 		    $groups  = $request->get("groups");
 		    $members = $request->get("users");
@@ -264,8 +295,18 @@ class SessionService {
             $this->em->persist($ofmucroom);
             
             $this->saveAffiliate($user);
+            
+            $this->logger
+                 ->info("SessionService.save getType groups -> " .
+                   gettype($groups));
+            
+            $this->logger
+                 ->info("SessionService.save getType members -> " .
+                     gettype($members));
+                 
+                 
             $this->saveGroup($groups,$user);
-            $this->saveUsersMember($members,$user);
+            $this->saveUserMembers($members,$user);
             
             $this->em->flush();
 		  		    

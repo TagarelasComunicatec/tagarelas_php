@@ -75,9 +75,9 @@ class Ofmucmember
     public function loadData($roomid = 0,
                              Ofuser $ofuser){
      
-            $this->roomid = $roomid;
-            $this->jid    = $ofuser->getEmail();
-            $this->nickname = $ofuser->getUserName();
+            $this->roomid    = $roomid;
+            $this->jid       = $ofuser->getEmail();
+            $this->nickname  = $ofuser->getUserName();
             $this->firstname = $ofuser->getName();
             
     }

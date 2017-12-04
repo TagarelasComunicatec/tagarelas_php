@@ -111,6 +111,11 @@ class Ofuser
     	//using Doctrine DateTime here
     	$this->modificationdate = (new \DateTime('now'))->format('Y-m-d');
     }
+    
+    public function __toString(){
+        return $this->username . " - " . $this->email . " - " . $this->name;
+    }
+    
     /**
      * @return string
      */
