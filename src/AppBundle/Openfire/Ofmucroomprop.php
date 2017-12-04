@@ -37,6 +37,10 @@ class Ofmucroomprop
      */
     private $propvalue;
 
-
+    public function loadData($roomid,$name,$propvalue){
+        $this->roomid = $roomid;
+        $this->name = $name;
+        $this->propvalue = $propvalue;
+    }
 }
 

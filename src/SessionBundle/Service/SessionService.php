@@ -11,6 +11,7 @@ use AppBundle\Utility\AppRest;
 use AppBundle\Openfire\Ofmucroom;
 use AppBundle\Openfire\Ofmucaffiliation;
 use AppBundle\Openfire\Ofmucmember;
+use AppBundle\Openfire\Ofmucroomprop;
 
 //@@TODO Session = ChatRoom no Openfire.
 //@@TODO Alterar método save utilizando REST API.
@@ -24,6 +25,7 @@ class SessionService {
 
 	const SESSION_FOUND     = 1;
 	const SESSION_NOT_FOUND = 2;
+	const LIFETIME          = "LIFETIMEINMINUTES";
 	
 	protected $em;
 	private $container;
@@ -201,6 +203,17 @@ class SessionService {
 	      }
 	  }
 	}
+	/**
+	 * Salva a duração da sessão em minutos
+	 * @param number $minutes
+	 */
+	private function saveSessionDuration($minutes=0){
+	    $prop = new Ofmucroomprop();
+	    $prop->loadData($this->roomid,
+	                    $this::LIFETIME,
+	                    $minutes);
+	    $this->em->persist($prop);
+	}
 	
 	/**
 	 * Salva um membro na sala de discussão
@@ -272,6 +285,7 @@ class SessionService {
 		    
 		    $groups  = $request->get("groups");
 		    $members = $request->get("users");
+		    $minutes = $request->get("durationSession");
 		    
 		    if( $this->container->get( 'security.authorization_checker' )
 		        ->isGranted( 'IS_AUTHENTICATED_FULLY' ) ) {
@@ -293,6 +307,8 @@ class SessionService {
 		    $ofmucroom = new Ofmucroom();
             $ofmucroom->loadFromRequest($request, $this->roomid);
             $this->em->persist($ofmucroom);
+            
+            $this->saveSessionDuration($minutes);
             
             $this->saveAffiliate($user);
             
