@@ -168,7 +168,7 @@ $( function() {
 	global.msgbox = 
 	   $("body").messageBox({
 			// autoclose timeout. 0 = disable autoclose
-			autoClose : 0,
+			autoClose : 10,
 			// show autoclose counter
 			showAutoClose : true,      
 			// enable modal mode  

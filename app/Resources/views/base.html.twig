@@ -63,20 +63,23 @@
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/strophe.js') }}"></script> 
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/candy/libs.min.js') }}"></script>
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/vendor/candy/candy.min.js') }}"></script> 
- 
-   
- 	<!--  Bibliotecas para chamadas AJAX -->
-    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Profile.js') }}"></script>    
- 	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Group.js') }}"></script>    
-    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Session.js') }}"></script>    
-    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Feed.js') }}"></script> 
-          
+ 	
     <!--  Bibliotecas desenvolvidas de apoio para o projeto -->
 	<script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/GlobalVariables.js') }}"></script>
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/md5.js') }}"></script>    
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/ScreenTools.js') }}"></script>   
     <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/ScreenElements.js') }}"></script> 
-    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/Events.js') }}"></script>  
+  
+
+    <!--  Bibliotecas para chamadas AJAX -->
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Profile.js') }}"></script>    
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Group.js') }}"></script>    
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Session.js') }}"></script>    
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/ajax/Feed.js') }}"></script> 
+          
+    <!--  Bibliotecas para controle de EVENTOS -->
+    <script type="text/javascript" src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('js/internal/Events.js') }}"></script>
+
 {% endblock %} 
 
 {% block script %}

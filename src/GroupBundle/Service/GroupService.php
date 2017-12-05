@@ -73,8 +73,14 @@ class GroupService {
 	public function loadUserGroups(){
 		$request  = $this->container->get('request_stack')->getCurrentRequest();
 		$limit    = intval($request->get("limit"));
-		$username =   $this->container->get('security.token_storage')->getToken()->getUser();; 
-		$this->logger->info('group->$username:' .  var_export($username, true));
+		$username ="";
+		if( $this->container->get( 'security.authorization_checker' )->isGranted( 'IS_AUTHENTICATED_FULLY' ) )
+		{
+		    $user = $this->container->get('security.token_storage')->getToken()->getUser();
+		    $username = $user->getUsername();
+		}
+		
+		$this->logger->info('GroupService.loadUserGroups -> username:  $username' );
 		/*
 		 * ----------------------------------------------------------
 		 * Carrega os usuarios com o sustaus definidos em ofgroupprop

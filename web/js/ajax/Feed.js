@@ -4,6 +4,7 @@
  */
 
 $( function() {
-	jsFeed = {};
-
+	   /*
+	    * Verifique em events.js os metodos para carga de FEED
+	    */
 });	

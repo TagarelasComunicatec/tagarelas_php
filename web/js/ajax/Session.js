@@ -156,6 +156,9 @@ $( function() {
 					if($.trim(dataout.result) === global.recordSavedWithSuccess){
 						global.msgbox.data('messageBox').info(window.important, 
 								 global.saveOk);
+						document.location.reload(true);
+						
+						
 					} else  
 						global.msgbox.data('messageBox').danger(window.important, 
 								global.saveError);

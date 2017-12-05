@@ -170,6 +170,20 @@ $( function() {
 	
 	var conteudo_menu_ativo;
 
+    function clearForm(form) {
+
+	    $(':input', form).each(function() {
+	      var type = this.type;
+	      var tag = this.tagName.toLowerCase(); // normalize case
+	      if (type == 'text' || type == 'password' || tag == 'textarea')
+	        this.value = "";
+	      else if (type == 'checkbox' || type == 'radio')
+	        this.checked = false;
+	      else if (tag == 'select')
+	        this.selectedIndex = -1;
+	    });
+    }
+    
 	function ConteudoMenuAtivo() {
 		$('#conteudo-menu-scroll ul li').each(function(index) {
 			if($(this).hasClass("ativo"))
