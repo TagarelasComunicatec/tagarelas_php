@@ -40,6 +40,6 @@ class Utils{
 	 */
 	public static function dateAsLong($date = ''){
 	    $dateTime= new \DateTime($date);
-	    return $dateTime->getTimeStamp();
+	    return $dateTime->getTimeStamp()*1000;
 	}
 }
