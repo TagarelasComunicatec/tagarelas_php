@@ -104,7 +104,14 @@ $( function() {
 		if ( !jsSession.checkFields()) {
 			return false;
 		}
-		var sessionName     = $("#sessionName").val();
+		/* -------------------------------------------------
+		 * Change spaces into sessionName for underlines (_)
+		 * ------------------------------------------------- 
+		 */
+		var replaceSpace  = $("#sessionName").val();
+		var sessionName   = replaceSpace.replace(" ","_");
+		$("#sessionName").val(sessionName);
+		
 		var divPosicao      = '#imgSessionName';
 		var datetimeSession = $('#datetimeSession').val();
 		var users	        = jsProfile.membersSelected;

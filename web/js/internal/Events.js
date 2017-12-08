@@ -81,6 +81,15 @@ $( function() {
 	
 	
 	/**
+	 * Change spaces on sessionName input text for underlines (_) 
+	 */
+	$('#sessionName').keyup(function() {
+  	    var replaceSpace = $(this).val(); 
+	    var result = replaceSpace.replace(" ","_");
+	    $("#sessionName").val(result);
+	});
+	
+	/**
 	 * Load events in feed page
 	 */
 	
