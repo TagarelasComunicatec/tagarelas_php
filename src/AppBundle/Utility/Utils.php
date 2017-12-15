@@ -42,4 +42,5 @@ class Utils{
 	    $dateTime= new \DateTime($date);
 	    return $dateTime->getTimeStamp()*1000;
 	}
+	
 }

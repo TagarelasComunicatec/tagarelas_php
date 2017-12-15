@@ -1,6 +1,6 @@
 <?php
 namespace AppBundle\Entity;
-class Session {
+class Session  implements \JsonSerializable {
     private     $sessionName,
                 $datetimeSession,
                 $users,
@@ -21,6 +21,18 @@ class Session {
 
      public function __construct(){
          
+     }
+     
+     
+     public function jsonSerialize() {
+         
+         return [
+             'sessionName'	    => $this->sessionName,
+             'datetimeSession'  => $this->dateTimeSession,
+             'totalusers'		=> $this->totalusers,
+             'public'			=> $this->public,
+
+         ];
      }
      
      public function loadFromRequest($request){

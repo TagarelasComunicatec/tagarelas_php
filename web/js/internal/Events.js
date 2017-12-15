@@ -74,7 +74,11 @@ $( function() {
 	if ($("#editUserForm").length || $("#cancelUserForm").length){
 		jsProfile.loadUser();
 	}
-
+	
+    /**
+     * Verifica se o form changepassword foi ativado
+     * ---------------------------------------------
+     */
 	if ($("#changePasswordForm").length){
 		jsProfile.loadPassword();
 	}
