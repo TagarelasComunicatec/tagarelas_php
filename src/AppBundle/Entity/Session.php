@@ -1,7 +1,10 @@
 <?php
 namespace AppBundle\Entity;
+use AppBundle\Utility\Utils;
+
 class Session  implements \JsonSerializable {
     private     $sessionName,
+                $roomid,
                 $datetimeSession,
                 $users,
                 $groups,
@@ -28,11 +31,22 @@ class Session  implements \JsonSerializable {
          
          return [
              'sessionName'	    => $this->sessionName,
-             'datetimeSession'  => $this->dateTimeSession,
+             'roomid'           => $this->roomid,
+             'description'      => $this->description,
+             'datetimeSession'  => $this->datetimeSession,
              'totalusers'		=> $this->totalusers,
              'public'			=> $this->public,
-
+             'durationSession'  => $this->durationSession,
          ];
+     }
+     
+     public function loadFromQuery($session){
+         $this->roomid  = $session["roomid"];
+         $this->sessionName = $session['name'];
+         $this->description = $session['description'];
+         $this->datetimeSession = Utils::longAsDate($session['creationdate']);
+         $this->public = $session["public"];
+         $this->roomid = $session["roomid"];
      }
      
      public function loadFromRequest($request){

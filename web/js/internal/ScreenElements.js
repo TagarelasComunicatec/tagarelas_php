@@ -166,7 +166,7 @@ $( function() {
 		'         <small>'+
 		'  	          <a href=\'location.href="#";\'>Ver todas</a> |' + 
 		'     	           <button id="btnNewSession" '+  
-		'                        onclick=\'location.href="'+ $('#divNewSession').attr('url') +'";\''+
+		'                        onclick=\'location.href="'+ $('#divnewSession').attr('url') +'";\''+
 		'	                     class="btn btn-success btn-xs">Criar Sessão'+
 		'                   </button>'+
 		'         </small>' +

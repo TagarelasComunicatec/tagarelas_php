@@ -87,7 +87,7 @@ class SessionController extends Controller
      * @Route("/session/loadsessionbystatus", name="session_loadsessionbystatus")
      */ 
     public function loadSessionByStatusAction() {
-    	$sessionService = $this->get("Session.services");
+    	$sessionService = $this->get("session.services");
     	$myResult     =	$sessionService->loadSessionByStatus();
     	$myReturn    = array (
     			"responseCode" => 200,

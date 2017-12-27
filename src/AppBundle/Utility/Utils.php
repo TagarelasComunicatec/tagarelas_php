@@ -43,4 +43,13 @@ class Utils{
 	    return $dateTime->getTimeStamp()*1000;
 	}
 	
+	/**
+	 * Convert long to Date and time
+	 * @param number $date
+	 */
+	public static function longAsDate($mydate){
+	    $seconds = settype($mydate, 'float')/ 1000;
+	    return date("d-m-Y H:i", $seconds);
+	}
+	
 }

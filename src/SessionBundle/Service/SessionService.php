@@ -13,6 +13,7 @@ use AppBundle\Openfire\Ofmucmember;
 use AppBundle\Openfire\Ofmucroomprop;
 use AppBundle\Utility\Utils;
 use Doctrine\ORM\Mapping\OrderBy;
+use AppBundle\AppBundle;
 
 // @@TODO Session = ChatRoom no Openfire.
 // @@TODO Alterar método save utilizando REST API.
@@ -61,15 +62,22 @@ class SessionService
      * 
      * @param number $limit
      * @param number $status
+     * @param string $email
      *
      */
-    public function loadAllSession($limit = 0, $status = 0)
+    public function loadAllSession($limit = 0, $status = 0,$email = '')
     {
         $qb = $this->em->createQueryBuilder();
-        $now = Utils::dateAsLong('now');
+        $now = strval(Utils::dateAsLong('now'));
         
-        $qb->select('s.*')
+        $qb->select('s.roomid as roomid, s.name as name, s.description as description, '.
+                    's.creationdate as creationdate, s.publicroom as public, ' . 
+                    'ma.jid as majid, me.jid as mejid')
             ->from('AppBundle:Ofmucroom', 's')
+            ->leftJoin('AppBundle:Ofmucmember', 'me',
+                       \Doctrine\ORM\Query\Expr\Join::WITH, 's.roomid = me.roomid')
+            ->leftJoin('AppBundle:Ofmucaffiliation', 'ma',
+                       \Doctrine\ORM\Query\Expr\Join::WITH, 's.roomid = ma.roomid')
             ->where('s.creationdate >= :now')
             ->setParameter('now', $now)
             ->orderby("s.creationdate");
@@ -77,7 +85,21 @@ class SessionService
         if (0 != $limit)
             $qb->setMaxResults($limit);
         
-        $myReturn = $qb->getQuery()->getResult();
+        $sessions = $qb->getQuery()->getResult();
+        $myReturn = array();
+        foreach ($sessions as $session){
+            if ($email == $session['majid'] || $email == $session['mejid'] ){
+                $this->logger->info("SessionService.loadAllSessions creationdate-> " .
+                        $session['creationdate']);
+                $mySession = new \AppBundle\Entity\Session();
+                $mySession->loadFromQuery($session);
+                $myReturn[] = $mySession;
+            }
+            
+        }
+        $this->logger->info("SessionService.loadAllSessions now-> $now");
+        $this->logger->info("SessionService.loadAllSessions myResults-> " . json_encode($myReturn));
+        
         
         return $myReturn;
     }
@@ -88,22 +110,21 @@ class SessionService
      */
     public function loadSessionByStatus()
     {
+        $userEmail = "";
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $limit = intval($request->get("limit"));
         $status = $request->get("status");
-        $Sessions = $this->loadAllSession($limit, $status);
-        $usernameLogged = "";
+        
         if ($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $this->container->get('security.token_storage')
-                ->getToken()
-                ->getUser();
-            $usernameLogged = $user->getUsername();
+            ->getToken()
+            ->getUser();
+            $userEmail = $user->getEmail();
         }
-        $myReturn = array();
-        foreach ($Sessions as $Session) {
-            $myReturn = $this->loadSessionGroupInformation($Session, $usernameLogged, $status, $myReturn);
-        }
-        return $myReturn;
+        
+        $Sessions = $this->loadAllSession($limit, $status, $userEmail);
+      
+        return $Sessions;
     }
 
     public function findSessionByName($sessionName)

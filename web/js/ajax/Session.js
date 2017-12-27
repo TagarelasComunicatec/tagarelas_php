@@ -44,13 +44,12 @@ $( function() {
 				    var myText = jsScreenElements.divSessionByStatus(status-0);
 				    myText = myText.replace("$sessionName$"   , myData.sessionName );
 				    myText = myText.replace("$datatimeSession$"   , myData,sessionDate );
-				    myText = myText.replace("$groupName$", myData.groupName );
 				    areaHtml.append(myText);
 				}
 				
 				return;
 			},
-			
+	
 			statusCode: {
 				404: function() {
 					if (window.ajaxLoading) window.ajaxLoading("hide");
