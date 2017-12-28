@@ -43,7 +43,7 @@ $( function() {
 				    var myData = dataout.result[index];
 				    var myText = jsScreenElements.divSessionByStatus(status-0);
 				    myText = myText.replace("$sessionName$"   , myData.sessionName );
-				    myText = myText.replace("$datatimeSession$"   , myData,sessionDate );
+				    myText = myText.replace("$datatimeSession$"   , myData.datetimeSession );
 				    areaHtml.append(myText);
 				}
 				
