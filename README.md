@@ -1,5 +1,5 @@
 Social Network Tagarelas (RST - Rede Social Tagarelas)
-======================================================
+===================================================
 
 Welcome to Social Network Tagarelas - a fully-functional Symfony
 application that you can use as Social Network for Educational Virtual Meetings and issues.
