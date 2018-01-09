@@ -18,8 +18,7 @@
 		}
 	},
 	"require" : {
-		"php" : ">=5.5.9",
-		"symfony/symfony" : "3.3.*",
+		"php" : "^5.5",
 		"doctrine/orm" : "^2.5",
 		"doctrine/doctrine-bundle" : "^1.6",
 		"doctrine/doctrine-cache-bundle" : "^1.2",
@@ -36,7 +35,8 @@
 		"gidkom/php-openfire-restapi" : "dev-master",
 		"friendsofsymfony/jsrouting-bundle" : "^1.6",
 		"friendsofsymfony/message-bundle" : "^1.3",
-		"gnello/php-openfire-restapi" : "^2.0"
+		"gnello/php-openfire-restapi" : "^2.0",
+		"symfony/symfony" : "^3.4"
 	},
 	"require-dev" : {
 		"sensio/generator-bundle" : "^3.0",
