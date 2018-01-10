@@ -14,4 +14,12 @@ class AboutController extends Controller
     {
         return $this->render('AboutBundle:About:index.html.twig');
     }
+
+    
+    /**
+     * @Route("/about/trabalheconosco")
+     */
+    public function trabalheConoscoAction() {
+        return $this->render('AboutBundle:About:trabalheconosco.html.twig');       
+    }
 }
