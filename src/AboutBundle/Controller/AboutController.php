@@ -14,4 +14,12 @@ class AboutController extends Controller
     {
         return $this->render('AboutBundle:About:index.html.twig');
     }
+    
+    /**
+     * @Route("/about/projeto")
+     */
+    public function projetoAction()
+    {
+        return $this->render('AboutBundle:About:projeto.html.twig');
+    }
 }

@@ -1,0 +1,29 @@
+{% extends  '::base.html.twig' %} 
+{% block title %}
+Tagarelas - Projeto
+{% endblock %}
+
+{% block content %}
+   <section id="area-destaque">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 text-center" id="cadastro" >
+				<h1>Projeto "Tagarelas"</h1>
+				<p>O projeto de pesquisa "Tagarelas" tem por 
+				objetivo desenvolver um sistema de conversação em rede, 
+				semelhante a outros sistemas como o Facebook, WhatsApp e Twitter. O diferencial é que este sistema de convesação se volta especificamente para a Educação, que possibilite a troca de mensagens em grupo especificamente para o contexto da educação online. Sabemos que o bate-papo é um dos meios de conversação mais utilizados na educação online (além do e-mail e do fórum de discussão). Neste projeto de pesquisa, objetivamos desenvolver uma rede social para facilitar o professor-tutor realizar aulas por meio de conversas online. O desenvolvimento dessa rede social é um motivo para a realizarmos várias pesquisas em sistemas de informação:</p>
+				<ul class="list-disc-left">
+					<li>Desenvolvimento de sistemas de conversação. Investigamos o desenvolvimento e o uso de funcionalidades para apoiar a conversação, tais como: encadeamento de mensagens, mecanismos para perceber quem está digitando e quem falou o quê, mecanismos para a gameficação da conversação, reações do usuário (por exemplo, concordar ou discordar), agrupamento de mensagens em função dos tópicos da aula, fila de mensagens, avaliação das mensagens (por exemplo, com estrelas), etc.</li>
+					<li>Análise e Visualização da conversação. A partir de técnicas como Análise de Redes Sociais, Mineração de Texto e Análise de Conteúdo, buscamos extrair e apresentar graficamente informações de interesse para o professor e para os alunos que participaram de uma sessão de bate-papo, tais como: os tópicos conversados ao longo da sessão, a rede de relacionamento emergente da conversação entre os participantes da sessão, comportamento dos participantes (quais foram os participantes mais populares, mais polêmicos, mais influentes), evolução tópica da conversa etc.</li>
+					<li>Métricas sobre a participação na conversação. Visando caracterizar a participação dos alunos na sessão de bate-papo, investigamos métricas sobre as mensagens enviadas pelos alunos, tais como: quantidade de mensagens enviadas, popularidade das mensagens, pertinência ao assunto em discussão, influência sobre os demais, formação de panelinhas etc.</li>
+					<li>Planejamento e avaliação da sessão de bate-papo. Para apoiar o professor no planejamento e na avaliação da sessão de bate-papo, investigamos práticas e técnicas para apoiar a definição e a avaliação dos objetivos educacionais, os conteúdos conversados e a aprendizagem dos participantes.</li>
+				</ul>
+				<p>Para mais informações, consulte o projeto de pesquisa cadastrado na UNIRIO:</br>
+				<a href="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('docs/tagarelas.pdf')}}">Tagarelas: sistema de rede social de bate-papo para Educação a Distância</a>	
+				</p>
+			</div>
+		</div>
+	</div>
+	</section>
+
+{% endblock %}
