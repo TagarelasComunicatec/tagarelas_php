@@ -5,13 +5,13 @@ namespace AboutBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-class DefaultController extends Controller
+class AboutController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/about/index")
      */
     public function indexAction()
     {
-        return $this->render('AboutBundle:Default:index.html.twig');
+        return $this->render('AboutBundle:About:index.html.twig');
     }
 }
