@@ -3,7 +3,7 @@
 parameters:
     #Database tagarelas - default
     database_driver: pdo_pgsql
-    database_host: 192.168.0.104
+    database_host: 192.168.0.111
     database_port: 5432
     database_name: tagarelas
     database_user: tagarelas
