@@ -16,7 +16,7 @@ class AboutController extends Controller
     }
     
     /**
-     * @Route("/about/projeto")
+     * @Route("/about/projeto", name="projeto")
      */
     public function projetoAction()
     {
@@ -24,7 +24,7 @@ class AboutController extends Controller
 
     }
     /**
-     * @Route("/about/trabalheconosco")
+     * @Route("/about/trabalheconosco", name="pesquiseconosco")
      */
     public function trabalheConoscoAction() {
         return $this->render('AboutBundle:About:trabalheconosco.html.twig');       

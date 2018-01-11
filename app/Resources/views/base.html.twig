@@ -148,11 +148,6 @@
 										<i class="material-icons">&#xE7FD;</i><span class="descricao-icone">Perfil</span>
 									</a>
 								</li>
-								<li>
-									<a href="#">
-										<i class="material-icons">&#xE88E;</i>Sobre
-									</a>
-								</li>
 							</ul>
 						</div> <!-- collapse-sm !--> 
 					</div> <!-- menu-lg !-->
@@ -176,15 +171,34 @@
 {% endblock %}
 
 {% block footer %}
-	<footer>
+	<footer class="navbar navbar-default">
 			<div class="container">
-				<div class="row">
-					<div class="col-xs-12 text-justify" id="footer">
-						<p></p>
-					</div>
-				</div>
-			</div>
-		</footer>
+				<div class="navbar-header"> <!--  <div class="row"> -->
+					<div class="col-xs-12 text-center" id="footer">
+    					<nav id="menu" class="clearfix">
+        					<div id="menu-lg" class="clearfix">
+        						<div id="menu-sm" class="clearfix">
+        							<ul id="nav-visivel-xs" class="nav text-center">
+        								<li id="mais-menu-search" class="col-xs-3">
+        									<a href="{{ path('projeto') }}"><i class="material-icons">&#xE88E;</i>Projeto Tagarelas</a>
+     									</li>
+        								<li id="mais-menu-search" class="col-xs-3">
+        									<a href="#">Licença</a>
+     									</li>
+        								<li id="mais-menu-search" class="col-xs-3">
+        									<a href="#">Equipe</a>
+     									</li>
+        								<li id="mais-menu-search" class="col-xs-3">
+        									<a href="{{ path('pesquiseconosco') }}">Pesquise Conosco</a>
+     									</li>
+        							</ul>
+        						</div>
+        					</div>
+        				</nav>
+        			</div>
+        		</div>
+        	</div>
+        </footer>
 {% endblock %}
 
 {% block links %}
