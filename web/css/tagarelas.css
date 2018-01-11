@@ -164,7 +164,8 @@
   height: auto;
 }.img-rounded {
   border-radius: 6px;
-}.img-thumbnail {
+}
+.img-thumbnail {
   display: inline-block;
   max-width: 100%;
   height: auto;
@@ -330,7 +331,18 @@
   display: inline-block;
   padding-right: 5px;
   padding-left: 5px;
-}dd {
+}
+.list-disc-left {
+	list-style: disc; 
+	margin: 0 10%; 
+	text-align: left;
+	margin-bottom: 1em;
+}
+.list-disc-left li {
+	margin-top: 1em;
+}
+
+dd {
   margin-left: 0;
 }@media (min-width:768px) {
   .dl-horizontal dt {
