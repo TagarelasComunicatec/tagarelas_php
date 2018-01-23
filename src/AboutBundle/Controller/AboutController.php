@@ -24,10 +24,10 @@ class AboutController extends Controller
 
     }
     /**
-     * @Route("/about/trabalheconosco", name="pesquiseconosco")
+     * @Route("/about/pesquiseconosco", name="pesquiseconosco")
      */
-    public function trabalheConoscoAction() {
-        return $this->render('AboutBundle:About:trabalheconosco.html.twig');       
+    public function pesquiseConoscoAction() {
+        return $this->render('AboutBundle:About:pesquiseconosco.html.twig');       
 
     }
 }
