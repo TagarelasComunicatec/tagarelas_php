@@ -33,6 +33,18 @@ class Produto
 	 * @ORM\Column(name="descricao_produto", type="string", nullable=false, length=100)
 	 */
 	private $descricao;
+	
+	public function __construct(){
+	    $this->id = 0;
+	    $this->codigo= "";
+	    $this->descricao="";
+	}
+	
+	public function loadByRequest($request){
+	    $this->codigo = $request->get("codigo");
+	    $this->descricao = $request->get("descricao");
+	}
+	
     /**
      * @return int
      */
@@ -47,6 +59,7 @@ class Produto
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -55,6 +68,7 @@ class Produto
     public function getCodigo()
     {
         return $this->codigo;
+        
     }
 
     /**

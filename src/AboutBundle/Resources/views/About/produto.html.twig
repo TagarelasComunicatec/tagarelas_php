@@ -1,0 +1,23 @@
+{% extends  '::base.html.twig' %} 
+{% block title %}
+Tagarelas - Sobre
+{% endblock %}
+{% block content %}
+
+
+   <section id="area-destaque">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 text-center" id="cadastro" >
+                 <form action="{{ path("saveproduto") }}">
+			     Codigo:  <input type="text" name="codigo"> <BR/>
+			     Descricao: <input type="text" name="descricao"> <BR/>
+			     <input type="submit" value="Inserir">
+			     </form>
+			
+			</div>
+		</div>
+	</div>
+	</section>
+
+{% endblock %}
