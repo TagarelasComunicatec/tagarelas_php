@@ -2,6 +2,31 @@
 {% block title %}
 Tagarelas - Sobre
 {% endblock %}
+{% block script %}
+<script language="javascript">
+$( function() { 
+
+   function checkFields() {
+	   var codigo = ""+$("#codigo").val();
+	   var descricao = "" +$("#descricao").val();
+	   if (0 == codigo.length){
+		   global.msgbox.data('messageBox').error(window.important, 
+					"Preencha o campo código");
+			return false;
+       }
+       if (0 == descricao.length){
+		   global.msgbox.data('messageBox').error(window.important, 
+			"Preencha o campo descricao");
+			return false;
+	   }
+	   return true;
+   };	
+   
+});
+
+</script>
+{% endblock %} 
+
 {% block content %}
 
 
@@ -10,8 +35,8 @@ Tagarelas - Sobre
 		<div class="row">
 			<div class="col-xs-12 text-center" id="cadastro" >
                  <form action="{{ path("saveproduto") }}">
-			     Codigo:  <input type="text" name="codigo"> <BR/>
-			     Descricao: <input type="text" name="descricao"> <BR/>
+			     Codigo:  <input type="text" id="codigo" name="codigo"> <BR/>
+			     Descricao: <input type="text" id="descricao" name="descricao"> <BR/>
 			     <input type="submit" value="Inserir">
 			     </form>
 			
