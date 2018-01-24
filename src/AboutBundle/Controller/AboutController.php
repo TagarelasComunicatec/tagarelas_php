@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Exception;
 use AppBundle\Openfire\Produto;
+use Symfony\Component\HttpFoundation\Response;
 
 class AboutController extends Controller
 {
@@ -56,10 +57,20 @@ class AboutController extends Controller
            $em->persist($produto);
            $em->flush();
            $em->getConnection()->commit();
+           $myReturn     = array (
+               "result" => "sucesso"
+           );
         } catch (\Exception $exception) {
             $em->getConnection()->rollBack();
-            throw $exception;
+            $myReturn     = array (
+                "result" => "falha",
+                "error"  => $exception
+            );
         }
-        return $this->render('AboutBundle:About:produto.html.twig');
+  
+        $returnJson = json_encode ( $myReturn );
+        return new Response( $returnJson, 200, array (
+            'Content-Type' => 'application/text'
+        ) );
     }
 }

@@ -4,25 +4,80 @@ Tagarelas - Sobre
 {% endblock %}
 {% block script %}
 <script language="javascript">
-$( function() { 
 
-   function checkFields() {
+
+    /**
+     * Verifica se ocorreram erros de preenchimento de tela 
+     */
+	function errorCheckFields() {
 	   var codigo = ""+$("#codigo").val();
 	   var descricao = "" +$("#descricao").val();
 	   if (0 == codigo.length){
 		   global.msgbox.data('messageBox').error(window.important, 
 					"Preencha o campo código");
-			return false;
+			return true;
        }
        if (0 == descricao.length){
 		   global.msgbox.data('messageBox').error(window.important, 
 			"Preencha o campo descricao");
-			return false;
+			return true;
 	   }
-	   return true;
-   };	
+	   return false;
+   }	
+
+   /**
+    * Salva os dados através de ajax
+    */
+   function saveData(urlSaveData){
+	   if (errorCheckFields()){
+		   return;
+	   }
+	   var myData = { "codigo"    : $("#codigo").val(),
+			        "descricao" : $("#descricao").val() };
+       // Para mostrar loading durante a atualização
+	   
+	   if (window.ajaxLoading)  window.ajaxLoading("show");
+	   
+       $.ajax({
+    		url:urlSaveData,
+   			data: myData,
+   			type: 'POST',
+   			cache: true,
+   			error: function(){
+   				if (window.ajaxLoading) window.ajaxLoading("hide");
+			},
+			success: function(returned){
+				if (window.ajaxLoading)  window.ajaxLoading("hide");
+				var dataout = $.parseJSON(returned);
+				if (dataout.result == "sucesso") {
+					$("#codigo").val("");
+					$("#descricao").val(""); 
+					global.msgbox.data('messageBox').info(window.important, 
+							 global.saveOk);
+
+					return;
+				} else  {
+					global.msgbox.data('messageBox').error(window.important, 
+							global.saveError);
+				}
+			},
+			statusCode: {
+				404: function() {
+					if (window.ajaxLoading) window.ajaxLoading("hide");
+					global.msgbox.data('messageBox').danger(window.important, 
+							global.error.connection + urlSaveData + ". (404) ");
+				},
+			    500: function() {
+			      	if (window.ajaxLoading) window.ajaxLoading("hide");
+				       global.msgbox.data('messageBox').danger(window.important, 
+						  global.error.connection + urlSaveData + ". (500)");
+			    }
+			},
+       });
+  	 
+                
+   }
    
-});
 
 </script>
 {% endblock %} 
@@ -34,10 +89,11 @@ $( function() {
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 text-center" id="cadastro" >
-                 <form action="{{ path("saveproduto") }}">
+                 <form>
 			     Codigo:  <input type="text" id="codigo" name="codigo"> <BR/>
 			     Descricao: <input type="text" id="descricao" name="descricao"> <BR/>
-			     <input type="submit" value="Inserir">
+			     <input type="button" value="Inserir" 
+			     	onclick="saveData('{{ path("saveproduto") }}')">
 			     </form>
 			
 			</div>
